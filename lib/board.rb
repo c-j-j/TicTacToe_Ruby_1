@@ -11,6 +11,11 @@ module TTT
       @positions[position]
     end
 
+    def game_over?
+      true if find_winner != nil
+      is_board_full?
+    end
+
     def find_winner
       winner = nil
       winner = winner || search_for_winner_on_rows 
@@ -27,9 +32,9 @@ module TTT
     def search_for_winner_on_columns
       search_for_winner_on_lines(get_cols)
     end
-    
+
     def search_for_winner_on_diagonals
-     search_for_winner_on_lines(get_diagonals)
+      search_for_winner_on_lines(get_diagonals)
     end
 
     def search_for_winner_on_lines(lines)
@@ -59,5 +64,8 @@ module TTT
       [diagonal_tl_to_br, diagonal_tr_to_bl]
     end
 
+    def is_board_full?
+      @positions.any?{|position| position != nil}
+    end
   end
 end

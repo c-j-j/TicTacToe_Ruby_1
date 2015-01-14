@@ -16,53 +16,68 @@ describe TTT::Board do
     expect(board.get_player_in_position(player_move)).to be(PLAYER)
   end
 
+  it 'board returns false if game not over' do
+    expect(board.game_over?).to be false
+  end
+
+  it 'board returns true if game over due to win' do
+    add_moves_to_board(PLAYER, 0,1,2)
+    expect(board.game_over?).to be true
+  end
+
+  it 'board returns true if game over due to draw' do
+    add_moves_to_board(PLAYER, 0,1,5,6,8)
+    add_moves_to_board("some other player", 2,3,4,7)
+    expect(board.game_over?).to be true
+  end
+  
   it 'board returns nil if no winner on board' do
     expect(board.find_winner).to be nil
   end
 
   it 'board returns winner if top row is occupied by player' do
-    add_moves_to_board(0,1,2)
+    add_moves_to_board(PLAYER, 0,1,2)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if middle row is occupied by player' do
-    add_moves_to_board(3,4,5)
+    add_moves_to_board(PLAYER, 3,4,5)
     expect(board.find_winner).to be PLAYER
   end
   
   it 'board returns winner if bottom row is occupied by player' do
-    add_moves_to_board(6,7,8)
+    add_moves_to_board(PLAYER, 6,7,8)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if left column is occupied by player' do
-    add_moves_to_board(0,3,6)
+    add_moves_to_board(PLAYER, 0,3,6)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if middle column is occupied by player' do
-    add_moves_to_board(1,4,7)
+    add_moves_to_board(PLAYER, 1,4,7)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if right column is occupied by player' do
-    add_moves_to_board(2,5,8)
+    add_moves_to_board(PLAYER, 2,5,8)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if diagonal line starting at top left is occupied by player' do
-    add_moves_to_board(0,4,8)
+    add_moves_to_board(PLAYER, 0,4,8)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if diagonal line starting at top right is occupied by player' do
-    add_moves_to_board(2, 4, 6)
+    add_moves_to_board(PLAYER, 2, 4, 6)
     expect(board.find_winner).to be PLAYER
   end
 
-  def add_moves_to_board(i,j,k)
-    board.add_move(PLAYER,i)
-    board.add_move(PLAYER,j)
-    board.add_move(PLAYER,k)
+  def add_moves_to_board(player, *moves)
+    moves.each do |move|
+      board.add_move(player, move)
+    end
   end
 end
