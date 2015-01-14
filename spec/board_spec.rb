@@ -50,6 +50,16 @@ describe TTT::Board do
     expect(board.find_winner).to be PLAYER
   end
 
+  it 'board returns winner if diagonal line starting at top left is occupied by player' do
+    add_moves_to_board(0,4,8)
+    expect(board.find_winner).to be PLAYER
+  end
+
+  it 'board returns winner if diagonal line starting at top right is occupied by player' do
+    add_moves_to_board(2, 4, 6)
+    expect(board.find_winner).to be PLAYER
+  end
+
   def add_moves_to_board(i,j,k)
     board.add_move(PLAYER,i)
     board.add_move(PLAYER,j)
