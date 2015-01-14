@@ -11,6 +11,11 @@ module TTT
       @positions[position]
     end
 
+    def is_move_valid?(move)
+      return false unless (0...@positions.length) === move
+      return @positions[move] == nil
+    end
+
     def game_over?
       true if find_winner != nil
       is_board_full?

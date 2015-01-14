@@ -1,7 +1,8 @@
 module TTT
   class HumanPlayer
-    def initialize(cli_renderer)
+    def initialize(cli_renderer, board)
       @cli_renderer = cli_renderer
+      @board = board
     end
 
     def next_move
@@ -16,7 +17,7 @@ module TTT
     end
 
     def is_move_valid(user_input)
-      user_input.match(/^(\d)+$/) 
+      user_input.match(/[0-8]/) && @board.is_move_valid?(user_input.to_i)
     end
   end
 end

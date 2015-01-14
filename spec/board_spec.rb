@@ -75,6 +75,27 @@ describe TTT::Board do
     expect(board.find_winner).to be PLAYER
   end
 
+  it 'board returns false if move is below lower bounds' do
+    expect(board.is_move_valid?(-1)).to be false
+  end
+  
+  it 'board returns false if move is exceeds upper bounds' do
+    expect(board.is_move_valid?(9)).to be false
+  end
+
+  it 'board returns true if move is within lower bounds' do
+    expect(board.is_move_valid?(0)).to be true
+  end
+
+  it 'board returns true if move is within upper bounds' do
+    expect(board.is_move_valid?(8)).to be true
+  end
+
+  it 'board returns false if move is occupied already' do
+    add_moves_to_board(PLAYER, 0)
+    expect(board.is_move_valid?(0)).to be false
+  end
+
   def add_moves_to_board(player, *moves)
     moves.each do |move|
       board.add_move(player, move)
