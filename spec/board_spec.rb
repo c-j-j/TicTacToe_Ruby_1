@@ -35,13 +35,13 @@ describe TTT::Board do
   end
 
   it 'game is a tie when board is full and no winner' do
-    add_moves_to_board(PLAYER, 0,1,5,6,8)
-    add_moves_to_board("some other player", 2,3,4,7)
+    add_moves_to_board(PLAYER, 0, 1, 5, 6, 8)
+    add_moves_to_board("some other player", 2, 3, 4, 7)
     expect(board.is_a_tie?).to be true 
   end
 
   it 'game is a not a tie when board is full and winner exists' do
-    add_moves_to_board(PLAYER, 0,1,2,3,4,5,6,7,8)
+    add_moves_to_board(PLAYER, 0, 1, 2, 3, 4, 5, 6, 7, 8)
     expect(board.is_a_tie?).to be false
   end
 
@@ -66,37 +66,37 @@ describe TTT::Board do
   end
 
   it 'board returns winner if top row is occupied by player' do
-    add_moves_to_board(PLAYER, 0,1,2)
+    add_moves_to_board(PLAYER, 0 ,1 ,2)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if middle row is occupied by player' do
-    add_moves_to_board(PLAYER, 3,4,5)
+    add_moves_to_board(PLAYER, 3, 4, 5)
     expect(board.find_winner).to be PLAYER
   end
   
   it 'board returns winner if bottom row is occupied by player' do
-    add_moves_to_board(PLAYER, 6,7,8)
+    add_moves_to_board(PLAYER, 6, 7, 8)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if left column is occupied by player' do
-    add_moves_to_board(PLAYER, 0,3,6)
+    add_moves_to_board(PLAYER, 0, 3, 6)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if middle column is occupied by player' do
-    add_moves_to_board(PLAYER, 1,4,7)
+    add_moves_to_board(PLAYER, 1, 4, 7)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if right column is occupied by player' do
-    add_moves_to_board(PLAYER, 2,5,8)
+    add_moves_to_board(PLAYER, 2, 5, 8)
     expect(board.find_winner).to be PLAYER
   end
 
   it 'board returns winner if diagonal line starting at top left is occupied by player' do
-    add_moves_to_board(PLAYER, 0,4,8)
+    add_moves_to_board(PLAYER, 0, 4, 8)
     expect(board.find_winner).to be PLAYER
   end
 
