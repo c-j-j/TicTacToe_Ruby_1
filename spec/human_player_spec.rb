@@ -1,26 +1,16 @@
 require_relative '../lib/human_player.rb'
 require_relative '../lib/board.rb'
-
-class Fake_CLI_Renderer
-
-  def set_user_input(*mocked_user_input)
-    @user_input = mocked_user_input
-  end
-
-  def get_user_input
-    @user_input.shift
-  end
-end
+require_relative 'utils/fake_cli_renderer.rb'
 
 describe TTT::HumanPlayer do
-  let(:renderer){Fake_CLI_Renderer.new}
+  MARK = 'X'
+  let(:renderer){TTT::Fake_CLI_Renderer.new}
   let(:board){TTT::Board.new}
-  let(:player){TTT::HumanPlayer.new(renderer, board)}
+  let(:player){TTT::HumanPlayer.new(renderer, board, MARK)}
 
   it 'gets user input as next move' do
     fake_user_move = '5'
     renderer.set_user_input(fake_user_move)
-
     expect(player.next_move).to eq(fake_user_move.to_i)
   end
 
@@ -36,5 +26,22 @@ describe TTT::HumanPlayer do
     second_user_move = '1'
     renderer.set_user_input(first_user_move, second_user_move)
     expect(player.next_move).to eq(second_user_move.to_i)
+  end
+
+  it 'to_s is equal to mark' do
+    expect(player.to_s).to eq(MARK)
+  end
+
+  it 'asks next player to move' do
+    fake_user_move = '5'
+    renderer.set_user_input(fake_user_move)
+    player.next_move
+    expect(renderer.get_previous_renders).to include(TTT::HumanPlayer::PLAYER_TURN_MESSAGE % MARK)
+  end
+
+  it 'asks for player to move again if invalid move given' do
+    renderer.set_user_input('10', '0')
+    player.next_move
+    expect(renderer.get_previous_renders).to include(TTT::HumanPlayer::PLAYER_INVALID_MOVE_MESSAGE % MARK)
   end
 end

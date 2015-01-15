@@ -13,6 +13,7 @@ module TTT
         if (@game.game_over?)
           break
         end
+
         @game.update_with_player_2_input
         @game.render
       end

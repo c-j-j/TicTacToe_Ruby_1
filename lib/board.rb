@@ -3,6 +3,7 @@ module TTT
     def initialize
       @positions = Array.new(9)
     end
+
     def add_move(player, position)
       @positions[position] = player 
     end
@@ -17,8 +18,12 @@ module TTT
     end
 
     def game_over?
-      true if find_winner != nil
+      return true if find_winner != nil
       is_board_full?
+    end
+
+    def is_a_tie?
+      find_winner == nil && is_board_full?
     end
 
     def find_winner
@@ -27,6 +32,21 @@ module TTT
       winner = winner || search_for_winner_on_columns 
       winner = winner || search_for_winner_on_diagonals 
       winner
+    end
+
+    def to_s
+      output = ""
+      @positions.each_with_index do |element, index|
+
+        if element != nil
+          output += " #{element} " if element != nil
+        else
+          output += " #{index} " if element == nil
+        end
+
+        output += "\n" if (index + 1) % 3 == 0
+      end
+      output
     end
 
     private 
@@ -70,7 +90,7 @@ module TTT
     end
 
     def is_board_full?
-      @positions.any?{|position| position != nil}
+      @positions.all?{|position| position != nil}
     end
   end
 end

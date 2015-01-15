@@ -20,9 +20,39 @@ describe TTT::Board do
     expect(board.game_over?).to be false
   end
 
+  it 'game not over when single mark on board' do
+    board.add_move(PLAYER,0)
+    expect(board.game_over?).to be false
+  end
+
   it 'board returns true if game over due to win' do
-    add_moves_to_board(PLAYER, 0,1,2)
+    add_moves_to_board(PLAYER, 0, 1, 2)
     expect(board.game_over?).to be true
+  end
+
+  it 'game is not a tie when board is empty' do
+    expect(board.is_a_tie?).to be false
+  end
+
+  it 'game is a tie when board is full and no winner' do
+    add_moves_to_board(PLAYER, 0,1,5,6,8)
+    add_moves_to_board("some other player", 2,3,4,7)
+    expect(board.is_a_tie?).to be true 
+  end
+
+  it 'game is a not a tie when board is full and winner exists' do
+    add_moves_to_board(PLAYER, 0,1,2,3,4,5,6,7,8)
+    expect(board.is_a_tie?).to be false
+  end
+
+  it 'to_s prints board out using player.to_s' do
+    add_moves_to_board('a', 0, 1, 2, 6, 7, 8)
+    add_moves_to_board('b', 3, 4, 5)
+    expect(board.to_s).to eq " a  a  a \n b  b  b \n a  a  a \n"
+  end
+
+  it 'empty board has numbers instead of blank strings' do
+    expect(board.to_s).to eq " 0  1  2 \n 3  4  5 \n 6  7  8 \n"
   end
 
   it 'board returns true if game over due to draw' do
