@@ -21,7 +21,7 @@ describe TTT::Board do
   end
 
   it 'game not over when single mark on board' do
-    board.add_move(PLAYER,0)
+    board.add_move(PLAYER, 0)
     expect(board.game_over?).to be false
   end
 
@@ -56,8 +56,8 @@ describe TTT::Board do
   end
 
   it 'board returns true if game over due to draw' do
-    add_moves_to_board(PLAYER, 0,1,5,6,8)
-    add_moves_to_board("some other player", 2,3,4,7)
+    add_moves_to_board(PLAYER, 0, 1, 5, 6, 8)
+    add_moves_to_board("some other player", 2, 3, 4, 7)
     expect(board.game_over?).to be true
   end
   
@@ -66,7 +66,7 @@ describe TTT::Board do
   end
 
   it 'board returns winner if top row is occupied by player' do
-    add_moves_to_board(PLAYER, 0 ,1 ,2)
+    add_moves_to_board(PLAYER, 0 , 1 , 2)
     expect(board.find_winner).to be PLAYER
   end
 
