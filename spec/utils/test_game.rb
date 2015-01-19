@@ -2,11 +2,11 @@ module TTT
   module TestUtils
     class TestGame
       
+      attr_accessor :number_of_player_moves
       def initialize
         @renders = 0
-        @player_1_updates = 0
-        @player_2_updates = 0
         @display_outcome_count = 0
+        @number_of_player_moves = 0
         @game_over_sequence = []
       end
 
@@ -30,24 +30,12 @@ module TTT
         @renders
       end
 
+      def update_with_next_player_move
+        @number_of_player_moves += 1
+      end
+
       def display_outcome_count
         @display_outcome_count
-      end
-
-      def update_with_player_1_input
-        @player_1_updates += 1
-      end
-
-      def number_of_player_1_updates
-        @player_1_updates
-      end
-      
-      def update_with_player_2_input
-        @player_2_updates += 1
-      end
-      
-      def number_of_player_2_updates
-        @player_2_updates
       end
     end
   end

@@ -9,18 +9,24 @@ module TTT
       @board = board
       @player_1 = player_1
       @player_2 = player_2
+      @current_player = player_1
     end
 
     def game_over?
       @board.game_over?
     end
 
-    def update_with_player_1_input
-      @board.add_move(@player_1, @player_1.next_move)
+    def update_with_next_player_move
+      @board.add_move(@current_player, @current_player.next_move)
+      swap_current_player
     end
 
-    def update_with_player_2_input
-      @board.add_move(@player_2, @player_2.next_move)
+    def swap_current_player
+      if @current_player == @player_1
+        @current_player = @player_2
+      else
+        @current_player = @player_1
+      end
     end
 
     def render

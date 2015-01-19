@@ -13,9 +13,9 @@ module TTT
     def next_move
       invalid_move = true
       @cli_renderer.render(PLAYER_TURN_MESSAGE % self)
-      while(invalid_move)
+      while invalid_move
         user_input = @cli_renderer.get_user_input
-        if(is_move_valid(user_input))
+        if is_move_valid(user_input)
           invalid_move = false
         end
 

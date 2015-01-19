@@ -50,6 +50,7 @@ module TTT
     end
 
     private 
+
     def search_for_winner_on_rows
       search_for_winner_on_lines(get_rows)
     end

@@ -12,18 +12,21 @@ describe TTT::Game do
     game.game_over?
   end
 
-  it 'delegates update player 1 input to player_1 and updates board' do
+  it 'delegates first move to player 1' do
     player_move = 0
     expect(player_1).to receive(:next_move).and_return(player_move)
     expect(board).to receive(:add_move).with(player_1, player_move)
-    game.update_with_player_1_input
+    game.update_with_next_player_move
   end
   
-  it 'delegates update player 2 input to player_2 and updates board' do
+  it 'delegates second move to player 2' do
     player_move = 1
+    expect(player_1).to receive(:next_move).and_return(player_move)
     expect(player_2).to receive(:next_move).and_return(player_move)
+    expect(board).to receive(:add_move).with(player_1, player_move)
     expect(board).to receive(:add_move).with(player_2, player_move)
-    game.update_with_player_2_input
+    game.update_with_next_player_move
+    game.update_with_next_player_move
   end
 
   it 'delegates render to cli renderer' do
