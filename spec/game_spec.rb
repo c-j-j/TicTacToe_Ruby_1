@@ -29,8 +29,8 @@ describe TTT::Game do
     game.update_with_next_player_move
   end
 
-  it 'delegates render to cli renderer' do
-    expect(display).to receive(:render).with(board)
+  it 'delegates render board to display' do
+    expect(display).to receive(:render_board).with(board)
     game.render
   end
 

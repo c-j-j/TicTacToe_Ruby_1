@@ -1,5 +1,7 @@
 module TTT
   class Board
+    attr_accessor :positions
+
     def initialize
       @positions = Array.new(9)
     end
@@ -34,23 +36,7 @@ module TTT
       winner
     end
 
-    def to_s
-      output = ""
-      @positions.each_with_index do |element, index|
-
-        if element != nil
-          output += " #{element} " if element != nil
-        else
-          output += " #{index} " if element == nil
-        end
-
-        output += "\n" if (index + 1) % 3 == 0
-      end
-      output
-    end
-
     private 
-
     def search_for_winner_on_rows
       search_for_winner_on_lines(get_rows)
     end

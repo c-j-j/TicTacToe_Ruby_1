@@ -30,7 +30,7 @@ module TTT
     end
 
     def render
-      @display.render(@board)
+      @display.render_board(@board)
     end
 
     def display_outcome

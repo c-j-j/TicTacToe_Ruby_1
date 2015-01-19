@@ -9,6 +9,10 @@ module TTT
       @renders << output_string 
     end
 
+    def render_board(board)
+
+    end
+
     def get_previous_renders
       @renders
     end
