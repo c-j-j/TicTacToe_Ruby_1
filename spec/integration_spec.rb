@@ -1,8 +1,8 @@
 require_relative '../lib/main.rb'
-require_relative 'utils/fake_cli_renderer.rb'
+require_relative 'utils/fake_display.rb'
 
 describe TTT::Main do
-  let(:renderer) { TTT::Fake_CLI_Renderer.new }
+  let(:renderer) { TTT::FakeDisplay.new }
 
   it 'run through game where player X wins' do
     renderer.set_user_input('0', '1','2','3','4','5','6','7','8')

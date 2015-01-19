@@ -1,10 +1,10 @@
 require_relative '../lib/human_player.rb'
 require_relative '../lib/board.rb'
-require_relative 'utils/fake_cli_renderer.rb'
+require_relative 'utils/fake_display.rb'
 
 describe TTT::HumanPlayer do
   MARK = 'X'
-  let(:renderer){TTT::Fake_CLI_Renderer.new}
+  let(:renderer){TTT::FakeDisplay.new}
   let(:board){TTT::Board.new}
   let(:player){TTT::HumanPlayer.new(renderer, board, MARK)}
 
