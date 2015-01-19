@@ -34,15 +34,15 @@ describe TTT::Game do
     game.render
   end
 
-  it 'delegates display_outcome to cli renderer and prints out tie game' do
-    expect(display).to receive(:render).with(TTT::Game::TIE_MESSAGE)
+  it 'delegates display_outcome to display for game tie' do
     expect(board).to receive(:is_a_tie?).and_return(true)
+    expect(display).to receive(:print_tie_message)
 
     game.display_outcome
   end
 
   it 'delegates display_outcome to cli renderer and prints out winner' do
-    expect(display).to receive(:render).with(TTT::Game::WINNING_MESSAGE % player_1)
+    expect(display).to receive(:print_winner_message).with(player_1)
     expect(board).to receive(:is_a_tie?).and_return(false)
     expect(board).to receive(:find_winner).and_return(player_1)
 

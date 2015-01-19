@@ -1,5 +1,9 @@
 module TTT
   class Display
+    
+    TIE_MESSAGE = 'Game is a tie.'
+    WINNING_MESSAGE = '%s has won.'
+
     def initialize(input_stream=$stdin, output_stream=$stdout)
       @input_stream = input_stream
       @output_stream = output_stream
@@ -18,6 +22,14 @@ module TTT
         output += "\n" if (index + 1) % 3 == 0
       end
       @output_stream.puts output
+    end
+
+    def print_tie_message
+      @output_stream.puts TIE_MESSAGE
+    end
+
+    def print_winner_message(player)
+      @output_stream.puts WINNING_MESSAGE % player.mark
     end
 
     def get_user_input

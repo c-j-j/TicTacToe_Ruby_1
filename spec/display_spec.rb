@@ -11,7 +11,6 @@ describe TTT::Display do
   let(:display) { TTT::Display.new(input, output) }
 
   it 'renders full board' do
-
     board_factory.set_player_1_moves(0, 1, 2, 6, 7, 8)
     board_factory.set_player_2_moves(3, 4, 5)
 
@@ -25,7 +24,7 @@ describe TTT::Display do
     expect(rows[1]).to include("#{p2_mark}  #{p2_mark}  #{p2_mark} ")
     expect(rows[2]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
   end
-  
+
   it 'renders empty board with numbers' do
     display.render_board(board_factory.board)  
 
@@ -34,6 +33,17 @@ describe TTT::Display do
     expect(rows[0]).to include("0  1  2")
     expect(rows[1]).to include("3  4  5")
     expect(rows[2]).to include("6  7  8")
+  end
+
+  it 'renders tie message' do
+    display.print_tie_message
+    expect(output.string).to include('Game is a tie.')
+  end
+
+  it 'renders winner message' do
+    p1 = board_factory.player_1
+    display.print_winner_message(p1)
+    expect(output.string).to include("#{p1.mark} has won.")
   end
 
   it 'outputs to screen when render is called' do

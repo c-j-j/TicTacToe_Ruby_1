@@ -1,8 +1,6 @@
 module TTT
   class Game
 
-    TIE_MESSAGE = 'Game is a tie.'
-    WINNING_MESSAGE = '%s has won.'
 
     def initialize(display, board, player_1, player_2)
       @display = display
@@ -34,10 +32,10 @@ module TTT
     end
 
     def display_outcome
-      if(@board.is_a_tie?)
-        @display.render(TIE_MESSAGE)
+      if @board.is_a_tie?
+        @display.print_tie_message
       else
-        @display.render(WINNING_MESSAGE % @board.find_winner)
+        @display.print_winner_message(@board.find_winner)
       end
     end
   end
