@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require_relative 'display.rb'
+require_relative 'game_factory.rb'
+
+game = TTT::GameFactory.new(TTT::Display.new).build_hvh_game
+game.play
