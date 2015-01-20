@@ -62,4 +62,8 @@ describe TTT::Display do
     expect(display.get_user_input).to eq(FAKE_USER_INPUT)
   end
 
+  it 'prints invalid message' do
+    display.print_invalid_message
+    expect(output.string).to include(TTT::Display::INVALID_MOVE_MESSAGE)
+  end
 end

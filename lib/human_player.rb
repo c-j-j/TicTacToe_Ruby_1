@@ -18,7 +18,7 @@ module TTT
         if is_move_valid(user_input)
           invalid_move = false
         else
-          @display.render(PLAYER_INVALID_MOVE_MESSAGE)
+          @display.print_invalid_message
         end
       end
       user_input.to_i

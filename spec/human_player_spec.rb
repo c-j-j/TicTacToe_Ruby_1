@@ -1,11 +1,11 @@
 require_relative '../lib/human_player.rb'
 require_relative '../lib/board.rb'
-require_relative 'utils/fake_display.rb'
+require_relative 'utils/stub_display.rb'
 
 describe TTT::HumanPlayer do
   MARK = 'X'
 
-  let(:renderer){TTT::FakeDisplay.new}
+  let(:renderer){TTT::StubDisplay.new}
   let(:board){TTT::Board.new}
   let(:player){TTT::HumanPlayer.new(renderer, board, MARK)}
 
@@ -32,6 +32,6 @@ describe TTT::HumanPlayer do
   it 'asks for player to move again if invalid move given' do
     renderer.set_user_input('10', '0')
     player.next_move
-    expect(renderer.get_previous_renders).to include(TTT::HumanPlayer::PLAYER_INVALID_MOVE_MESSAGE)
+    expect(renderer.invalid_message_count).to eq(1)
   end
 end

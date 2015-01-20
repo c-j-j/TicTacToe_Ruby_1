@@ -4,6 +4,7 @@ module TTT
     TIE_MESSAGE = 'Game is a tie.'
     WINNING_MESSAGE = '%s has won.'
     NEXT_PLAYER_TO_GO = '%s\'s turn.'
+    INVALID_MOVE_MESSAGE = 'Invalid move. Try again...'
 
     def initialize(input_stream=$stdin, output_stream=$stdout)
       @input_stream = input_stream
@@ -39,6 +40,10 @@ module TTT
 
     def get_user_input
       @input_stream.gets.chomp
+    end
+    
+    def print_invalid_message
+      @output_stream.puts INVALID_MOVE_MESSAGE
     end
 
     def render(output)
