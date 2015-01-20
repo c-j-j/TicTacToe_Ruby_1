@@ -1,21 +1,30 @@
 module TTT
   class Game
-    def initialize(display, board, player_1, player_2)
-      @display = display
+
+    attr_accessor :current_player
+
+    def initialize(board, display, player_1, player_2)
       @board = board
+      @display = display
       @player_1 = player_1
       @player_2 = player_2
-      @current_player = player_1
+      @current_player = @player_1
     end
 
-    def game_over?
-      @board.game_over?
+    def play
+      until @board.game_over?
+        play_next_turn
+        swap_current_player unless @board.game_over?
+      end
+
+      @display.print_tie_message if @board.is_a_tie?
+      @display.print_winner_message(@board.find_winner) if @board.has_been_won?
     end
 
-    def update_with_next_player_move
+    def play_next_turn
+      @display.render_board(@board)
       @display.print_next_player_to_go(@current_player)
       @board.add_move(@current_player, @current_player.next_move)
-      swap_current_player
     end
 
     def swap_current_player
@@ -23,18 +32,6 @@ module TTT
         @current_player = @player_2
       else
         @current_player = @player_1
-      end
-    end
-
-    def render
-      @display.render_board(@board)
-    end
-
-    def display_outcome
-      if @board.is_a_tie?
-        @display.print_tie_message
-      else
-        @display.print_winner_message(@board.find_winner)
       end
     end
   end

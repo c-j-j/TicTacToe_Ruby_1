@@ -25,8 +25,12 @@ module TTT
       @winner = player
     end
     
-    def has_been_won
+    def has_been_won?
       @winner != nil
+    end
+
+    def is_a_tie?
+      @is_a_tie
     end
 
     def find_winner

@@ -1,19 +1,21 @@
 require_relative '../lib/game_factory.rb'
 require_relative 'utils/stub_display.rb'
 
-describe TTT::Main do
-  let(:renderer) { TTT::StubDisplay.new }
+describe TTT::GameFactory do
+  let(:display) { TTT::StubDisplay.new }
+  let(:game) { TTT::GameFactory.new(display).build_hvh_game }
 
-  #it 'run through hvh game where player X wins' do
-    #renderer.set_user_input('0', '1','2','3','4','5','6','7','8')
-    #game = TTT::GameFactory.new(renderer).build_hvh_game
-    #expect(renderer.get_previous_renders).to include('X has won.')
-  #end
+  it 'run through hvh game where player X wins' do
+    display.set_user_input('0', '1','2','3','4','5','6','7','8')
+    game.play
+    expect(display.print_winner_message_results.size).to eq(1)
+  end
 
-  #it 'run through game where there is a tie' do
-    #renderer.set_user_input('0','1','2','3','5','4','7','8','6')
-    #TTT::Main.new(renderer).run
-    #expect(renderer.get_previous_renders).to include('Game is a tie.')
-  #end
+  it 'run through game where there is a tie' do
+    display.set_user_input('0','1','2','3','5','4','7','8','6')
+    game.play
+    expect(display.print_winner_message_results.size).to eq(0)
+    expect(display.print_tie_message_count).to eq(1)
+  end
 
 end

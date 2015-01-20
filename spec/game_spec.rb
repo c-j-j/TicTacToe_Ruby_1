@@ -1,56 +1,71 @@
 require_relative '../lib/game.rb'
+require_relative 'utils/stub_display.rb'
+require_relative 'utils/stub_player.rb'
+require_relative 'utils/stub_board.rb'
 
 describe TTT::Game do
-  let(:board) { double('board') }
-  let(:player_1) {double('player_1')}
-  let(:player_2) {double('player_2')}
-  let(:display) {double('display')}
-  let(:game) { TTT::Game.new(display, board, player_1, player_2) }
+  let(:stub_board) { TTT::StubBoard.new }
+  let(:stub_display) { TTT::StubDisplay.new }
+  let(:stub_player_1) { TTT::StubPlayer.new }
+  let(:stub_player_2) { TTT::StubPlayer.new }
+  let(:game) { TTT::Game.new(stub_board, stub_display, stub_player_1, stub_player_2) }
 
-  it 'delegates game over call to embedded board' do
-    expect(board).to receive(:game_over?)
-    game.game_over?
+  it 'displays next player to move during a turn' do
+    game.play_next_turn 
+    expect(stub_display.print_next_player_to_go_results).to include(stub_player_1)
   end
 
-  it 'delegates first move to player 1' do
-    player_move = 0
-    expect(player_1).to receive(:next_move).and_return(player_move)
-    expect(board).to receive(:add_move).with(player_1, player_move)
-    expect(display).to receive(:print_next_player_to_go).with(player_1)
-    game.update_with_next_player_move
-  end
-  
-  it 'delegates second move to player 2' do
-    player_move = 1
-    expect(player_1).to receive(:next_move).and_return(player_move)
-    expect(player_2).to receive(:next_move).and_return(player_move)
-     
-    expect(display).to receive(:print_next_player_to_go).with(player_1)
-    expect(display).to receive(:print_next_player_to_go).with(player_2)
-    
-    expect(board).to receive(:add_move).with(player_1, player_move)
-    expect(board).to receive(:add_move).with(player_2, player_move)
-    game.update_with_next_player_move
-    game.update_with_next_player_move
+  it 'displays board during a turn' do
+    game.play_next_turn  
+    expect(stub_display.render_board_results).to include(stub_board)
   end
 
-  it 'delegates render board to display' do
-    expect(display).to receive(:render_board).with(board)
-    game.render
+  it 'gets next move from player' do
+    game.play_next_turn
+    expect(stub_player_1.next_move_count).to be(1)
   end
 
-  it 'delegates display_outcome to display for game tie' do
-    expect(board).to receive(:is_a_tie?).and_return(true)
-    expect(display).to receive(:print_tie_message)
-
-    game.display_outcome
+  it 'adds move to board' do
+    game.play_next_turn
+    player_move = stub_player_1.next_move
+    expect(stub_board.added_moves[player_move]).to eq(stub_player_1)
   end
 
-  it 'delegates display_outcome to cli renderer and prints out winner' do
-    expect(display).to receive(:print_winner_message).with(player_1)
-    expect(board).to receive(:is_a_tie?).and_return(false)
-    expect(board).to receive(:find_winner).and_return(player_1)
+  it 'current player set to player 1 and not changed when no turns take place' do
+    stub_board.game_over_sequence(true)
+    game.play
+    expect(game.current_player).to eq(stub_player_1)
+  end
 
-    game.display_outcome
+  it 'current player is swapped to player 2 when two turns take place' do
+    stub_board.game_over_sequence(false, false, true)
+    game.play
+    expect(game.current_player).to eq(stub_player_2)
+  end
+ 
+  it 'current player is swapped to player 1 when three turns take place' do
+    stub_board.game_over_sequence(false, false, false, false, true)
+    game.play
+    expect(game.current_player).to eq(stub_player_1)
+  end
+
+  it 'plays next turn when play is triggered' do
+    stub_board.game_over_sequence(false, false, true)
+    game.play
+    expect(stub_player_1.next_move_count).to eq(1)
+  end
+
+  it 'prints tie after game ends in tie' do
+    stub_board.game_over_sequence(true)
+    stub_board.is_a_tie = true
+    game.play
+    expect(stub_display.print_tie_message_count).to eq(1)
+  end
+
+  it 'prints winner after game ends in win' do
+    stub_board.game_over_sequence(true)
+    stub_board.set_winner(stub_player_1)
+    game.play
+    expect(stub_display.print_winner_message_results).to include(stub_player_1)
   end
 end

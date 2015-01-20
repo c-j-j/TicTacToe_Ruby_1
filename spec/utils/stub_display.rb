@@ -51,7 +51,5 @@ module TTT
     def get_user_input
       @user_input.shift
     end
-
-    
   end
 end
