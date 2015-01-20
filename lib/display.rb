@@ -3,6 +3,7 @@ module TTT
     
     TIE_MESSAGE = 'Game is a tie.'
     WINNING_MESSAGE = '%s has won.'
+    NEXT_PLAYER_TO_GO = '%s\'s turn.'
 
     def initialize(input_stream=$stdin, output_stream=$stdout)
       @input_stream = input_stream
@@ -30,6 +31,10 @@ module TTT
 
     def print_winner_message(player)
       @output_stream.puts WINNING_MESSAGE % player.mark
+    end
+
+    def print_next_player_to_go(player)
+      @output_stream.puts NEXT_PLAYER_TO_GO % player.mark      
     end
 
     def get_user_input

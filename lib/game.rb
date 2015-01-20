@@ -1,7 +1,5 @@
 module TTT
   class Game
-
-
     def initialize(display, board, player_1, player_2)
       @display = display
       @board = board
@@ -15,6 +13,7 @@ module TTT
     end
 
     def update_with_next_player_move
+      @display.print_next_player_to_go(@current_player)
       @board.add_move(@current_player, @current_player.next_move)
       swap_current_player
     end

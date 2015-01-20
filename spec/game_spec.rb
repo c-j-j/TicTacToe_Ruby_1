@@ -16,6 +16,7 @@ describe TTT::Game do
     player_move = 0
     expect(player_1).to receive(:next_move).and_return(player_move)
     expect(board).to receive(:add_move).with(player_1, player_move)
+    expect(display).to receive(:print_next_player_to_go).with(player_1)
     game.update_with_next_player_move
   end
   
@@ -23,6 +24,10 @@ describe TTT::Game do
     player_move = 1
     expect(player_1).to receive(:next_move).and_return(player_move)
     expect(player_2).to receive(:next_move).and_return(player_move)
+     
+    expect(display).to receive(:print_next_player_to_go).with(player_1)
+    expect(display).to receive(:print_next_player_to_go).with(player_2)
+    
     expect(board).to receive(:add_move).with(player_1, player_move)
     expect(board).to receive(:add_move).with(player_2, player_move)
     game.update_with_next_player_move

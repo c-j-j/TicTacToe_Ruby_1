@@ -12,13 +12,6 @@ describe TTT::GameLoop do
     expect(game.display_outcome_count).to eq 1
   end
 
-  it 'game is rendered once if game if only one player invoked' do
-    game.game_over_simulated_sequence(false, true)
-    game_loop.run
-    expect(game.number_of_renders).to eq 1
-    expect(game.display_outcome_count).to eq 1
-  end
-
   it 'game is rendered once if game and player move is invoked' do
     game.game_over_simulated_sequence(false, true)
     game_loop.run

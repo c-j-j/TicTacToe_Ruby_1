@@ -45,6 +45,12 @@ describe TTT::Display do
     display.print_winner_message(p1)
     expect(output.string).to include("#{p1.mark} has won.")
   end
+ 
+  it 'prints next player message' do
+    p1 = board_factory.player_1
+    display.print_next_player_to_go(p1)
+    expect(output.string).to include("#{p1.mark}'s turn.")
+  end
 
   it 'outputs to screen when render is called' do
     output_string = "some string"

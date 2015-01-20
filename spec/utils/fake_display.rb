@@ -10,7 +10,7 @@ module TTT
     end
 
     def render_board(board)
-
+      #left blank intentionally, not needed
     end
 
     def get_previous_renders
