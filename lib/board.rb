@@ -19,9 +19,12 @@ module TTT
       return @positions[move] == nil
     end
 
+    def has_been_won?
+      find_winner != nil
+    end
+
     def game_over?
-      return true if find_winner != nil
-      is_board_full?
+      has_been_won? || is_a_tie?
     end
 
     def is_a_tie?

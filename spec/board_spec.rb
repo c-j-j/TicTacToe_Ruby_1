@@ -25,6 +25,15 @@ describe TTT::Board do
     expect(board.game_over?).to be false
   end
 
+  it 'board returns false if game not won' do
+    expect(board.has_been_won?).to be false
+  end
+
+  it 'board returns true if game has been won' do
+    add_moves_to_board(PLAYER, 0, 1, 2)
+    expect(board.has_been_won?).to be true
+  end
+
   it 'board returns true if game over due to win' do
     add_moves_to_board(PLAYER, 0, 1, 2)
     expect(board.game_over?).to be true

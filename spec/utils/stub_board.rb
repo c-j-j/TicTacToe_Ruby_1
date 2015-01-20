@@ -24,6 +24,10 @@ module TTT
     def set_winner(player)
       @winner = player
     end
+    
+    def has_been_won
+      @winner != nil
+    end
 
     def find_winner
       @winner

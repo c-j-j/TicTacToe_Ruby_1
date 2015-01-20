@@ -17,11 +17,8 @@ module TTT
         swap_current_player unless @board.game_over?
       end
 
-      if @board.is_a_tie
-        @display.print_tie_message
-      else
-        @display.print_winner_message(@board.find_winner)
-      end
+      @display.print_tie_message if @board.is_a_tie
+      @display.print_winner_message(@board.find_winner) if @board.has_been_won
     end
 
     def play_next_turn
