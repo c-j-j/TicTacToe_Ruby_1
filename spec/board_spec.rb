@@ -133,8 +133,21 @@ describe TTT::Board do
 
   it 'board can be created from other board' do
     add_moves_to_board(PLAYER, 0)
-    board_duplicate = TTT::Board.new(board)
+    board_duplicate = TTT::Board.new(board.positions)
     expect(board_duplicate).to eq(board)
+    board_duplicate.add_move(PLAYER,1)
+    expect(board.positions[1]).to_not eq(PLAYER)
+  end
+
+  it 'board returns default opponent' do
+    opponent = board.find_opponent(:this_player, :default_opponent)
+    expect(opponent).to be(:default_opponent)
+  end
+
+  it 'board returns opponent when it exists' do
+    add_moves_to_board(PLAYER, 0)
+    opponent = board.find_opponent(:this_player, :default_opponent)
+    expect(opponent).to be(PLAYER)
   end
   
   def add_moves_to_board(player, *moves)

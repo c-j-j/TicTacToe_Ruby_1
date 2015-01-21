@@ -2,15 +2,11 @@ module TTT
   class Board
     attr_accessor :positions
 
-    def initialize
-      @positions = Array.new(9)
-    end
-
-    def initialize(board=nil)
-      if board == nil
+    def initialize(positions=nil)
+      if positions == nil
         @positions = Array.new(9)
       else
-        @positions = board.positions
+        @positions = positions.dup
       end
     end
 
@@ -56,6 +52,15 @@ module TTT
       winner = winner || search_for_winner_on_columns 
       winner = winner || search_for_winner_on_diagonals 
       winner
+    end
+
+    def find_opponent(player, default)
+      positions.each do |position|
+        if position != nil && position != player
+          return position
+        end
+      end
+      return default
     end
 
     private 

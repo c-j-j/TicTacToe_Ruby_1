@@ -3,11 +3,9 @@ require_relative '../lib/board.rb'
 require_relative 'utils/stub_display.rb'
 
 describe TTT::HumanPlayer do
-  MARK = 'X'
-
   let(:renderer){TTT::StubDisplay.new}
   let(:board){TTT::Board.new}
-  let(:player){TTT::HumanPlayer.new(renderer, board, MARK)}
+  let(:player){TTT::HumanPlayer.new(renderer, board, 'X')}
 
   it 'gets user input as next move' do
     fake_user_move = '5'

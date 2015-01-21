@@ -45,9 +45,5 @@ module TTT
     def print_invalid_message
       @output_stream.puts INVALID_MOVE_MESSAGE
     end
-
-    def render(output)
-      @output_stream.puts output
-    end
   end
 end

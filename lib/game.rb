@@ -2,6 +2,7 @@ module TTT
   class Game
 
     attr_accessor :current_player
+    attr_reader :board
 
     def initialize(board, display, player_1, player_2)
       @board = board

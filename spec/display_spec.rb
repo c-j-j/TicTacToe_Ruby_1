@@ -52,12 +52,6 @@ describe TTT::Display do
     expect(output.string).to include("#{p1.mark}'s turn.")
   end
 
-  it 'outputs to screen when render is called' do
-    output_string = "some string"
-    display.render(output_string)
-    expect(output.string).to eq("%s\n" % output_string) 
-  end
-
   it 'grabs and chomps user input' do
     expect(display.get_user_input).to eq(FAKE_USER_INPUT)
   end
