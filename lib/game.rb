@@ -18,7 +18,7 @@ module TTT
       end
 
       @display.print_tie_message if @board.is_a_tie?
-      @display.print_winner_message(@board.find_winner) if @board.has_been_won?
+      @display.print_winner_message(@board.winner) if @board.has_been_won?
     end
 
     def play_next_turn

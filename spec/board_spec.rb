@@ -61,47 +61,47 @@ describe TTT::Board do
   end
   
   it 'board returns nil if no winner on board' do
-    expect(board.find_winner).to be nil
+    expect(board.winner).to be nil
   end
 
   it 'board returns winner if top row is occupied by player' do
     add_moves_to_board(PLAYER, 0 , 1 , 2)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if middle row is occupied by player' do
     add_moves_to_board(PLAYER, 3, 4, 5)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
   
   it 'board returns winner if bottom row is occupied by player' do
     add_moves_to_board(PLAYER, 6, 7, 8)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if left column is occupied by player' do
     add_moves_to_board(PLAYER, 0, 3, 6)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if middle column is occupied by player' do
     add_moves_to_board(PLAYER, 1, 4, 7)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if right column is occupied by player' do
     add_moves_to_board(PLAYER, 2, 5, 8)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if diagonal line starting at top left is occupied by player' do
     add_moves_to_board(PLAYER, 0, 4, 8)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns winner if diagonal line starting at top right is occupied by player' do
     add_moves_to_board(PLAYER, 2, 4, 6)
-    expect(board.find_winner).to be PLAYER
+    expect(board.winner).to be PLAYER
   end
 
   it 'board returns false if move is below lower bounds' do
@@ -125,6 +125,18 @@ describe TTT::Board do
     expect(board.is_move_valid?(0)).to be false
   end
 
+  it 'board returns empty positions' do
+    add_moves_to_board(PLAYER, 0)
+    expect(board.empty_positions.size).to eq(board.positions.size - 1)
+    expect(board.empty_positions).to_not include(0)
+  end
+
+  it 'board can be created from other board' do
+    add_moves_to_board(PLAYER, 0)
+    board_duplicate = TTT::Board.new(board)
+    expect(board_duplicate).to eq(board)
+  end
+  
   def add_moves_to_board(player, *moves)
     moves.each do |move|
       board.add_move(player, move)

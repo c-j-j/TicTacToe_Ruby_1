@@ -33,7 +33,7 @@ module TTT
       @is_a_tie
     end
 
-    def find_winner
+    def winner
       @winner
     end
   end
