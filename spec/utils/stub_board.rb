@@ -2,11 +2,11 @@ module TTT
   class StubBoard
 
     attr_accessor :added_moves
-    attr_accessor :is_a_tie
+    attr_accessor :draw
     def initialize
       @game_over_sequence = []
       @added_moves = Hash.new
-      @is_a_tie = false
+      @draw = false
     end
 
     def game_over?
@@ -25,12 +25,12 @@ module TTT
       @winner = player
     end
     
-    def has_been_won?
+    def won?
       @winner != nil
     end
 
-    def is_a_tie?
-      @is_a_tie
+    def draw?
+      @draw
     end
 
     def winner

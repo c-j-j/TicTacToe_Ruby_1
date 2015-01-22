@@ -13,23 +13,11 @@ describe TTT::HumanPlayer do
     expect(player.next_move).to eq(fake_user_move.to_i)
   end
 
-  it 'invalidates user input if non-number provided' do
-    fake_user_move = '5'
-    renderer.set_user_input('A', fake_user_move) 
-    expect(player.next_move).to eq(fake_user_move.to_i)
-  end
-
   it 'invalidates user input if board position is occupied ' do
     first_user_move = '0'
     board.add_move('some player', first_user_move.to_i)
     second_user_move = '1'
     renderer.set_user_input(first_user_move, second_user_move)
     expect(player.next_move).to eq(second_user_move.to_i)
-  end
-
-  it 'asks for player to move again if invalid move given' do
-    renderer.set_user_input('10', '0')
-    player.next_move
-    expect(renderer.invalid_message_count).to eq(1)
   end
 end

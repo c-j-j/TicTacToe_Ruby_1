@@ -21,12 +21,8 @@ module TTT
       position_indexes.reject{|element| element == nil}
     end
 
-    def add_move(player, position)
-      @positions[position] = player 
-    end
-
-    def get_player_in_position(position)
-      @positions[position]
+    def add_move(mark, position)
+      @positions[position] = mark
     end
 
     def is_move_valid?(move)
@@ -34,15 +30,15 @@ module TTT
       return @positions[move] == nil
     end
 
-    def has_been_won?
+    def won?
       winner != nil
     end
 
     def game_over?
-      has_been_won? || is_a_tie?
+      won? || draw?
     end
 
-    def is_a_tie?
+    def draw?
       winner == nil && is_board_full?
     end
 
@@ -59,7 +55,7 @@ module TTT
       return default
     end
 
-    private 
+    private
 
     def search_for_winner_on_rows
       search_for_winner_on_lines(get_rows)

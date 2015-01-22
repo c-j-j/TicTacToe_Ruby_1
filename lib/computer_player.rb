@@ -52,9 +52,9 @@ module TTT
     end
 
     def calculate_score(board)
-      return DRAW_SCORE if board.is_a_tie?
+      return DRAW_SCORE if board.draw?
 
-      if board.has_been_won?
+      if board.won?
         if this_player_has_won?(board)
           return WIN_SCORE
         else
