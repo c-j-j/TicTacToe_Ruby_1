@@ -2,5 +2,4 @@
 require_relative '../lib/display.rb'
 require_relative '../lib/game_factory.rb'
 
-game = TTT::GameFactory.new(TTT::Display.new).build_hvh_game
-game.play
+TTT::GameFactory.new(TTT::Display.new).build_hvh_game.play

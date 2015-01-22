@@ -35,8 +35,9 @@ module TTT
     end
 
     private
+
     def calculate_child_scores(board, player, maximizing_player)
-      scores = Hash.new
+      scores = {}
       board.empty_positions.each do |empty_position|
         new_board = create_new_board_with_move(board, player, empty_position)
         scores[empty_position] = minimax(new_board, maximizing_player)

@@ -3,7 +3,7 @@ module TTT
     attr_accessor :positions
 
     def initialize(positions=nil)
-      if positions == nil
+      if positions.nil?
         @positions = Array.new(9)
       else
         @positions = positions.dup
@@ -47,11 +47,7 @@ module TTT
     end
 
     def winner
-      winner = nil
-      winner = winner || search_for_winner_on_rows 
-      winner = winner || search_for_winner_on_columns 
-      winner = winner || search_for_winner_on_diagonals 
-      winner
+      search_for_winner_on_rows || search_for_winner_on_columns || search_for_winner_on_diagonals 
     end
 
     def find_opponent(player, default)
@@ -64,6 +60,7 @@ module TTT
     end
 
     private 
+
     def search_for_winner_on_rows
       search_for_winner_on_lines(get_rows)
     end

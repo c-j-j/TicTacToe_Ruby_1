@@ -15,7 +15,7 @@ module TTT
     def play
       until @board.game_over?
         play_next_turn
-        swap_current_player unless @board.game_over?
+        swap_current_player
       end
 
       @display.print_tie_message if @board.is_a_tie?
@@ -27,6 +27,8 @@ module TTT
       @display.print_next_player_to_go(@current_player)
       @board.add_move(@current_player, @current_player.next_move)
     end
+
+    private
 
     def swap_current_player
       if @current_player == @player_1

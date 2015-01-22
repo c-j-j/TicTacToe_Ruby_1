@@ -20,6 +20,22 @@ module TTT
       @renders << output_string 
     end
 
+    def specify_game_type(game_type)
+      @game_type = game_type
+    end
+
+    def specify_first_player(first_player)
+      @first_player = first_player
+    end
+
+    def get_first_player
+      @first_player
+    end
+
+    def get_game_type
+      @game_type
+    end
+
     def print_invalid_message
       @invalid_message_count += 1
     end

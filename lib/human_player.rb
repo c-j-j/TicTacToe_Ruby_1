@@ -1,10 +1,6 @@
 module TTT
   class HumanPlayer
 
-    PLAYER_INVALID_MOVE_MESSAGE = "Not a valid move. Try again..." 
-
-    attr_accessor :mark
-
     def initialize(display, board, mark)
       @display = display
       @board = board
@@ -13,7 +9,7 @@ module TTT
 
     def next_move
       invalid_move = true
-      while invalid_move
+      while true
         user_input = @display.get_user_input
         if is_move_valid(user_input)
           invalid_move = false
