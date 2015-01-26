@@ -1,5 +1,5 @@
 require_relative '../lib/game_factory.rb'
-require_relative 'utils/stub_display.rb'
+require_relative 'stubs/stub_display.rb'
 
 describe "Integration Tests" do
   let(:display) { TTT::StubDisplay.new }

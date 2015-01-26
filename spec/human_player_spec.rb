@@ -1,6 +1,6 @@
 require_relative '../lib/human_player.rb'
 require_relative '../lib/board.rb'
-require_relative 'utils/stub_display.rb'
+require_relative 'stubs/stub_display.rb'
 
 describe TTT::HumanPlayer do
   let(:renderer){TTT::StubDisplay.new}

@@ -1,5 +1,5 @@
 require_relative '../../lib/board.rb'
-require_relative 'stub_player.rb'
+require_relative '../stubs/stub_player.rb'
 
 module TTT
   class BoardFactory
@@ -7,7 +7,7 @@ module TTT
     attr_accessor :board
     attr_accessor :player_1
     attr_accessor :player_2
-    
+
     def initialize
       @board = TTT::Board.new
       @player_1 = TTT::StubPlayer.new
