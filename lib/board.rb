@@ -2,6 +2,17 @@ module TTT
   class Board
     attr_accessor :positions
 
+    WINNING_LINES = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ]
+
     def initialize(positions=nil)
       if positions.nil?
         @positions = Array.new(9)
@@ -43,7 +54,10 @@ module TTT
     end
 
     def winner
-      search_for_winner_on_rows || search_for_winner_on_columns || search_for_winner_on_diagonals
+      winning_line = WINNING_LINES.find do |line|
+        all_equal?(@positions[line[0]], @positions[line[1]], @positions[line[2]])
+      end
+      @positions[winning_line[0]] if !winning_line.nil?
     end
 
     def find_opponent(mark, default)
@@ -57,43 +71,8 @@ module TTT
 
     private
 
-    def search_for_winner_on_rows
-      search_for_winner_on_lines(get_rows)
-    end
-
-    def search_for_winner_on_columns
-      search_for_winner_on_lines(get_cols)
-    end
-
-    def search_for_winner_on_diagonals
-      search_for_winner_on_lines(get_diagonals)
-    end
-
-    def search_for_winner_on_lines(lines)
-      winning_line = lines.select do |line|
-        line.all?{|element| element==line.first if line.first}
-      end
-      winning_line[0][0] unless winning_line.empty?
-    end
-
-    def get_cols
-      get_rows.transpose
-    end
-
-    def get_rows
-      @positions.each_slice(3).to_a
-    end
-
-    def get_diagonals
-      diagonal_tl_to_br = [0, 4, 8].map do|index|
-        @positions[index]
-      end
-
-      diagonal_tr_to_bl = [2, 4, 6].map do|index|
-        @positions[index]
-      end
-
-      [diagonal_tl_to_br, diagonal_tr_to_bl]
+    def all_equal?(*elements)
+        elements.all? { |x| x == elements.first && !x.nil?  }
     end
 
     def is_board_full?

@@ -17,7 +17,7 @@ module TTT
     end
 
     def render(output_string)
-      @renders << output_string 
+      @renders << output_string
     end
 
     def specify_game_type(game_type)
