@@ -1,10 +1,10 @@
 require_relative '../lib/game_factory.rb'
 require_relative 'utils/stub_display.rb'
 
-describe TTT::GameFactory do
+describe "Integration Tests" do
   let(:display) { TTT::StubDisplay.new }
 
-  xit 'run through hvh game where player X wins' do
+  it 'run through hvh game where player X wins' do
     display.specify_game_type(:HVH)
     hvh_game = TTT::GameFactory.new(display).build_game_for_user
     display.set_user_input('0', '1','2','3','4','5','6','7','8')
@@ -12,7 +12,7 @@ describe TTT::GameFactory do
     expect(display.print_winner_message_results.size).to eq(1)
   end
 
-  xit 'run through hvh game where there is a tie' do
+  it 'run through hvh game where there is a tie' do
     display.specify_game_type(:HVH)
     hvh_game = TTT::GameFactory.new(display).build_game_for_user
     display.set_user_input('0','1','2','3','5','4','7','8','6')
@@ -21,7 +21,7 @@ describe TTT::GameFactory do
     expect(display.print_tie_message_count).to eq(1)
   end
 
-  xit 'runs through cvc game and ends in draw' do
+  it 'runs through cvc game and ends in draw' do
     display.specify_game_type(:CVC)
     cvc_game = TTT::GameFactory.new(display).build_game_for_user
     cvc_game.play

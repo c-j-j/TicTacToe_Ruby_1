@@ -13,18 +13,18 @@ module TTT
     end
 
     def next_move
-      @opponent = @board.find_opponent(self, :new_opponent)
+      @opponent = @board.find_opponent(@mark, :new_opponent)
       minimax(@board, true)
       return @best_move
     end
 
     def minimax(board, maximizing_player=true)
       if board.game_over?
-        return calculate_score(board) 
+        return calculate_score(board)
       end
 
       if maximizing_player
-        scores = calculate_child_scores(board, self, !maximizing_player)
+        scores = calculate_child_scores(board, @mark, !maximizing_player)
         max_value = scores.values.max
         @best_move = scores.key(max_value) #TODO Do not like this
         return max_value
@@ -36,18 +36,18 @@ module TTT
 
     private
 
-    def calculate_child_scores(board, player, maximizing_player)
+    def calculate_child_scores(board, mark, maximizing_player)
       scores = {}
       board.empty_positions.each do |empty_position|
-        new_board = create_new_board_with_move(board, player, empty_position)
+        new_board = create_new_board_with_move(board, mark, empty_position)
         scores[empty_position] = minimax(new_board, maximizing_player)
       end
       return scores
     end
 
-    def create_new_board_with_move(board, player, empty_position)
+    def create_new_board_with_move(board, mark, empty_position)
       new_board = Board.new(board.positions)
-      new_board.add_move(player, empty_position)
+      new_board.add_move(mark, empty_position)
       return new_board
     end
 
@@ -64,7 +64,7 @@ module TTT
     end
 
     def this_player_has_won?(board)
-      board.winner == self
+      board.winner == @mark
     end
 
   end

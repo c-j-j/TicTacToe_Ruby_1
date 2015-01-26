@@ -1,6 +1,8 @@
 module TTT
   class HumanPlayer
 
+    attr_reader :mark
+
     def initialize(display, board, mark)
       @display = display
       @board = board

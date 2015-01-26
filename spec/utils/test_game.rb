@@ -1,7 +1,7 @@
 module TTT
   module TestUtils
     class TestGame
-      
+
       attr_accessor :number_of_player_moves
       def initialize
         @renders = 0

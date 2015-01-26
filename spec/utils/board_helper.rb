@@ -12,8 +12,8 @@ module TTT
      add_moves_to_board(player_2_mark_moves, player_2_mark)
     end
 
-    def populate_board_with_win(winning_player)
-      add_moves_to_board([0, 1, 2], winning_player)
+    def populate_board_with_win(winning_player_mark)
+      add_moves_to_board([0, 1, 2], winning_player_mark)
     end
 
     def populate_board_with_loss

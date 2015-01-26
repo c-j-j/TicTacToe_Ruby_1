@@ -24,9 +24,9 @@ module TTT
     def set_winner(player)
       @winner = player
     end
-    
+
     def won?
-      @winner != nil
+      !@winner.nil?
     end
 
     def draw?

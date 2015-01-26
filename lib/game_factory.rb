@@ -35,7 +35,7 @@ module TTT
     end
 
     def build_game_for_user
-      case @display.get_game_type  
+      case @display.get_game_type
       when :HVH
         build_hvh_game
       when :CVC

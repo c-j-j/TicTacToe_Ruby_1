@@ -16,9 +16,9 @@ module TTT
 
     def empty_positions
       position_indexes = @positions.map.with_index do |position, index|
-        index if position == nil
+        index if position.nil?
       end
-      position_indexes.reject{|element| element == nil}
+      position_indexes.reject{|element| element.nil?}
     end
 
     def add_move(mark, position)
@@ -27,11 +27,11 @@ module TTT
 
     def is_move_valid?(move)
       return false unless (0...@positions.length) === move
-      return @positions[move] == nil
+      return @positions[move].nil?
     end
 
     def won?
-      winner != nil
+      !winner.nil?
     end
 
     def game_over?
@@ -39,16 +39,16 @@ module TTT
     end
 
     def draw?
-      winner == nil && is_board_full?
+      winner.nil? && is_board_full?
     end
 
     def winner
-      search_for_winner_on_rows || search_for_winner_on_columns || search_for_winner_on_diagonals 
+      search_for_winner_on_rows || search_for_winner_on_columns || search_for_winner_on_diagonals
     end
 
-    def find_opponent(player, default)
+    def find_opponent(mark, default)
       positions.each do |position|
-        if position != nil && position != player
+        if position != nil && position != mark
           return position
         end
       end

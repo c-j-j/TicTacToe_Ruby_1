@@ -1,6 +1,6 @@
 module TTT
   class Display
-    
+
     TIE_MESSAGE = 'Game is a tie.'
     WINNING_MESSAGE = '%s has won.'
     NEXT_PLAYER_TO_GO = '%s\'s turn.'
@@ -15,10 +15,10 @@ module TTT
       output = ""
 
       board.positions.each_with_index do |player, index|
-        if player != nil
-          output += " #{player.mark} " if player != nil
+        unless player.nil?
+          output += " #{player.mark} "
         else
-          output += " #{index} " 
+          output += " #{index} "
         end
 
         output += "\n" if (index + 1) % 3 == 0
