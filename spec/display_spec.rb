@@ -1,23 +1,27 @@
 require_relative '../lib/display.rb'
-require_relative 'helpers/board_factory.rb'
+require_relative 'helpers/board_helper.rb'
+require_relative 'stubs/stub_player.rb'
+require_relative '../lib/board.rb'
 
 describe TTT::Display do
 
   FAKE_USER_INPUT = "some user input"
 
-  let(:board_factory) { TTT::BoardFactory.new }
+  let(:board) { TTT::Board.new }
+  let(:board_helper) { TTT::BoardHelper.new(board) }
+  let(:stub_player_1) { TTT::StubPlayer.new('X') }
+  let(:stub_player_2) { TTT::StubPlayer.new('O') }
   let(:output) { StringIO.new }
   let(:input) { StringIO.new("#{FAKE_USER_INPUT}\n") }
   let(:display) { TTT::Display.new(input, output) }
 
   it 'renders full board' do
-    board_factory.set_player_1_moves(0, 1, 2, 6, 7, 8)
-    board_factory.set_player_2_moves(3, 4, 5)
+    p1_mark = 'X'
+    p2_mark = 'O'
+    board_helper.add_moves_to_board([0, 1, 2, 6, 7, 8], p1_mark)
+    board_helper.add_moves_to_board([3, 4, 5], p2_mark)
 
-    display.render_board(board_factory.board)
-
-    p1_mark = board_factory.player_1.mark
-    p2_mark = board_factory.player_2.mark
+    display.render_board(board)
 
     rows = output.string.lines
     expect(rows[0]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
@@ -26,7 +30,7 @@ describe TTT::Display do
   end
 
   it 'renders empty board with numbers' do
-    display.render_board(board_factory.board)
+    display.render_board(board)
 
     rows = output.string.lines
 
@@ -41,15 +45,13 @@ describe TTT::Display do
   end
 
   it 'renders winner message' do
-    p1 = board_factory.player_1
-    display.print_winner_message(p1)
-    expect(output.string).to include("#{p1.mark} has won.")
+    display.print_winner_message(stub_player_1)
+    expect(output.string).to include("#{stub_player_1.mark} has won.")
   end
 
   it 'prints next player message' do
-    p1 = board_factory.player_1
-    display.print_next_player_to_go(p1)
-    expect(output.string).to include("#{p1.mark}'s turn.")
+    display.print_next_player_to_go(stub_player_1)
+    expect(output.string).to include("#{stub_player_1.mark}'s turn.")
   end
 
   it 'grabs and chomps user input' do

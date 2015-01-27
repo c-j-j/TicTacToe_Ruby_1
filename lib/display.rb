@@ -19,9 +19,9 @@ module TTT
     def render_board(board)
       output = ""
 
-      board.positions.each_with_index do |player, index|
-        unless player.nil?
-          output += " #{player.mark} "
+      board.positions.each_with_index do |mark, index|
+        unless mark.nil?
+          output += " #{mark} "
         else
           output += " #{index} "
         end
