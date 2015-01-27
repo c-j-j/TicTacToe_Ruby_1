@@ -1,5 +1,5 @@
 module TTT
-  class StubDisplay
+  class StubInterface
 
     attr_accessor :invalid_message_count
     attr_accessor :print_tie_message_count

@@ -1,9 +1,9 @@
-require_relative '../lib/display.rb'
+require_relative '../lib/command_line_interface.rb'
 require_relative 'helpers/board_helper.rb'
 require_relative 'stubs/stub_player.rb'
 require_relative '../lib/board.rb'
 
-describe TTT::Display do
+describe TTT::CommandLineInterface do
 
   FAKE_USER_INPUT = "some user input"
 
@@ -13,7 +13,7 @@ describe TTT::Display do
   let(:stub_player_2) { TTT::StubPlayer.new('O') }
   let(:output) { StringIO.new }
   let(:input) { StringIO.new("#{FAKE_USER_INPUT}\n") }
-  let(:display) { TTT::Display.new(input, output) }
+  let(:display) { TTT::CommandLineInterface.new(input, output) }
 
   it 'renders full board' do
     p1_mark = 'X'
@@ -60,12 +60,12 @@ describe TTT::Display do
 
   it 'prints invalid message' do
     display.print_invalid_message
-    expect(output.string).to include(TTT::Display::INVALID_MOVE_MESSAGE)
+    expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
   end
 
   it 'displays prompt to pick game type' do
     display.get_game_type
-    expect(output.string).to include(TTT::Display::PICK_GAME_TYPE)
+    expect(output.string).to include(TTT::CommandLineInterface::PICK_GAME_TYPE)
   end
 
   it 'gets user input to pick game' do

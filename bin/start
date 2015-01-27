@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require_relative '../lib/display.rb'
+require_relative '../lib/command_line_interface.rb'
 require_relative '../lib/game_factory.rb'
 
-TTT::GameFactory.new(TTT::Display.new).build_game_for_user.play
+TTT::GameFactory.new(TTT::CommandLineInterface.new).build_game_for_user.play

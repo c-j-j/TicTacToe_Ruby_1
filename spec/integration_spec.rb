@@ -1,8 +1,8 @@
 require_relative '../lib/game_factory.rb'
-require_relative 'stubs/stub_display.rb'
+require_relative 'stubs/stub_interface.rb'
 
 describe "Integration Tests" do
-  let(:display) { TTT::StubDisplay.new }
+  let(:display) { TTT::StubInterface.new }
 
   it 'run through hvh game where player X wins' do
     display.specify_game_type('1')

@@ -1,8 +1,8 @@
 require_relative '../lib/game_factory.rb'
-require_relative 'stubs/stub_display.rb'
+require_relative 'stubs/stub_interface.rb'
 
 describe TTT::GameFactory do
-  let(:display) { TTT::StubDisplay.new }
+  let(:display) { TTT::StubInterface.new }
   let(:game_factory) { TTT::GameFactory.new(display) }
 
   it 'builds hvh game based on user input' do

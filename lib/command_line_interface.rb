@@ -1,5 +1,5 @@
 module TTT
-  class Display
+  class CommandLineInterface
 
     TIE_MESSAGE = 'Game is a tie.'
     WINNING_MESSAGE = '%s has won.'
