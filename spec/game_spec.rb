@@ -2,7 +2,7 @@ require_relative '../lib/game.rb'
 require_relative '../lib/board.rb'
 require_relative 'stubs/stub_display.rb'
 require_relative 'stubs/stub_player.rb'
-require_relative 'utils/board_helper.rb'
+require_relative 'helpers/board_helper.rb'
 
 describe TTT::Game do
   let(:board) { TTT::Board.new }

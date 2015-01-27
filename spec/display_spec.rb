@@ -1,5 +1,5 @@
 require_relative '../lib/display.rb'
-require_relative 'utils/board_factory.rb'
+require_relative 'helpers/board_factory.rb'
 
 describe TTT::Display do
 
