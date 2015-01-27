@@ -9,13 +9,13 @@ module TTT
     INFINITY = 10000
     MINUS_INFINITY = -INFINITY
 
-    def initialize(board, mark)
+    def initialize(board, mark, opponent_mark)
       @board = board
       @mark = mark
+      @opponent_mark = opponent_mark
     end
 
     def next_move
-      @opponent_mark = @board.find_opponent(@mark, :new_opponent)
       negamax(@board, @mark).position
     end
 

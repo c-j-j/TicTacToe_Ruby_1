@@ -32,15 +32,15 @@ module TTT
     end
 
     def build_cvc_game
-      new_game(computer_player(X), computer_player(O))
+      new_game(computer_player(X, O), computer_player(O, X))
     end
 
     def build_hvc_game
-      new_game(human_player(X), computer_player(O))
+      new_game(human_player(X), computer_player(O, X))
     end
 
     def build_cvh_game
-      new_game(computer_player(X), human_player(O))
+      new_game(computer_player(X, O), human_player(O))
     end
 
     private
@@ -53,8 +53,8 @@ module TTT
       TTT::HumanPlayer.new(@display, @board, mark)
     end
 
-    def computer_player(mark)
-      TTT::ComputerPlayer.new(@board, mark)
+    def computer_player(mark, opponent_mark)
+      TTT::ComputerPlayer.new(@board, mark, opponent_mark)
     end
   end
 end

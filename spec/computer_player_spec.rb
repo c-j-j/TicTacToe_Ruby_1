@@ -5,11 +5,12 @@ require_relative 'stubs/stub_player.rb'
 
 describe TTT::ComputerPlayer do
   let(:mark){'X'}
+  let(:opponent_mark){'O'}
 
   let(:board) {TTT::Board.new}
   let(:board_helper) {TTT::BoardHelper.new(board)}
-  let(:opponent) {TTT::StubPlayer.new('O')}
-  let(:computer_player) { TTT::ComputerPlayer.new(board, mark) }
+  let(:opponent) {TTT::StubPlayer.new(opponent_mark)}
+  let(:computer_player) { TTT::ComputerPlayer.new(board, mark, opponent_mark) }
 
   it 'has a mark' do
     expect(computer_player.mark).to be(mark)
@@ -66,7 +67,7 @@ describe TTT::ComputerPlayer do
   end
 
   it 'goes centre when opponent is in top left' do
-    board_helper.add_moves_to_board([0], :an_opponent)
+    board_helper.add_moves_to_board([0], opponent.mark)
     move = computer_player.next_move
     expect(move).to eq(4)
   end

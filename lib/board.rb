@@ -60,15 +60,6 @@ module TTT
       @positions[winning_line[0]] if !winning_line.nil?
     end
 
-    def find_opponent(mark, default)
-      positions.each do |position|
-        if position != nil && position != mark
-          return position
-        end
-      end
-      return default
-    end
-
     private
 
     def all_equal?(*elements)

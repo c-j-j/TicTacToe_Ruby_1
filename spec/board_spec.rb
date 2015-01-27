@@ -134,17 +134,6 @@ describe TTT::Board do
     expect(board.positions[1]).to_not eq(mark)
   end
 
-  it 'board returns default opponent' do
-    opponent = board.find_opponent(:this_player, :default_opponent)
-    expect(opponent).to be(:default_opponent)
-  end
-
-  it 'board returns opponent when it exists' do
-    add_moves_to_board(mark, 0)
-    opponent = board.find_opponent(:this_player, :default_opponent)
-    expect(opponent).to be(mark)
-  end
-
   def add_moves_to_board(player, *moves)
     moves.each do |move|
       board.add_move(player, move)
