@@ -5,33 +5,13 @@ require_relative 'computer_player.rb'
 
 module TTT
   class GameFactory
+
+    X = 'X'
+    O = 'O'
+
     def initialize(display)
       @display = display
-    end
-
-    def build_hvh_game
-      board = TTT::Board.new
-      player_1 = TTT::HumanPlayer.new(@display, board, 'X')
-      player_2 = TTT::HumanPlayer.new(@display, board, 'O')
-      return TTT::Game.new(board, @display, player_1, player_2)
-    end
-
-    def build_cvc_game
-      board = TTT::Board.new
-      player_1 = TTT::ComputerPlayer.new(board, 'X')
-      player_2 = TTT::ComputerPlayer.new(board, 'O')
-      return TTT::Game.new(board, @display, player_1, player_2)
-    end
-
-    def build_hvc_game(first_player)
-      board = TTT::Board.new
-      human_player = TTT::HumanPlayer.new(@display, board, 'X')
-      computer_player = TTT::ComputerPlayer.new(board, 'O')
-      if first_player == :computer
-        return TTT::Game.new(board, @display, computer_player, human_player)
-      else
-        return TTT::Game.new(board, @display, human_player, computer_player)
-      end
+      @board = TTT::Board.new
     end
 
     def build_game_for_user
@@ -41,9 +21,40 @@ module TTT
       when :CVC
         build_cvc_game
       when :HVC
-        build_hvc_game(@display.get_first_player)
-
+        build_hvc_game
+      when :CVH
+        build_cvh_game
       end
+    end
+
+    def build_hvh_game
+      new_game(human_player(X), human_player(O))
+    end
+
+    def build_cvc_game
+      new_game(computer_player(X), computer_player(O))
+    end
+
+    def build_hvc_game
+      new_game(human_player(X), computer_player(O))
+    end
+
+    def build_cvh_game
+      new_game(computer_player(X), human_player(O))
+    end
+
+    private
+
+    def new_game(player_1, player_2)
+      TTT::Game.new(@board, @display, player_1, player_2)
+    end
+
+    def human_player(mark)
+      TTT::HumanPlayer.new(@display, @board, mark)
+    end
+
+    def computer_player(mark)
+      TTT::ComputerPlayer.new(@board, mark)
     end
   end
 end
