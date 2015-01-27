@@ -21,7 +21,7 @@ module TTT
 
     def negamax(board, current_player_mark, alpha=MINUS_INFINITY, beta=INFINITY)
       if board.game_over?
-        return Move.new(calculate_score(board, current_player_mark), :ignored_position)
+        return Move.new(calculate_score(board, current_player_mark))
       end
 
       scores = {}
@@ -76,7 +76,6 @@ module TTT
     def mark_has_won?(board, mark)
       board.winner == mark
     end
-
   end
 
   class Move < Struct.new(:score, :position)

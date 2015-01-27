@@ -72,7 +72,7 @@ module TTT
     private
 
     def all_equal?(*elements)
-        elements.all? { |x| x == elements.first && !x.nil?  }
+      elements.all? { |x| x == elements.first && !x.nil?  }
     end
 
     def is_board_full?
