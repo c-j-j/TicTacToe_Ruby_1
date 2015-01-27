@@ -8,7 +8,7 @@ describe TTT::ComputerPlayer do
 
   let(:board) {TTT::Board.new}
   let(:board_helper) {TTT::BoardHelper.new(board)}
-  let(:opponent) {TTT::StubPlayer.new}
+  let(:opponent) {TTT::StubPlayer.new('O')}
   let(:computer_player) { TTT::ComputerPlayer.new(board, mark) }
 
   it 'has a mark' do
@@ -17,20 +17,20 @@ describe TTT::ComputerPlayer do
 
   it 'score is 0 when game is initially a tie' do
     board_helper.populate_board_with_tie(computer_player.mark, opponent.mark)
-    score = computer_player.minimax(board)
-    expect(score).to eq(TTT::ComputerPlayer::DRAW_SCORE)
+    move = computer_player.negamax(board, mark)
+    expect(move.score).to eq(TTT::ComputerPlayer::DRAW_SCORE)
   end
 
   it 'score is positive when this player initially wins' do
     board_helper.populate_board_with_win(computer_player.mark)
-    score = computer_player.minimax(board)
-    expect(score).to eq(TTT::ComputerPlayer::WIN_SCORE)
+    move = computer_player.negamax(board, mark)
+    expect(move.score).to eq(TTT::ComputerPlayer::WIN_SCORE)
   end
 
   it 'score is negative when this player initially loses' do
     board_helper.populate_board_with_loss
-    score = computer_player.minimax(board)
-    expect(score).to eq(TTT::ComputerPlayer::LOSE_SCORE)
+    move = computer_player.negamax(board, mark)
+    expect(move.score).to eq(TTT::ComputerPlayer::LOSE_SCORE)
   end
 
   it 'wins by taking the first row' do
@@ -55,9 +55,15 @@ describe TTT::ComputerPlayer do
 
   it 'blocks opponent from winning' do
     board_helper.add_moves_to_board([0, 3], opponent.mark)
-    board_helper.add_moves_to_board([4], computer_player)
+    board_helper.add_moves_to_board([4], computer_player.mark)
     move = computer_player.next_move
     expect(move).to eq(6)
+  end
+
+  it 'check issue' do
+    board_helper.add_moves_to_board([1, 3, 5, 8], opponent.mark)
+    board_helper.add_moves_to_board([0, 2, 4], computer_player.mark)
+    move = computer_player.next_move
   end
 
   #Ignoring this test as it takes far too long

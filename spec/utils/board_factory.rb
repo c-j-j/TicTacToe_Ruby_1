@@ -10,8 +10,8 @@ module TTT
 
     def initialize
       @board = TTT::Board.new
-      @player_1 = TTT::StubPlayer.new
-      @player_2 = TTT::StubPlayer.new
+      @player_1 = TTT::StubPlayer.new('X')
+      @player_2 = TTT::StubPlayer.new('O')
     end
 
     def set_player_1_moves(*moves)

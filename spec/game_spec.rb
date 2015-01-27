@@ -8,8 +8,8 @@ describe TTT::Game do
   let(:board) { TTT::Board.new }
   let(:board_helper) { TTT::BoardHelper.new(board) }
   let(:stub_display) { TTT::StubDisplay.new }
-  let(:stub_player_1) { TTT::StubPlayer.new }
-  let(:stub_player_2) { TTT::StubPlayer.new }
+  let(:stub_player_1) { TTT::StubPlayer.new('X') }
+  let(:stub_player_2) { TTT::StubPlayer.new('O') }
   let(:game) { TTT::Game.new(board, stub_display, stub_player_1, stub_player_2) }
 
   it 'displays next player to move during a turn' do
