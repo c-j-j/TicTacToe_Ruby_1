@@ -6,6 +6,8 @@ module TTT
     WIN_SCORE = 10
     LOSE_SCORE = -10
     DRAW_SCORE = 0
+    INFINITY = 10000
+    MINUS_INFINITY = -INFINITY
 
     def initialize(board, mark)
       @board = board
@@ -17,15 +19,19 @@ module TTT
       negamax(@board, @mark).position
     end
 
-    def negamax(board, current_player_mark)
+    def negamax(board, current_player_mark, alpha=MINUS_INFINITY, beta=INFINITY)
       if board.game_over?
-        return Move.new(calculate_score(board, current_player_mark), :ignore)
+        return Move.new(calculate_score(board, current_player_mark), :ignored_position)
       end
 
       scores = {}
       board.empty_positions.each do |empty_position|
         new_board = create_new_board_with_move(board, current_player_mark, empty_position)
-        scores[empty_position] = -(negamax(new_board, find_next_player(current_player_mark)).score)
+        scores[empty_position] = -(negamax(new_board, find_next_player(current_player_mark), -beta, -alpha)
+                                   .score)
+
+        alpha = [alpha, scores[empty_position]].max
+        break if alpha >= beta
       end
 
       return Move.new(find_max_value(scores), find_best_move(scores))

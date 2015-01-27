@@ -60,14 +60,7 @@ describe TTT::ComputerPlayer do
     expect(move).to eq(6)
   end
 
-  it 'check issue' do
-    board_helper.add_moves_to_board([1, 3, 5, 8], opponent.mark)
-    board_helper.add_moves_to_board([0, 2, 4], computer_player.mark)
-    move = computer_player.next_move
-  end
-
-  #Ignoring this test as it takes far too long
-  xit 'goes centre when board is empty' do
+  it 'goes centre when board is empty' do
     move = computer_player.next_move
     expect(move).to eq(0)
   end
