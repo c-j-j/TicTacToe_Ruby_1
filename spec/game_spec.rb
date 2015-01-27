@@ -19,7 +19,7 @@ describe TTT::Game do
 
   it 'displays board during a turn' do
     game.play_next_turn
-    expect(stub_interface.render_board_results).to include(board)
+    expect(stub_interface.print_board_results).to include(board)
   end
 
   it 'gets next move from player' do

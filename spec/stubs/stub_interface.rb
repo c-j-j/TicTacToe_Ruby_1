@@ -5,7 +5,7 @@ module TTT
     attr_accessor :print_tie_message_count
     attr_accessor :print_next_player_to_go_results
     attr_accessor :print_winner_message_results
-    attr_accessor :render_board_results
+    attr_accessor :print_board_results
 
     def initialize
       @renders = []
@@ -13,11 +13,7 @@ module TTT
       @print_tie_message_count = 0
       @print_next_player_to_go_results = []
       @print_winner_message_results = []
-      @render_board_results = []
-    end
-
-    def render(output_string)
-      @renders << output_string
+      @print_board_results = []
     end
 
     def specify_game_type(game_type)
@@ -40,8 +36,8 @@ module TTT
       @invalid_message_count += 1
     end
 
-    def render_board(board)
-      @render_board_results << board
+    def print_board(board)
+      @print_board_results << board
     end
 
     def print_next_player_to_go(player)
@@ -62,6 +58,14 @@ module TTT
 
     def set_user_input(*mocked_user_input)
       @user_input = mocked_user_input
+    end
+
+    def set_user_moves(*move)
+      @next_user_move = move
+    end
+
+    def get_user_move(board)
+      @next_user_move.shift
     end
 
     def get_user_input

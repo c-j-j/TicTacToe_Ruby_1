@@ -16,14 +16,14 @@ module TTT
       @output = output
     end
 
-    def render_board(board)
+    def print_board(board)
       output = ""
 
       board.positions.each_with_index do |mark, index|
         unless mark.nil?
           output += " #{mark} "
         else
-          output += " #{index} "
+          output += " #{index + 1} "
         end
 
         output += "\n" if (index + 1) % 3 == 0
@@ -47,6 +47,27 @@ module TTT
       @input.gets.chomp
     end
 
+    def get_user_move(board)
+      while(true)
+        move = get_user_input
+        break if is_valid?(move, board)
+        print_invalid_message
+      end
+      transform_input_to_position(move)
+    end
+
+    def is_valid?(move, board)
+      is_i?(move) && board.is_move_valid?(transform_input_to_position(move))
+    end
+
+    def is_i?(string)
+      !!(string =~ /\A[-+]?[0-9]+\z/)
+    end
+
+    def is_integer?(string)
+      string.to_i.to_s == self
+    end
+
     def print_invalid_message
       @output.puts INVALID_MOVE_MESSAGE
     end
@@ -54,6 +75,12 @@ module TTT
     def get_game_type
       @output.puts PICK_GAME_TYPE
       get_user_input
+    end
+
+    private
+
+    def transform_input_to_position(move)
+      move.to_i - 1
     end
   end
 end

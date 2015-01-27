@@ -10,15 +10,7 @@ module TTT
     end
 
     def next_move
-      while true
-        user_input = @display.get_user_input
-        if @board.is_move_valid?(user_input.to_i)
-          break
-        else
-          @display.print_invalid_message
-        end
-      end
-      user_input.to_i
+      @display.get_user_move(@board)
     end
   end
 end
