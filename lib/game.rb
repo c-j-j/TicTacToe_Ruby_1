@@ -29,7 +29,7 @@ module TTT
 
     def play_next_turn
       @display.render_board(@board)
-      @display.print_next_player_to_go(@current_player)
+      @display.print_next_player_to_go(@current_player.mark)
       @board.add_move(@current_player.mark, @current_player.next_move)
     end
 

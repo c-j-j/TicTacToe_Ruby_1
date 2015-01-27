@@ -14,7 +14,7 @@ describe TTT::Game do
 
   it 'displays next player to move during a turn' do
     game.play_next_turn
-    expect(stub_display.print_next_player_to_go_results).to include(stub_player_1)
+    expect(stub_display.print_next_player_to_go_results).to include(stub_player_1.mark)
   end
 
   it 'displays board during a turn' do

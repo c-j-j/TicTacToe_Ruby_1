@@ -35,12 +35,12 @@ module TTT
       @output.puts TIE_MESSAGE
     end
 
-    def print_winner_message(player)
-      @output.puts WINNING_MESSAGE % player.mark
+    def print_winner_message(mark)
+      @output.puts WINNING_MESSAGE % mark
     end
 
-    def print_next_player_to_go(player)
-      @output.puts NEXT_PLAYER_TO_GO % player.mark
+    def print_next_player_to_go(mark)
+      @output.puts NEXT_PLAYER_TO_GO % mark
     end
 
     def get_user_input

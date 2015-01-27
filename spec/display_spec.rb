@@ -45,13 +45,13 @@ describe TTT::Display do
   end
 
   it 'renders winner message' do
-    display.print_winner_message(stub_player_1)
-    expect(output.string).to include("#{stub_player_1.mark} has won.")
+    display.print_winner_message('X')
+    expect(output.string).to include("X has won.")
   end
 
   it 'prints next player message' do
-    display.print_next_player_to_go(stub_player_1)
-    expect(output.string).to include("#{stub_player_1.mark}'s turn.")
+    display.print_next_player_to_go('X')
+    expect(output.string).to include("X's turn.")
   end
 
   it 'grabs and chomps user input' do
