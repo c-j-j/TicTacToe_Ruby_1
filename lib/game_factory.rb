@@ -16,13 +16,13 @@ module TTT
 
     def build_game_for_user
       case @display.get_game_type
-      when :HVH
+      when '1'
         build_hvh_game
-      when :CVC
+      when '2'
         build_cvc_game
-      when :HVC
+      when '3'
         build_hvc_game
-      when :CVH
+      when '4'
         build_cvh_game
       end
     end

@@ -14,7 +14,7 @@ describe TTT::Display do
     board_factory.set_player_1_moves(0, 1, 2, 6, 7, 8)
     board_factory.set_player_2_moves(3, 4, 5)
 
-    display.render_board(board_factory.board)  
+    display.render_board(board_factory.board)
 
     p1_mark = board_factory.player_1.mark
     p2_mark = board_factory.player_2.mark
@@ -26,7 +26,7 @@ describe TTT::Display do
   end
 
   it 'renders empty board with numbers' do
-    display.render_board(board_factory.board)  
+    display.render_board(board_factory.board)
 
     rows = output.string.lines
 
@@ -45,7 +45,7 @@ describe TTT::Display do
     display.print_winner_message(p1)
     expect(output.string).to include("#{p1.mark} has won.")
   end
- 
+
   it 'prints next player message' do
     p1 = board_factory.player_1
     display.print_next_player_to_go(p1)
@@ -59,5 +59,14 @@ describe TTT::Display do
   it 'prints invalid message' do
     display.print_invalid_message
     expect(output.string).to include(TTT::Display::INVALID_MOVE_MESSAGE)
+  end
+
+  it 'displays prompt to pick game type' do
+    display.get_game_type
+    expect(output.string).to include(TTT::Display::PICK_GAME_TYPE)
+  end
+
+  it 'gets user input to pick game' do
+    expect(display.get_game_type).to eq(FAKE_USER_INPUT)
   end
 end
