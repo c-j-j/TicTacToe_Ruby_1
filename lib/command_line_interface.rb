@@ -45,7 +45,7 @@ module TTT
         break if is_move_valid?(move, board)
         print_invalid_message
       end
-      transform_input_to_position(move)
+      transform_integer_input_to_zero_based(move)
     end
 
     def print_invalid_message
@@ -55,20 +55,27 @@ module TTT
     def get_game_type(game_choices)
       @output.puts PICK_GAME_TYPE
       while true
-        game_choices.each do |game_type, game_description|
-          @output.puts "#{game_type}: #{game_description}\n"
-        end
-
+        print_game_choices(game_choices)
         game_type = get_user_input
-        break if game_choices.has_key?(game_type)
+        break if game_type_valid?(game_type, game_choices)
         print_invalid_message
       end
-      game_type
+      game_choices.keys[transform_integer_input_to_zero_based(game_type)]
     end
 
     private
 
-    def transform_input_to_position(move)
+    def print_game_choices(game_choices)
+      game_choices.each_with_index do |(game_type, game_description), index|
+        @output.puts "#{index + 1}: #{game_description}\n"
+      end
+    end
+
+    def game_type_valid?(game_type, game_choices)
+      is_integer?(game_type) && (1..game_choices.size) === game_type.to_i
+    end
+
+    def transform_integer_input_to_zero_based(move)
       move.to_i - 1
     end
 
@@ -78,10 +85,10 @@ module TTT
 
     def is_move_valid?(move, board)
       # TODO is this a code smell?
-      is_i?(move) && board.is_move_valid?(transform_input_to_position(move))
+      is_integer?(move) && board.is_move_valid?(transform_integer_input_to_zero_based(move))
     end
 
-    def is_i?(string)
+    def is_integer?(string)
       !!(string =~ /\A[-+]?[0-9]+\z/)
     end
   end

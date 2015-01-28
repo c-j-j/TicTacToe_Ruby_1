@@ -2,27 +2,16 @@ module TTT
   class Board
     attr_accessor :positions
 
-    WINNING_LINES = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ]
-
-    def initialize(positions=nil)
+    def initialize(number_of_rows, positions=nil)
       if positions.nil?
-        @positions = Array.new(9)
+        @positions = Array.new(number_of_rows ** 2)
       else
         @positions = positions
       end
     end
 
     def copy
-      Board.new(positions.dup)
+      Board.new(@size, positions.dup)
     end
 
     def ==(o)
@@ -58,13 +47,46 @@ module TTT
     end
 
     def winner
-      winning_line = WINNING_LINES.find do |line|
-        all_equal?(@positions[line[0]], @positions[line[1]], @positions[line[2]])
+      winning_line = winning_lines.find do |line|
+        all_equal?(line[0], line[1], line[2])
       end
-      @positions[winning_line[0]] if !winning_line.nil?
+
+      extract_mark_from_winning_line(winning_line) unless winning_line.nil?
     end
 
     private
+
+    def winning_lines
+      rows + cols + diagonals
+    end
+
+    def rows
+      @positions.each_slice(Math.sqrt(@positions.size)).to_a
+    end
+
+    def cols
+      rows.transpose
+    end
+
+    def diagonals
+      [diagonal_top_left, diagonal_top_right]
+    end
+
+    def diagonal_top_left
+      rows.collect.with_index do |row, index|
+        row[index]
+      end
+    end
+
+    def diagonal_top_right
+      rows.collect.with_index do |row, index|
+        row.reverse[index]
+      end
+    end
+
+    def extract_mark_from_winning_line(line)
+      line[0]
+    end
 
     def all_equal?(*elements)
       elements.all? { |x| x == elements.first && !x.nil?  }

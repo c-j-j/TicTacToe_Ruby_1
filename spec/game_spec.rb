@@ -5,8 +5,8 @@ require_relative 'stubs/stub_player.rb'
 require_relative 'helpers/board_helper.rb'
 
 describe TTT::Game do
-  let(:board) { TTT::Board.new }
-  let(:board_helper) { TTT::BoardHelper.new(board) }
+  let(:board) { TTT::Board.new(3) }
+  let(:board_helper) { TTT::BoardHelper.new }
   let(:stub_interface) { TTT::StubInterface.new }
   let(:stub_player_1) { TTT::StubPlayer.new('X') }
   let(:stub_player_2) { TTT::StubPlayer.new('O') }
@@ -34,7 +34,7 @@ describe TTT::Game do
   end
 
   it 'current player initally set to player 1' do
-    board_helper.populate_board_with_tie(stub_player_1, stub_player_2)
+    board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
     game.play
     expect(game.current_player).to eq(stub_player_1)
   end
@@ -51,53 +51,53 @@ describe TTT::Game do
   end
 
   it 'plays next turn when play is triggered' do
-    board_helper.add_moves_to_board([0, 1], stub_player_1.mark)
+    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
     stub_player_1.prepare_next_move(2)
     game.play
     expect(stub_player_1.next_move_count).to eq(1)
   end
 
   it 'prints tie after game ends in tie' do
-    board_helper.populate_board_with_tie(stub_player_1, stub_player_2)
+    board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
     game.play
     expect(stub_interface.tie_message_printed?).to be true
   end
 
   it 'prints winner after game ends in win' do
-    board_helper.populate_board_with_win(stub_player_1)
+    board_helper.populate_board_with_win(board, stub_player_1)
     game.play
     expect(stub_interface.winner_message_printed?).to be true
   end
 
   it 'prints board after game has ended' do
-    board_helper.populate_board_with_win(stub_player_1)
+    board_helper.populate_board_with_win(board, stub_player_1)
     game.play
     expect(stub_interface.board_printed?).to be true
   end
 
   it 'builds hvh game based on user input' do
-    stub_interface.specify_game_type('1')
+    stub_interface.specify_game_type(:HVH)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
 
   it 'builds hvc game based on user input' do
-    stub_interface.specify_game_type('2')
+    stub_interface.specify_game_type(:HVC)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type('3')
+    stub_interface.specify_game_type(:CVH)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type('4')
+    stub_interface.specify_game_type(:CVC)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)

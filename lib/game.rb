@@ -10,31 +10,26 @@ module TTT
     attr_reader :player_1
     attr_reader :player_2
 
-    HVH = '1'
-    HVC = '2'
-    CVH = '3'
-    CVC = '4'
-
     GAME_TYPES = {
-      HVH => 'Human Vs Human',
-      HVC => 'Human Vs Computer',
-      CVH => 'Computer Vs Human',
-      CVC => 'Computer Vs Computer'
+      :HVH => 'Human Vs Human',
+      :HVC => 'Human Vs Computer',
+      :CVH => 'Computer Vs Human',
+      :CVC => 'Computer Vs Computer'
     }
 
     X = 'X'
     O = 'O'
 
     def self.build_game_for_user(user_interface)
-      board = Board.new
+      board = Board.new(3)
       case user_interface.get_game_type(GAME_TYPES)
-      when HVH
+      when :HVH
         build_hvh_game(board, user_interface)
-      when HVC
+      when :HVC
         build_hvc_game(board, user_interface)
-      when CVH
+      when :CVH
         build_cvh_game(board, user_interface)
-      when CVC
+      when :CVC
         build_cvc_game(board, user_interface)
       end
     end

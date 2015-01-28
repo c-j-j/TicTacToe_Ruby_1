@@ -7,8 +7,8 @@ describe TTT::CommandLineInterface do
 
   FAKE_USER_INPUT = "some user input"
 
-  let(:board) { TTT::Board.new }
-  let(:board_helper) { TTT::BoardHelper.new(board) }
+  let(:board) { TTT::Board.new(3) }
+  let(:board_helper) { TTT::BoardHelper.new }
   let(:stub_player_1) { TTT::StubPlayer.new('X') }
   let(:stub_player_2) { TTT::StubPlayer.new('O') }
   let(:output) { StringIO.new }
@@ -18,8 +18,8 @@ describe TTT::CommandLineInterface do
   it 'prints full board' do
     p1_mark = 'X'
     p2_mark = 'O'
-    board_helper.add_moves_to_board([0, 1, 2, 6, 7, 8], p1_mark)
-    board_helper.add_moves_to_board([3, 4, 5], p2_mark)
+    board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
+    board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
 
     display.print_board(board)
 
@@ -66,7 +66,7 @@ describe TTT::CommandLineInterface do
   end
 
   it 'performs validation against board' do
-    board_helper.add_moves_to_board([0], 'X')
+    board_helper.add_moves_to_board(board, [0], 'X')
     display = TTT::CommandLineInterface.new(user_input('1','2'), output)
     display.get_user_move(board)
     expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
@@ -86,32 +86,32 @@ describe TTT::CommandLineInterface do
   end
 
   it 'displays prompt to pick game type' do
-    display = TTT::CommandLineInterface.new(user_input('0'), output)
+    display = TTT::CommandLineInterface.new(user_input('1'), output)
     game_type_description = 'SomeGameDescription'
     display.get_game_type({
-      '0' => game_type_description
+      :GameType => game_type_description
     })
     expect(output.string).to include(TTT::CommandLineInterface::PICK_GAME_TYPE)
     expect(output.string).to include(game_type_description)
 
   end
 
-  it 'gets user input to pick game' do
+  it 'user inputs integer to specifiy game type' do
     game_choices = {
-      '0' => 'Human Vs Human'
+      :HVH => 'Human Vs Human'
     }
-    display = TTT::CommandLineInterface.new(user_input('0'), output)
-
-    expect(display.get_game_type(game_choices)).to eq('0')
+    display = TTT::CommandLineInterface.new(user_input('1'), output)
+    expect(display.get_game_type(game_choices)).to eq(:HVH)
   end
 
   it 'validates user input with choices provided' do
     game_choices = {
-      '0' => 'Human Vs Human'
+      :HVH=> 'Human Vs Human'
     }
-    display = TTT::CommandLineInterface.new(user_input('1', '0'), output)
 
-    expect(display.get_game_type(game_choices)).to eq('0')
+    display = TTT::CommandLineInterface.new(user_input('a', '0', '1'), output)
+    display.get_game_type(game_choices)
+
     expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
   end
 end
