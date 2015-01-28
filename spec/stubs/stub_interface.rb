@@ -12,6 +12,14 @@ module TTT
       @game_type = game_type
     end
 
+    def specify_board_size(board_size)
+     @board_size = board_size
+    end
+
+    def get_board_size(*options)
+      @board_size
+    end
+
     def get_game_type(game_types)
       @game_type
     end

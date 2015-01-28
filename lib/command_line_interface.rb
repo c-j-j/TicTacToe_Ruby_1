@@ -6,6 +6,7 @@ module TTT
     NEXT_PLAYER_TO_GO = '%s\'s turn.'
     INVALID_MOVE_MESSAGE = 'Invalid input. Try again...'
     PICK_GAME_TYPE = "Pick Game Type?\n"
+    PICK_BOARD_SIZE = "Pick Board Size? Options are:\n"
 
     def initialize(input=$stdin, output=$stdout)
       @input = input
@@ -22,7 +23,7 @@ module TTT
           output += " #{index + 1} "
         end
 
-        output += "\n" if (index + 1) % 3 == 0
+        output += "\n" if (index + 1) % Math.sqrt(board.positions.size) == 0
       end
       @output.puts output
     end
@@ -39,31 +40,43 @@ module TTT
       @output.puts NEXT_PLAYER_TO_GO % mark
     end
 
+    def get_board_size(*board_size_options)
+      @output.puts PICK_BOARD_SIZE
+      print_board_size_options(board_size_options)
+      board_size = get_validated_user_input {|input| board_size_valid?(input, board_size_options)}
+      board_size.to_i
+    end
+
     def get_user_move(board)
-      while true
-        move = get_user_input
-        break if is_move_valid?(move, board)
-        print_invalid_message
-      end
-      transform_integer_input_to_zero_based(move)
+      user_move = get_validated_user_input {|input| move_valid?(input, board)}
+      transform_input_to_zero_based_integer(user_move)
+    end
+
+    def get_game_type(game_choices)
+      @output.puts PICK_GAME_TYPE
+      print_game_choices(game_choices)
+      game_type = get_validated_user_input {|input| game_type_valid?(input, game_choices)}
+      game_choices.keys[transform_input_to_zero_based_integer(game_type)]
     end
 
     def print_invalid_message
       @output.puts INVALID_MOVE_MESSAGE
     end
 
-    def get_game_type(game_choices)
-      @output.puts PICK_GAME_TYPE
+    private
+
+    def get_validated_user_input
       while true
-        print_game_choices(game_choices)
-        game_type = get_user_input
-        break if game_type_valid?(game_type, game_choices)
+        input = get_user_input
+        break if yield(input)
         print_invalid_message
       end
-      game_choices.keys[transform_integer_input_to_zero_based(game_type)]
+      input
     end
 
-    private
+    def board_size_valid?(board_size, board_size_options)
+      is_integer?(board_size) && board_size_options.include?(board_size.to_i)
+    end
 
     def print_game_choices(game_choices)
       game_choices.each_with_index do |(game_type, game_description), index|
@@ -71,11 +84,17 @@ module TTT
       end
     end
 
+    def print_board_size_options(board_size_options)
+      board_size_options.each do |option|
+        @output.puts "#{option}, "
+      end
+    end
+
     def game_type_valid?(game_type, game_choices)
       is_integer?(game_type) && (1..game_choices.size) === game_type.to_i
     end
 
-    def transform_integer_input_to_zero_based(move)
+    def transform_input_to_zero_based_integer(move)
       move.to_i - 1
     end
 
@@ -83,9 +102,9 @@ module TTT
       @input.gets.chomp
     end
 
-    def is_move_valid?(move, board)
+    def move_valid?(move, board)
       # TODO is this a code smell?
-      is_integer?(move) && board.is_move_valid?(transform_integer_input_to_zero_based(move))
+      is_integer?(move) && board.is_move_valid?(transform_input_to_zero_based_integer(move))
     end
 
     def is_integer?(string)

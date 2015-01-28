@@ -1,10 +1,11 @@
-Not happy with Game creation. Maybe more ruby idiomatic way of doing this
-- change this such that input digits are within display class
-Throw exception when non-square number given, or change size to be width_of_board
-
+User also selects size of game
+Require relative
+REfactor command line interface class. Lots of user input/validation duplication
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------
 ComputerPlayer was testing on the board position in a way that was for a 3x3 board
 Many places testing with a 3x3 board, in particular the board_spec. Is thorough testing of 4x4 necessary?
+Display needed updating to select whether or not 3x3 or 4x4 board
+Display print_board will need updating, we assumed 3x3
 Many constructors instantiating board are having to be changed to explicityl state we want a 3x3 game. Default parameter perhaps the answer?

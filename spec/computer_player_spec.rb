@@ -47,7 +47,7 @@ describe TTT::ComputerPlayer do
     expect(move).to eq(4)
   end
 
-  it 'forks to give multiple chances to win' do
+  it 'forks to give multiple chances to win when computer occupies centre' do
     board_helper.add_moves_to_board(board, [0, 4], computer_player.mark)
     board_helper.add_moves_to_board(board, [1, 8], opponent.mark)
     move = computer_player.next_move
@@ -61,7 +61,14 @@ describe TTT::ComputerPlayer do
     expect(move).to eq(6)
   end
 
-  it 'goes in any corner when board is empty' do
+  it 'creates fork when opponent goes opposite corner' do
+    board_helper.add_moves_to_board(board, [0, 2], computer_player.mark)
+    board_helper.add_moves_to_board(board, [1, 8], opponent.mark)
+    move = computer_player.next_move
+    expect(move).to eq(6)
+  end
+
+  it 'goes in any corner when 3x3 board is empty' do
     move = computer_player.next_move
     expect(move).to satisfy {|move| [0,2,6,8].include?(move)}
   end
@@ -74,8 +81,13 @@ describe TTT::ComputerPlayer do
 
   it 'throws exception when game is already over' do
     board_helper.populate_board_with_tie(board, computer_player, opponent)
-
     expect {computer_player.next_move}.to raise_error(TTT::ComputerPlayer::INDETERMINATE_MOVE_ERROR)
   end
 
+  it 'goes in any corner when 4x4 board is empty' do
+    board_4x4 = TTT::Board.new(4)
+    computer_player = TTT::ComputerPlayer.new(board_4x4, mark, opponent_mark)
+    move = computer_player.next_move
+    expect(move).to satisfy {|move| [0, 3, 12, 15].include?(move)}
+  end
 end

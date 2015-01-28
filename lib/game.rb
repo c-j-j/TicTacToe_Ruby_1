@@ -21,7 +21,7 @@ module TTT
     O = 'O'
 
     def self.build_game_for_user(user_interface)
-      board = Board.new(3)
+      board = Board.new(user_interface.get_board_size(3, 4))
       case user_interface.get_game_type(GAME_TYPES)
       when :HVH
         build_hvh_game(board, user_interface)

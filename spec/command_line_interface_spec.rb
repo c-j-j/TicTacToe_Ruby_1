@@ -5,15 +5,12 @@ require_relative '../lib/board.rb'
 
 describe TTT::CommandLineInterface do
 
-  FAKE_USER_INPUT = "some user input"
-
   let(:board) { TTT::Board.new(3) }
   let(:board_helper) { TTT::BoardHelper.new }
   let(:stub_player_1) { TTT::StubPlayer.new('X') }
   let(:stub_player_2) { TTT::StubPlayer.new('O') }
   let(:output) { StringIO.new }
-  let(:input) { StringIO.new("#{FAKE_USER_INPUT}\n") }
-  let(:display) { TTT::CommandLineInterface.new(input, output) }
+  let(:display) { TTT::CommandLineInterface.new(nil, output) }
 
   it 'prints full board' do
     p1_mark = 'X'
@@ -72,14 +69,6 @@ describe TTT::CommandLineInterface do
     expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
   end
 
-  def user_input(*input)
-   input_string = ''
-   input.each do |element|
-    input_string << element << "\n"
-   end
-   StringIO.new(input_string)
-  end
-
   it 'prints invalid message' do
     display.print_invalid_message
     expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
@@ -96,7 +85,7 @@ describe TTT::CommandLineInterface do
 
   end
 
-  it 'user inputs integer to specifiy game type' do
+  it 'user inputs integer to specify game type' do
     game_choices = {
       :HVH => 'Human Vs Human'
     }
@@ -111,7 +100,39 @@ describe TTT::CommandLineInterface do
 
     display = TTT::CommandLineInterface.new(user_input('a', '0', '1'), output)
     display.get_game_type(game_choices)
-
     expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
+  end
+
+  it 'prompts user to specify board size' do
+    display = TTT::CommandLineInterface.new(user_input('3'), output)
+    display.get_board_size(3)
+    expect(output.string).to include(TTT::CommandLineInterface::PICK_BOARD_SIZE)
+    expect(output.string).to include('3')
+
+  end
+
+  it 'gets user input for board size' do
+    display = TTT::CommandLineInterface.new(user_input('3'), output)
+    expect(display.get_board_size(3)).to eq(3)
+  end
+
+  it 'invalidates user input for board size if non-integer provided' do
+    display = TTT::CommandLineInterface.new(user_input('a', '3'), output)
+    expect(display.get_board_size(3, 4)).to eq(3)
+    expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
+  end
+
+  it 'invalidates user input if board size provided not in list of options' do
+    display = TTT::CommandLineInterface.new(user_input('5', '4'), output)
+    expect(display.get_board_size(3, 4)).to eq(4)
+    expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
+  end
+
+  def user_input(*input)
+   input_string = ''
+   input.each do |element|
+    input_string << element << "\n"
+   end
+   StringIO.new(input_string)
   end
 end

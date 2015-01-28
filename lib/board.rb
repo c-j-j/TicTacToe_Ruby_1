@@ -48,7 +48,7 @@ module TTT
 
     def winner
       winning_line = winning_lines.find do |line|
-        all_equal?(line[0], line[1], line[2])
+        all_equal?(line)
       end
 
       extract_mark_from_winning_line(winning_line) unless winning_line.nil?
@@ -88,7 +88,7 @@ module TTT
       line[0]
     end
 
-    def all_equal?(*elements)
+    def all_equal?(elements)
       elements.all? { |x| x == elements.first && !x.nil?  }
     end
 

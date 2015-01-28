@@ -52,7 +52,7 @@ describe TTT::Board do
     expect(board_3x3.draw?).to be false
   end
 
-  it 'board aware of game over due to draw' do
+  it '3x3 board aware of game over due to draw' do
     board_helper.add_moves_to_board(board_3x3, [0, 1, 5, 6, 8], mark)
     board_helper.add_moves_to_board(board_3x3, [2, 3, 4, 7], 'opponent mark')
     expect(board_3x3.game_over?).to be true
@@ -92,6 +92,11 @@ describe TTT::Board do
 
   it '3x3 board has winner if diagonal line starting at top right is occupied by player' do
     test_mark_on_winning_line(board_3x3, [2, 4, 6])
+  end
+
+  it '4x4 board does not have winner if three out of four occupied by player' do
+    board_helper.add_moves_to_board(board_4x4, [0, 1, 2], mark)
+    expect(board_4x4.won?).to eq false
   end
 
   it '4x4 board has winner if top line occupied by player' do
