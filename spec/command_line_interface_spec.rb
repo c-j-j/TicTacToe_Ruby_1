@@ -90,11 +90,32 @@ describe TTT::CommandLineInterface do
   end
 
   it 'displays prompt to pick game type' do
-    display.get_game_type
+    display = TTT::CommandLineInterface.new(user_input('0'), output)
+    game_type_description = 'SomeGameDescription'
+    display.get_game_type({
+      '0' => game_type_description
+    })
     expect(output.string).to include(TTT::CommandLineInterface::PICK_GAME_TYPE)
+    expect(output.string).to include(game_type_description)
+
   end
 
   it 'gets user input to pick game' do
-    expect(display.get_game_type).to eq(FAKE_USER_INPUT)
+    game_choices = {
+      '0' => 'Human Vs Human'
+    }
+    display = TTT::CommandLineInterface.new(user_input('0'), output)
+
+    expect(display.get_game_type(game_choices)).to eq('0')
+  end
+
+  it 'validates user input with choices provided' do
+    game_choices = {
+      '0' => 'Human Vs Human'
+    }
+    display = TTT::CommandLineInterface.new(user_input('1', '0'), output)
+
+    expect(display.get_game_type(game_choices)).to eq('0')
+    expect(output.string).to include(TTT::CommandLineInterface::INVALID_MOVE_MESSAGE)
   end
 end

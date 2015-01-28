@@ -28,7 +28,7 @@ module TTT
       @first_player
     end
 
-    def get_game_type
+    def get_game_type(game_types)
       @game_type
     end
 

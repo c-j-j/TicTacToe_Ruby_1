@@ -61,9 +61,9 @@ describe TTT::ComputerPlayer do
     expect(move).to eq(6)
   end
 
-  it 'goes centre when board is empty' do
+  it 'goes in any corner when board is empty' do
     move = computer_player.next_move
-    expect(move).to eq(0)
+    expect(move).to satisfy {|move| [0,2,6,8].include?(move)}
   end
 
   it 'goes centre when opponent is in top left' do

@@ -3,14 +3,14 @@ module TTT
 
     attr_reader :mark
 
-    def initialize(display, board, mark)
-      @display = display
+    def initialize(user_interface, board, mark)
+      @user_interface = user_interface
       @board = board
       @mark = mark
     end
 
     def next_move
-      @display.get_user_move(@board)
+      @user_interface.get_user_move(@board)
     end
   end
 end

@@ -68,4 +68,32 @@ describe TTT::Game do
     game.play
     expect(stub_interface.print_winner_message_results).to include(stub_player_1)
   end
+
+  it 'builds hvh game based on user input' do
+    stub_interface.specify_game_type('1')
+    game = TTT::Game.build_game_for_user(stub_interface)
+    expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
+    expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
+  end
+
+  it 'builds hvc game based on user input' do
+    stub_interface.specify_game_type('2')
+    game = TTT::Game.build_game_for_user(stub_interface)
+    expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
+    expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
+  end
+
+  it 'builds cvh game based on user input' do
+    stub_interface.specify_game_type('3')
+    game = TTT::Game.build_game_for_user(stub_interface)
+    expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
+    expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
+  end
+
+  it 'builds cvh game based on user input' do
+    stub_interface.specify_game_type('4')
+    game = TTT::Game.build_game_for_user(stub_interface)
+    expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
+    expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
+  end
 end
