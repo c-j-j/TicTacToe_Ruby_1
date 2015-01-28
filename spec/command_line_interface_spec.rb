@@ -54,10 +54,6 @@ describe TTT::CommandLineInterface do
     expect(output.string).to include("X's turn.")
   end
 
-  it 'grabs and chomps user input' do
-    expect(display.get_user_input).to eq(FAKE_USER_INPUT)
-  end
-
   it 'grabs the next move and decrements by 1' do
     display = TTT::CommandLineInterface.new(user_input('1'), output)
     expect(display.get_user_move(board)).to eq(0)

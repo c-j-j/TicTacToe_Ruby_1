@@ -10,11 +10,16 @@ module TTT
     attr_reader :player_1
     attr_reader :player_2
 
+    HVH = '1'
+    HVC = '2'
+    CVH = '3'
+    CVC = '4'
+
     GAME_TYPES = {
-      '1' => 'Human Vs Human',
-      '2' => 'Human Vs Computer',
-      '3' => 'Computer Vs Human',
-      '4' => 'Computer Vs Computer'
+      HVH => 'Human Vs Human',
+      HVC => 'Human Vs Computer',
+      CVH => 'Computer Vs Human',
+      CVC => 'Computer Vs Computer'
     }
 
     X = 'X'
@@ -22,15 +27,14 @@ module TTT
 
     def self.build_game_for_user(user_interface)
       board = Board.new
-      game_type = user_interface.get_game_type(GAME_TYPES)
-      case game_type
-      when '1'
+      case user_interface.get_game_type(GAME_TYPES)
+      when HVH
         build_hvh_game(board, user_interface)
-      when '2'
+      when HVC
         build_hvc_game(board, user_interface)
-      when '3'
+      when CVH
         build_cvh_game(board, user_interface)
-      when '4'
+      when CVC
         build_cvc_game(board, user_interface)
       end
     end
@@ -48,18 +52,23 @@ module TTT
         play_next_turn
         swap_current_player
       end
-      user_interface_outcome
+      display_outcome
     end
 
-    def user_interface_outcome
+    def display_outcome
+      print_board
       @user_interface.print_tie_message if @board.draw?
       @user_interface.print_winner_message(@board.winner) if @board.won?
     end
 
     def play_next_turn
-      @user_interface.print_board(@board)
+      print_board
       @user_interface.print_next_player_to_go(@current_player.mark)
       @board.add_move(@current_player.mark, @current_player.next_move)
+    end
+
+    def print_board
+      @user_interface.print_board(@board)
     end
 
     def swap_current_player

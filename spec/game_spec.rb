@@ -14,12 +14,12 @@ describe TTT::Game do
 
   it 'displays next player to move during a turn' do
     game.play_next_turn
-    expect(stub_interface.print_next_player_to_go_results).to include(stub_player_1.mark)
+    expect(stub_interface.next_player_printed?).to be true
   end
 
   it 'displays board during a turn' do
     game.play_next_turn
-    expect(stub_interface.print_board_results).to include(board)
+    expect(stub_interface.board_printed?).to be true
   end
 
   it 'gets next move from player' do
@@ -60,13 +60,19 @@ describe TTT::Game do
   it 'prints tie after game ends in tie' do
     board_helper.populate_board_with_tie(stub_player_1, stub_player_2)
     game.play
-    expect(stub_interface.print_tie_message_count).to eq(1)
+    expect(stub_interface.tie_message_printed?).to be true
   end
 
   it 'prints winner after game ends in win' do
     board_helper.populate_board_with_win(stub_player_1)
     game.play
-    expect(stub_interface.print_winner_message_results).to include(stub_player_1)
+    expect(stub_interface.winner_message_printed?).to be true
+  end
+
+  it 'prints board after game has ended' do
+    board_helper.populate_board_with_win(stub_player_1)
+    game.play
+    expect(stub_interface.board_printed?).to be true
   end
 
   it 'builds hvh game based on user input' do

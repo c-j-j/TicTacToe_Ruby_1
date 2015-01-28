@@ -128,7 +128,7 @@ describe TTT::Board do
 
   it 'board can be created from other board' do
     add_moves_to_board(mark, 0)
-    board_duplicate = TTT::Board.new(board.positions)
+    board_duplicate = board.copy
     expect(board_duplicate).to eq(board)
     board_duplicate.add_move(mark,1)
     expect(board.positions[1]).to_not eq(mark)

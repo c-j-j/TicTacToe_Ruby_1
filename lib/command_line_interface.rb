@@ -39,10 +39,6 @@ module TTT
       @output.puts NEXT_PLAYER_TO_GO % mark
     end
 
-    def get_user_input
-      @input.gets.chomp
-    end
-
     def get_user_move(board)
       while true
         move = get_user_input
@@ -50,15 +46,6 @@ module TTT
         print_invalid_message
       end
       transform_input_to_position(move)
-    end
-
-    def is_move_valid?(move, board)
-      # TODO is this a code smell?
-      is_i?(move) && board.is_move_valid?(transform_input_to_position(move))
-    end
-
-    def is_i?(string)
-      !!(string =~ /\A[-+]?[0-9]+\z/)
     end
 
     def print_invalid_message
@@ -83,6 +70,19 @@ module TTT
 
     def transform_input_to_position(move)
       move.to_i - 1
+    end
+
+    def get_user_input
+      @input.gets.chomp
+    end
+
+    def is_move_valid?(move, board)
+      # TODO is this a code smell?
+      is_i?(move) && board.is_move_valid?(transform_input_to_position(move))
+    end
+
+    def is_i?(string)
+      !!(string =~ /\A[-+]?[0-9]+\z/)
     end
   end
 end

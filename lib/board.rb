@@ -17,8 +17,12 @@ module TTT
       if positions.nil?
         @positions = Array.new(9)
       else
-        @positions = positions.dup
+        @positions = positions
       end
+    end
+
+    def copy
+      Board.new(positions.dup)
     end
 
     def ==(o)

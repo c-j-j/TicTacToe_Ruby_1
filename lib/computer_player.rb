@@ -8,6 +8,7 @@ module TTT
     DRAW_SCORE = 0
     INFINITY = 10000
     MINUS_INFINITY = -INFINITY
+    INDETERMINATE_MOVE_ERROR = 'Unable to determine next move. Board may be in terminal state already'
 
     def initialize(board, mark, opponent_mark)
       @board = board
@@ -16,7 +17,9 @@ module TTT
     end
 
     def next_move
-      negamax(@board, @mark).position
+      next_move = negamax(@board, @mark).position
+      raise INDETERMINATE_MOVE_ERROR if next_move.nil?
+      next_move
     end
 
     def negamax(board, current_player_mark, alpha=MINUS_INFINITY, beta=INFINITY)
@@ -56,7 +59,7 @@ module TTT
     end
 
     def create_new_board_with_move(board, mark, empty_position)
-      new_board = Board.new(board.positions)
+      new_board = board.copy
       new_board.add_move(mark, empty_position)
       return new_board
     end
@@ -64,12 +67,10 @@ module TTT
     def calculate_score(board, mark)
       return DRAW_SCORE if board.draw?
 
-      if board.won?
-        if mark_has_won?(board, mark)
-          return WIN_SCORE
-        else
-          return LOSE_SCORE
-        end
+      if mark_has_won?(board, mark)
+        return WIN_SCORE
+      else
+        return LOSE_SCORE
       end
     end
 

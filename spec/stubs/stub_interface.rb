@@ -1,14 +1,6 @@
 module TTT
   class StubInterface
-
-    attr_accessor :invalid_message_count
-    attr_accessor :print_tie_message_count
-    attr_accessor :print_next_player_to_go_results
-    attr_accessor :print_winner_message_results
-    attr_accessor :print_board_results
-
     def initialize
-      @renders = []
       @invalid_message_count = 0
       @print_tie_message_count = 0
       @print_next_player_to_go_results = []
@@ -18,14 +10,6 @@ module TTT
 
     def specify_game_type(game_type)
       @game_type = game_type
-    end
-
-    def specify_first_player(first_player)
-      @first_player = first_player
-    end
-
-    def get_first_player
-      @first_player
     end
 
     def get_game_type(game_types)
@@ -40,6 +24,14 @@ module TTT
       @print_board_results << board
     end
 
+    def board_printed?
+      @print_board_results.size > 0
+    end
+
+    def next_player_printed?
+      @print_next_player_to_go_results.size > 0
+    end
+
     def print_next_player_to_go(player)
       @print_next_player_to_go_results << player
     end
@@ -52,12 +44,12 @@ module TTT
       @print_winner_message_results << player
     end
 
-    def get_previous_renders
-      @renders
+    def winner_message_printed?
+      @print_winner_message_results.size > 0
     end
 
-    def set_user_input(*mocked_user_input)
-      @user_input = mocked_user_input
+    def tie_message_printed?
+      @print_tie_message_count > 0
     end
 
     def set_user_moves(*move)
@@ -66,10 +58,6 @@ module TTT
 
     def get_user_move(board)
       @next_user_move.shift
-    end
-
-    def get_user_input
-      @user_input.shift
     end
   end
 end

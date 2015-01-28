@@ -71,4 +71,11 @@ describe TTT::ComputerPlayer do
     move = computer_player.next_move
     expect(move).to eq(4)
   end
+
+  it 'throws exception when game is already over' do
+    board_helper.populate_board_with_tie(computer_player, opponent)
+
+    expect {computer_player.next_move}.to raise_error(TTT::ComputerPlayer::INDETERMINATE_MOVE_ERROR)
+  end
+
 end
