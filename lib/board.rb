@@ -54,14 +54,14 @@ module TTT
       extract_mark_from_winning_line(winning_line) unless winning_line.nil?
     end
 
+    def rows
+      @positions.each_slice(Math.sqrt(@positions.size)).to_a
+    end
+
     private
 
     def winning_lines
       rows + cols + diagonals
-    end
-
-    def rows
-      @positions.each_slice(Math.sqrt(@positions.size)).to_a
     end
 
     def cols

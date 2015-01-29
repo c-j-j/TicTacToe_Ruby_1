@@ -15,15 +15,18 @@ module TTT
 
     def print_board(board)
       output = ""
+      index = 1
 
-      board.positions.each_with_index do |mark, index|
-        unless mark.nil?
-          output += " #{mark} "
-        else
-          output += " #{index + 1} "
+      board.rows.each_with_index do |row|
+        row.each do |mark|
+          unless mark.nil?
+            print_mark(output, mark)
+          else
+            print_mark(output, index)
+          end
+          index += 1 #unable to break this down to due counter
         end
-
-        output += "\n" if (index + 1) % Math.sqrt(board.positions.size) == 0
+        output << "\n"
       end
       @output.puts output
     end
@@ -88,6 +91,10 @@ module TTT
       board_size_options.each do |option|
         @output.puts "#{option}, "
       end
+    end
+
+    def print_mark(output, mark)
+      output << " #{mark} "
     end
 
     def game_type_valid?(game_type, game_choices)

@@ -1,6 +1,4 @@
-User also selects size of game
 Require relative
-REfactor command line interface class. Lots of user input/validation duplication
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------
