@@ -44,22 +44,37 @@ module TTT
 
     def play
       until @board.game_over?
-        play_next_turn
+        #print board
+        #print next player
+        #next_move = current_player.next_move
+        #break if next_move == :awaiting_user_input
+        #add move to board
+        #swap players
+        #end
+      #play_turn(position)
+        play_next_turn #(next_move)
         swap_current_player
       end
       display_outcome
-    end
-
-    def display_outcome
-      print_board
-      @user_interface.print_tie_message if @board.draw?
-      @user_interface.print_winner_message(@board.winner) if @board.won?
     end
 
     def play_next_turn
       print_board
       @user_interface.print_next_player_to_go(@current_player.mark)
       @board.add_move(@current_player.mark, @current_player.next_move)
+    end
+
+    def play_turn(position)
+      @user_interface.display_winner_message('YAY')
+      #@board.add_move(@current_player.mark, @current_player.next_move)
+       #swap player
+    #play
+    end
+
+    def display_outcome
+      print_board
+      @user_interface.print_tie_message if @board.draw?
+      @user_interface.print_winner_message(@board.winner) if @board.won?
     end
 
     def print_board

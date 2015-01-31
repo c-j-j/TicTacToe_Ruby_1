@@ -1,4 +1,17 @@
 Require relative
+- messages actually need to be displayed
+- board needs reprinting once move has been made
+
+
+-game loop can be broken if next move is :awaiting_user_input
+-human player now returns :awaiting_user_input, and it calls display.get_next_move which will set the game-state to playable(?), and allow for user to make a move
+- game and GUI depend on each other and send messages to each other
+- move is not valid if game already over
+- throw exception if move is made when game is over
+
+
+game state needs to be changed once display game over/draw has been displayed
+
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------
