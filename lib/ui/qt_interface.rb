@@ -10,6 +10,8 @@ module TTT
 
       WINNING_MESSAGE = "%s has won"
       DRAW_MESSAGE = 'Game ended in draw'
+      NEXT_PLAYER_TO_GO_MESSAGE = "%s's turn"
+      INVALID_MOVE_MESSAGE = 'Invalid move'
 
       def initialize(game)
         super(nil)
@@ -39,17 +41,26 @@ module TTT
         @game.play_turn(position)
       end
 
+      def print_next_player_to_go(mark)
+        update_status(NEXT_PLAYER_TO_GO_MESSAGE % mark)
+      end
+
       def print_winner_message(mark)
-        @status_label.text = WINNING_MESSAGE % mark
+        update_status(WINNING_MESSAGE % mark)
       end
 
       def print_tie_message
-        @status_label.text = DRAW_MESSAGE
+        update_status(DRAW_MESSAGE)
+      end
+
+      def print_invalid_move_message
+        update_status(INVALID_MOVE_MESSAGE)
       end
 
       private
 
-      def display_invalid_move_message
+      def update_status(message)
+        @status_label.text = message
       end
 
       #TODO this will be replaced by getting rows from selected board
@@ -59,7 +70,7 @@ module TTT
           0.upto(2) do |column|
             cell = TTT::UI::QTCell.new(self, row)
             board_grid.addWidget(cell, row, column)
-            cell.text = ''
+            cell.text = '-'
             @cells << cell
           end
         end
@@ -68,6 +79,3 @@ module TTT
     end
   end
 end
-#app = Qt::Application.new ARGV
-#TTT::QT_Interface.new
-#app.exec

@@ -28,13 +28,23 @@ describe TTT::UI::QT_Interface do
 
   it 'displays winner' do
     qt_interface.print_winner_message('some winner')
-    expect(qt_interface.status_label.text).to include('some winner')
-    expect(qt_interface.status_label.text).to include('won')
+    expect(qt_interface.status_label.text).to include('some winner has won')
   end
 
   it 'displays draw' do
     qt_interface.print_tie_message
     expect(qt_interface.status_label.text).to include('Game ended in draw')
+  end
+
+  it 'displays next player to go' do
+    qt_interface.print_next_player_to_go('some player')
+    expect(qt_interface.status_label.text).to include("some player's turn")
+  end
+
+  it 'displays invalid move message' do
+    stub_game.all_moves_are_invalid
+    qt_interface.board_clicked(position)
+    expect(qt_interface.status_label.text).to include("Invalid move")
   end
 
 end

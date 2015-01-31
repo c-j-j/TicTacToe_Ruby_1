@@ -4,6 +4,7 @@ module TTT
     def initialize
       @registered_moves = []
       @game_over = false
+      @move_valid = true
     end
 
     def register_game_over
@@ -18,17 +19,13 @@ module TTT
       @game_over_called
     end
 
-    def register_move(position)
-      @registered_moves << position
-    end
-
-    def move_registered?(position)
-      @registered_moves.include?(position)
+    def all_moves_are_invalid
+      @move_valid = false
     end
 
     def move_valid?(position)
       @move_valid_called = true
-      true
+      @move_valid
     end
 
     def move_valid_called?
