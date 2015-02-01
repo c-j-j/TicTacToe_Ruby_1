@@ -44,31 +44,21 @@ module TTT
 
     def play
       until @board.game_over?
-        #print board
-        #print next player
-        #next_move = current_player.next_move
-        #break if next_move == :awaiting_user_input
-        #add move to board
-        #swap players 
-        #end
-      #play_turn(position)
-        play_next_turn #(next_move)
+        print_board
+        next_move = get_next_move
+        break if next_move == :AWAITING_USER_MOVE
+        add_move_to_board(next_move)
         swap_current_player
       end
-      display_outcome
+
+      display_outcome if @board.game_over?
     end
 
-    def play_next_turn
-      print_board
-      @user_interface.print_next_player_to_go(@current_player.mark)
-      @board.add_move(@current_player.mark, @current_player.next_move)
+    def continue_game_with_move(position)
+      add_move_to_board(position)
+      swap_current_player
+      play
     end
-
-   # def play_turn(position)
-   #   @board.add_move(@current_player.mark, @current_player.next_move)
-    #   swap player
-    #play
-    #end
 
     def display_outcome
       print_board
@@ -86,6 +76,27 @@ module TTT
       else
         @current_player = @player_1
       end
+    end
+
+    def row_size
+      @board.rows.size
+    end
+
+    def number_of_positions
+      @board.positions.size
+    end
+
+    def move_valid?(position)
+      @board.is_move_valid?(position)
+    end
+
+    def get_next_move
+      @user_interface.print_next_player_to_go(@current_player.mark)
+      @current_player.next_move
+    end
+
+    def add_move_to_board(position)
+      @board.add_move(@current_player.mark, position)
     end
 
     private

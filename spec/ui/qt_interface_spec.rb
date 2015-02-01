@@ -15,7 +15,11 @@ describe TTT::UI::QT_Interface do
   end
 
   it 'creates cells during initialize' do
-    expect(qt_interface.cells.size).to be(stub_game.board.positions.size)
+    expect(qt_interface.cells.size).to be(stub_game.number_of_positions)
+  end
+
+  it 'game state set to an initial state before game has begun' do
+    expect(qt_interface.game_state).to eq(:INITIAL)
   end
 
   it 'starts game when play button is pressed' do
@@ -31,12 +35,18 @@ describe TTT::UI::QT_Interface do
   it 'propogates move to game when game state set to awaiting move' do
     qt_interface.get_user_move(nil)
     qt_interface.board_clicked(position)
-    expect(stub_game.play_turn_called?).to be true
+    expect(stub_game.continue_game_called?).to be true
   end
 
   it 'does not propogate move to game when game state not awaiting move' do
     qt_interface.board_clicked(position)
-    expect(stub_game.play_turn_called?).to be false
+    expect(stub_game.continue_game_called?).to be false
+  end
+
+  it 'sets game state to in progress when user has made valid move' do
+    qt_interface.get_user_move(nil)
+    qt_interface.board_clicked(position)
+    expect(qt_interface.game_state).to eq(:IN_PROGRESS)
   end
 
   it 'prints winner message' do
@@ -44,9 +54,19 @@ describe TTT::UI::QT_Interface do
     expect(qt_interface.status_label.text).to include('some winner has won')
   end
 
+  it 'sets state to finish when winner message is printed' do
+    qt_interface.print_winner_message('some winner')
+    expect(qt_interface.game_state).to eq(:GAME_OVER)
+  end
+
   it 'prints draw message' do
     qt_interface.print_tie_message
-    expect(qt_interface.status_label.text).to include('Game ended in draw')
+    expect(qt_interface.status_label.text).to include('Draw')
+  end
+
+  it 'sets state to finish when tie message is printed' do
+    qt_interface.print_tie_message
+    expect(qt_interface.game_state).to eq(:GAME_OVER)
   end
 
   it 'prints next player to go' do
@@ -71,6 +91,10 @@ describe TTT::UI::QT_Interface do
   it 'sets game state to waiting when user move is requested' do
     qt_interface.get_user_move(nil)
     expect(qt_interface.game_state).to eq(:AWAITING_USER_MOVE)
+  end
+
+  it 'returns awaiting state when user move requested' do
+    expect(qt_interface.get_user_move(nil)).to eq(:AWAITING_USER_MOVE)
   end
 
   def generate_board

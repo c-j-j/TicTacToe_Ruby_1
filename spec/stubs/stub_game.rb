@@ -8,7 +8,7 @@ module TTT
       @game_over = false
       @move_valid = true
       @play_called = false
-      @play_turn_called = false
+      @continue_game_called = false
       @board = TTT::Board.new(3)
     end
 
@@ -46,12 +46,12 @@ module TTT
       @play_called
     end
 
-    def play_turn(position)
-      @play_turn_called = true
+    def continue_game_with_move(position)
+      @continue_game_called = true
     end
 
-    def play_turn_called?
-      @play_turn_called
+    def continue_game_called?
+      @continue_game_called
     end
 
     def won?
@@ -60,6 +60,14 @@ module TTT
 
     def won_called?
       @won_called
+    end
+
+    def number_of_positions
+      @board.positions.size
+    end
+
+    def row_size
+      @board.rows.size
     end
 
     def register_winner(winner)

@@ -13,24 +13,23 @@ describe TTT::Game do
   let(:game) { TTT::Game.new(board, stub_interface, stub_player_1, stub_player_2) }
 
   it 'displays next player to move during a turn' do
-    game.play_next_turn
+    game.get_next_move
     expect(stub_interface.next_player_printed?).to be true
   end
 
-  it 'displays board during a turn' do
-    game.play_next_turn
+  it 'displays board' do
+    game.print_board
     expect(stub_interface.board_printed?).to be true
   end
 
   it 'gets next move from player' do
-    game.play_next_turn
+    game.get_next_move
     expect(stub_player_1.next_move_count).to be(1)
   end
 
   it 'adds move to board' do
-    game.play_next_turn
-    player_move = stub_player_1.next_move
-    expect(board.positions[player_move]).to eq(stub_player_1.mark)
+    game.add_move_to_board(0)
+    expect(board.positions[0]).to eq(stub_player_1.mark)
   end
 
   it 'current player initally set to player 1' do
@@ -73,6 +72,45 @@ describe TTT::Game do
     board_helper.populate_board_with_win(board, stub_player_1)
     game.play
     expect(stub_interface.board_printed?).to be true
+  end
+
+  it 'gets row size from board' do
+    expect(game.row_size).to eq(board.rows.size)
+  end
+
+  it 'gets number of positions from board' do
+    expect(game.number_of_positions).to eq(board.positions.size)
+  end
+
+  it 'checks with board if move is valid' do
+    expect(game.move_valid?(-1)).to eq(board.is_move_valid?(-1))
+  end
+
+  it 'adds move to board when new turn is played' do
+    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
+    player_move = 2
+    game.continue_game_with_move(player_move)
+    expect(board.positions[player_move]).to eq(stub_player_1.mark)
+  end
+
+  it 'swaps player when new turn is played' do
+    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
+    first_player = game.current_player
+    game.continue_game_with_move(2)
+    expect(game.current_player).to_not eq(first_player)
+  end
+
+  it 'displays winner when continued game turns into a win' do
+    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
+    game.continue_game_with_move(2)
+    expect(stub_interface.winner_message_printed?).to be true
+  end
+
+  it 'breaks out of game loop when next move yields no immediate response' do
+    stub_player_1.prepare_next_move(:AWAITING_USER_MOVE)
+    game.play
+    expect(stub_interface.winner_message_printed?).to be false
+    expect(stub_interface.tie_message_printed?).to be false
   end
 
   it 'builds hvh game based on user input' do
