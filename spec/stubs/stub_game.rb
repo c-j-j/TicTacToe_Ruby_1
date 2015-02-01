@@ -1,15 +1,21 @@
 module TTT
   class StubGame
 
+    attr_accessor :board
+
     def initialize
       @registered_moves = []
       @game_over = false
       @move_valid = true
+      @play_called = false
+      @play_turn_called = false
+      @board = TTT::Board.new(3)
     end
 
     def register_game_over
       @game_over = true
     end
+
     def game_over?
       @game_over_called = true
       @game_over
@@ -30,6 +36,14 @@ module TTT
 
     def move_valid_called?
       @move_valid_called
+    end
+
+    def play
+      @play_called = true
+    end
+
+    def play_called?
+      @play_called
     end
 
     def play_turn(position)

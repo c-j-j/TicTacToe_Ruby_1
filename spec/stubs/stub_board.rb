@@ -3,6 +3,7 @@ module TTT
 
     attr_accessor :added_moves
     attr_accessor :draw
+
     def initialize
       @game_over_sequence = []
       @added_moves = Hash.new

@@ -1,6 +1,7 @@
 Require relative
 - messages actually need to be displayed
 - board needs reprinting once move has been made
+- rename qt_interface to GUI_interface
 
 
 -game loop can be broken if next move is :awaiting_user_input

@@ -49,7 +49,7 @@ module TTT
         #next_move = current_player.next_move
         #break if next_move == :awaiting_user_input
         #add move to board
-        #swap players
+        #swap players 
         #end
       #play_turn(position)
         play_next_turn #(next_move)
@@ -64,12 +64,11 @@ module TTT
       @board.add_move(@current_player.mark, @current_player.next_move)
     end
 
-    def play_turn(position)
-      @user_interface.display_winner_message('YAY')
-      #@board.add_move(@current_player.mark, @current_player.next_move)
-       #swap player
+   # def play_turn(position)
+   #   @board.add_move(@current_player.mark, @current_player.next_move)
+    #   swap player
     #play
-    end
+    #end
 
     def display_outcome
       print_board
