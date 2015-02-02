@@ -59,7 +59,7 @@ module TTT
       @output.puts PICK_GAME_TYPE
       print_game_choices(game_choices)
       game_type = get_validated_user_input {|input| game_type_valid?(input, game_choices)}
-      game_choices.keys[transform_input_to_zero_based_integer(game_type)]
+      game_choices[transform_input_to_zero_based_integer(game_type)]
     end
 
     def print_invalid_message
@@ -82,8 +82,8 @@ module TTT
     end
 
     def print_game_choices(game_choices)
-      game_choices.each_with_index do |(game_type, game_description), index|
-        @output.puts "#{index + 1}: #{game_description}\n"
+      game_choices.each_with_index do |game_choice, index|
+        @output.puts "#{index + 1}: #{game_choice}\n"
       end
     end
 
@@ -110,7 +110,6 @@ module TTT
     end
 
     def move_valid?(move, board)
-      # TODO is this a code smell?
       is_integer?(move) && board.is_move_valid?(transform_input_to_zero_based_integer(move))
     end
 

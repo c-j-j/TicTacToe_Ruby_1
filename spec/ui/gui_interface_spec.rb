@@ -32,11 +32,6 @@ describe TTT::UI::GUIInterface do
     expect(gui_interface.game_state).to eq(:INITIAL)
   end
 
-  xit 'starts game when play button is pressed' do
-    gui_interface.play_button.pressed
-    expect(stub_game.play_called?).to be true
-  end
-
   it 'validates user move when awaiting user move' do
     gui_interface.get_user_move(nil)
     gui_interface.board_clicked(position)

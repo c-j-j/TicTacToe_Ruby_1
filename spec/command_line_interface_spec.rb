@@ -86,17 +86,17 @@ describe TTT::CommandLineInterface do
   end
 
   it 'user inputs integer to specify game type' do
-    game_choices = {
-      :HVH => 'Human Vs Human'
-    }
+    game_choices = [
+       'Human Vs Human'
+    ]
     display = TTT::CommandLineInterface.new(user_input('1'), output)
-    expect(display.get_game_type(game_choices)).to eq(:HVH)
+    expect(display.get_game_type(game_choices)).to eq('Human Vs Human')
   end
 
   it 'validates user input with choices provided' do
-    game_choices = {
-      :HVH=> 'Human Vs Human'
-    }
+    game_choices = [
+     'Human Vs Human'
+    ]
 
     display = TTT::CommandLineInterface.new(user_input('a', '0', '1'), output)
     display.get_game_type(game_choices)
