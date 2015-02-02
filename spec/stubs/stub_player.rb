@@ -13,7 +13,7 @@ module TTT
       @next_move = next_move
     end
 
-    def next_move
+    def next_move(board)
       @next_move_count += 1
       return @next_move
     end

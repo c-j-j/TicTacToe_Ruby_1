@@ -10,7 +10,9 @@ module TTT
       attr_reader :game_state
       attr_reader :play_button
 
-      slots "start_game()"
+      #registers start_game function with widget
+      START_GAME_FUNCTION = "start_game()"
+      slots START_GAME_FUNCTION
 
       WINNING_MESSAGE = "%s has won"
       DRAW_MESSAGE = 'Draw'
@@ -43,7 +45,7 @@ module TTT
         @status_label = Qt::Label.new("Status", self)
         @play_button = Qt::PushButton.new('Play', self)
         @status_label.move(100, 0)
-        connect(@play_button, SIGNAL(:pressed), self, SLOT("start_game()"))
+        register_button_press(@play_button, START_GAME_FUNCTION)
       end
 
       def board_clicked(position)
@@ -91,6 +93,10 @@ module TTT
       end
 
       private
+
+      def register_button_press(button, function)
+        connect(button, SIGNAL(:pressed), self, SLOT(function))
+      end
 
       def update_status(message)
         @status_label.text = message

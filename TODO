@@ -1,13 +1,9 @@
 Require relative
-- rename qt_interface to GUI_interface
 - throw exception if move is made when game is over
 - board should be passed to player in method, not constructo
-- cli needs a refactor to drive which game is played
 - tidy up qt interface and game
 - get user to define game with buttons
 - user can restart game
-- start_game string bit unsafe in QT_inteface
-
 
 game state needs to be changed once display game over/draw has been displayed
 

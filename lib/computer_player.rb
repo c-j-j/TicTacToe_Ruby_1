@@ -12,14 +12,13 @@ module TTT
     INITIAL_DEPTH = 6 #depth of 6 ensures computer player still takes best moves during 3x3
     INDETERMINATE_MOVE_ERROR = 'Unable to determine next move. Board may be in terminal state already'
 
-    def initialize(board, mark, opponent_mark)
-      @board = board
+    def initialize(mark, opponent_mark)
       @mark = mark
       @opponent_mark = opponent_mark
     end
 
-    def next_move
-      next_move = negamax(@board, @mark).position
+    def next_move(board)
+      next_move = negamax(board, @mark).position
       raise INDETERMINATE_MOVE_ERROR if next_move.nil?
       next_move
     end

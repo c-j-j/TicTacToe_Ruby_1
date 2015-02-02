@@ -21,16 +21,15 @@ module TTT
     O = 'O'
 
     def self.build_game_for_user(user_interface)
-      board = Board.new(user_interface.get_board_size(3, 4))
       case user_interface.get_game_type(GAME_TYPES)
       when :HVH
-        build_hvh_game(board, user_interface)
+        build_hvh_game(user_interface)
       when :HVC
-        build_hvc_game(board, user_interface)
+        build_hvc_game(user_interface)
       when :CVH
-        build_cvh_game(board, user_interface)
+        build_cvh_game(user_interface)
       when :CVC
-        build_cvc_game(board, user_interface)
+        build_cvc_game(user_interface)
       end
     end
 
@@ -92,7 +91,7 @@ module TTT
 
     def get_next_move
       @user_interface.print_next_player_to_go(@current_player.mark)
-      @current_player.next_move
+      @current_player.next_move(@board)
     end
 
     def add_move_to_board(position)
@@ -101,31 +100,32 @@ module TTT
 
     private
 
-    def self.build_hvh_game(board, user_interface)
-      p1 = TTT::HumanPlayer.new(user_interface, board, X)
-      p2 = TTT::HumanPlayer.new(user_interface, board, O)
-      new_game(board, user_interface, p1, p2)
+    def self.build_hvh_game(user_interface)
+      p1 = TTT::HumanPlayer.new(user_interface, X)
+      p2 = TTT::HumanPlayer.new(user_interface, O)
+      new_game(user_interface, p1, p2)
     end
 
-    def self.build_cvh_game(board, user_interface)
-      p1 = TTT::ComputerPlayer.new(board, O, X)
-      p2 = TTT::HumanPlayer.new(user_interface, board, X)
-      new_game(board, user_interface, p1, p2)
+    def self.build_cvh_game(user_interface)
+      p1 = TTT::ComputerPlayer.new(O, X)
+      p2 = TTT::HumanPlayer.new(user_interface, X)
+      new_game(user_interface, p1, p2)
     end
 
-    def self.build_hvc_game(board, user_interface)
-      p1 = TTT::HumanPlayer.new(user_interface, board, X)
-      p2 = TTT::ComputerPlayer.new(board, O, X)
-      new_game(board, user_interface, p1, p2)
+    def self.build_hvc_game(user_interface)
+      p1 = TTT::HumanPlayer.new(user_interface, X)
+      p2 = TTT::ComputerPlayer.new(O, X)
+      new_game(user_interface, p1, p2)
     end
 
-    def self.build_cvc_game(board, user_interface)
-      p1 = TTT::ComputerPlayer.new(board, X, O)
-      p2 = TTT::ComputerPlayer.new(board, O, X)
-      new_game(board, user_interface, p1, p2)
+    def self.build_cvc_game(user_interface)
+      p1 = TTT::ComputerPlayer.new(X, O)
+      p2 = TTT::ComputerPlayer.new(O, X)
+      new_game(user_interface, p1, p2)
     end
 
-    def self.new_game(board, user_interface, player_1, player_2)
+    def self.new_game(user_interface, player_1, player_2)
+      board = Board.new(user_interface.get_board_size(3, 4))
       TTT::Game.new(board, user_interface, player_1, player_2)
     end
   end
