@@ -1,8 +1,8 @@
 Require relative
-- throw exception if move is made when game is over
 - tidy up qt interface and game
-- get user to define game with buttons
-- user can restart game
+- cli needs to work with just an array of game type descriptions, actual game creation done by game
+- need to get board size from user
+- clear board when play is initiated
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------

@@ -114,7 +114,7 @@ describe TTT::Game do
   end
 
   it 'builds hvh game based on user input' do
-    stub_interface.specify_game_type(:HVH)
+    stub_interface.specify_game_type(TTT::Game::HVH)
     stub_interface.specify_board_size(3)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
@@ -122,7 +122,7 @@ describe TTT::Game do
   end
 
   it 'builds hvc game based on user input' do
-    stub_interface.specify_game_type(:HVC)
+    stub_interface.specify_game_type(TTT::Game::HVC)
     stub_interface.specify_board_size(3)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
@@ -130,7 +130,7 @@ describe TTT::Game do
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type(:CVH)
+    stub_interface.specify_game_type(TTT::Game::CVH)
     stub_interface.specify_board_size(3)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
@@ -138,10 +138,25 @@ describe TTT::Game do
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type(:CVC)
+    stub_interface.specify_game_type(TTT::Game::CVC)
     stub_interface.specify_board_size(3)
     game = TTT::Game.build_game_for_user(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
+  end
+
+  it 'builds game with board size of 4' do
+    stub_interface.specify_game_type(TTT::Game::CVC)
+    stub_interface.specify_board_size(4)
+    game = TTT::Game.build_game_for_user(stub_interface)
+    expect(game.row_size).to be(4)
+  end
+
+  it 'default board size is 3' do
+    expect(TTT::Game.default_board_size).to eq(3)
+  end
+
+  it 'default game type is HVH' do
+    expect(TTT::Game.default_game_type).to eq(TTT::Game::HVH)
   end
 end

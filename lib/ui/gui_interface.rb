@@ -9,43 +9,42 @@ module TTT
       attr_reader :status_label
       attr_reader :game_state
       attr_reader :play_button
+      attr_reader :game_choices
+      attr_reader :game_sizes
+      attr_reader :next_game_type_to_build
+      attr_reader :next_board_size_to_build
+      attr_reader :ui_grid
 
-      #registers start_game function with widget
+      #registers functions so GUI can call them
       START_GAME_FUNCTION = "start_game()"
+      PREPARE_GAME_TYPE_FUNCTION = 'prepare_next_game_type_to_create(QString)'
+      PREPARE_BOARD_SIZE_FUNCTION = "prepare_board_size(QString)"
       slots START_GAME_FUNCTION
+      slots PREPARE_GAME_TYPE_FUNCTION
+      slots PREPARE_BOARD_SIZE_FUNCTION
 
       WINNING_MESSAGE = "%s has won"
       DRAW_MESSAGE = 'Draw'
       NEXT_PLAYER_TO_GO_MESSAGE = "%s's turn"
       INVALID_MOVE_MESSAGE = 'Invalid move'
+      TOP_PADDING = 1
 
       def initialize(game)
         super(nil)
-
         @game_state = :INITIAL
-        if game.nil?
-          #TODO use factory mehtods in game, and will be set by user later
-          board = TTT::Board.new(3)
-          p1 = TTT::HumanPlayer.new(self, board, 'X')
-          #p1 = TTT::ComputerPlayer.new(board, 'X', 'O')
-          #p2 = TTT::ComputerPlayer.new(board, 'O', 'X')
-          p2 = TTT::HumanPlayer.new(self, board, 'O')
-          @game = TTT::Game.new(board, self, p1, p2)
-        else
-          @game = game
-        end
+        @next_game_type_to_build = TTT::Game.default_game_type
+        @next_board_size_to_build = TTT::Game.default_board_size
+        @game = game unless game.nil?
         init_screen
         show
       end
 
       def init_screen
-        setWindowTitle "Tic Tac Toe"
-        resize 300, 280
-        init_board
-        @status_label = Qt::Label.new("Status", self)
-        @play_button = Qt::PushButton.new('Play', self)
-        @status_label.move(100, 0)
-        register_button_press(@play_button, START_GAME_FUNCTION)
+        @ui_grid = Qt::GridLayout.new(self)
+        setWindowTitle("Tic Tac Toe")
+        resize(500, 500)
+        create_widgets
+        position_widgets
       end
 
       def board_clicked(position)
@@ -58,6 +57,13 @@ module TTT
 
         update_game_state(:IN_PROGRESS)
         @game.continue_game_with_move(position)
+      end
+
+      #TODO unable to unit test as is
+      def start_game
+        create_new_game
+        init_board
+        @game.play
       end
 
       def print_next_player_to_go(mark)
@@ -89,11 +95,73 @@ module TTT
         :AWAITING_USER_MOVE
       end
 
-      def start_game
-        @game.play
+      def prepare_next_game_type_to_create(game_type)
+        @next_game_type_to_build = game_type
+      end
+
+      def prepare_board_size(board_size)
+        @next_board_size_to_build = board_size
+      end
+
+      def init_board
+        clear_board
+        @cells = []
+        (0...board_size).each do |cell_index|
+          cell = TTT::UI::GUIBoardCell.new(self, cell_index)
+          cell.text = ''
+          row, column = get_row_and_column_from_index(cell_index)
+          @ui_grid.addWidget(cell, row + TOP_PADDING, column)
+          @cells << cell
+        end
+      end
+
+      def create_new_game
+        @game = TTT::Game.build_game(self, @next_game_type_to_build, @next_board_size_to_build.to_i)
       end
 
       private
+
+      def create_widgets
+        @status_label = Qt::Label.new("Press play to begin", self)
+        @play_button = Qt::PushButton.new('Play', self)
+        register_button_press(@play_button, START_GAME_FUNCTION)
+        @game_choices = create_game_choices_combo_box
+        @game_sizes = create_game_size_combo_box
+      end
+
+      def position_widgets
+        @ui_grid.addWidget(@game_choices, 0, 0)
+        @ui_grid.addWidget(@game_sizes, 0, 1)
+        @ui_grid.addWidget(@play_button, 0, 2)
+        @ui_grid.addWidget(@status_label, 5, 0)
+      end
+
+      def clear_board
+        if @cells.nil?
+          return
+        end
+
+        @cells.each do |cell|
+          cell.hide
+          @ui_grid.removeWidget(cell)
+        end
+      end
+
+      def create_game_choices_combo_box
+        create_combo_box(TTT::Game::GAME_TYPES, PREPARE_GAME_TYPE_FUNCTION)
+      end
+
+      def create_game_size_combo_box
+        create_combo_box(TTT::Game::GAME_SIZES, PREPARE_BOARD_SIZE_FUNCTION)
+      end
+
+      def create_combo_box(choices, select_function)
+        selection_menu = Qt::ComboBox.new(self)
+        choices.each {|choice| selection_menu.addItem(choice.to_s) }
+
+        connect(selection_menu, SIGNAL("activated(QString)"), self, SLOT(select_function))
+        selection_menu
+      end
 
       def register_button_press(button, function)
         connect(button, SIGNAL(:pressed), self, SLOT(function))
@@ -101,18 +169,6 @@ module TTT
 
       def update_status(message)
         @status_label.text = message
-      end
-
-      def init_board
-        board_grid = Qt::GridLayout.new(self)
-
-        @cells = []
-        (0...board_size).each do |cell_index|
-            cell = TTT::UI::GUIBoardCell.new(self, cell_index)
-            row, column = get_row_and_column_from_index(cell_index)
-            board_grid.addWidget(cell, row, column)
-            @cells << cell
-        end
       end
 
       def get_row_and_column_from_index(cell_index)
