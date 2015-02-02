@@ -49,12 +49,13 @@ module TTT
       end
 
       def board_clicked(position)
+        return if @game_state != :AWAITING_USER_MOVE
+
         if !@game.move_valid?(position)
           print_invalid_move_message
           return
         end
 
-        return if @game_state != :AWAITING_USER_MOVE
         update_game_state(:IN_PROGRESS)
         @game.continue_game_with_move(position)
       end

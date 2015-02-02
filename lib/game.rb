@@ -42,7 +42,7 @@ module TTT
     end
 
     def play
-      until @board.game_over?
+      until game_over?
         print_board
         next_move = get_next_move
         break if next_move == :AWAITING_USER_MOVE
@@ -50,7 +50,7 @@ module TTT
         swap_current_player
       end
 
-      display_outcome if @board.game_over?
+      display_outcome if game_over?
     end
 
     def continue_game_with_move(position)
@@ -99,6 +99,10 @@ module TTT
     end
 
     private
+
+    def game_over?
+      @board.game_over?
+    end
 
     def self.build_hvh_game(user_interface)
       p1 = TTT::HumanPlayer.new(user_interface, X)

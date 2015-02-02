@@ -1,12 +1,8 @@
 Require relative
 - throw exception if move is made when game is over
-- board should be passed to player in method, not constructo
 - tidy up qt interface and game
 - get user to define game with buttons
 - user can restart game
-
-game state needs to be changed once display game over/draw has been displayed
-
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------

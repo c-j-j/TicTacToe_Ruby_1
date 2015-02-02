@@ -27,7 +27,8 @@ describe TTT::UI::GUIInterface do
     expect(stub_game.play_called?).to be true
   end
 
-  it 'validates user move' do
+  it 'validates user move when awaiting user move' do
+    gui_interface.get_user_move(nil)
     gui_interface.board_clicked(position)
     expect(stub_game.move_valid_called?).to be true
   end
@@ -75,6 +76,7 @@ describe TTT::UI::GUIInterface do
   end
 
   it 'prints invalid move message' do
+    gui_interface.get_user_move(nil)
     stub_game.all_moves_are_invalid
     gui_interface.board_clicked(position)
     expect(gui_interface.status_label.text).to include("Invalid move")
