@@ -2,7 +2,7 @@ require 'qt'
 
 module TTT
   module UI
-    class QTCell < Qt::Label
+    class GUIBoardCell < Qt::Label
 
       def initialize(parent, cell_number)
         super(nil)

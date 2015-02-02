@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative '../lib/ui/qt_interface.rb'
-
-app = Qt::Application.new ARGV
-qt_interface = TTT::UI::QT_Interface.new(nil)
-app.exec
-

@@ -1,10 +1,10 @@
 require 'qt'
-require_relative 'qt_cell.rb'
+require_relative 'gui_board_cell.rb'
 require_relative '../game.rb'
 
 module TTT
   module UI
-    class QT_Interface < Qt::Widget
+    class GUIInterface < Qt::Widget
       attr_reader :cells
       attr_reader :status_label
       attr_reader :game_state
@@ -25,8 +25,9 @@ module TTT
           #TODO use factory mehtods in game, and will be set by user later
           board = TTT::Board.new(3)
           p1 = TTT::HumanPlayer.new(self, board, 'X')
-          p2 = TTT::ComputerPlayer.new(board, 'O', 'X')
-          #p2 = TTT::HumanPlayer.new(self, board, 'O')
+          #p1 = TTT::ComputerPlayer.new(board, 'X', 'O')
+          #p2 = TTT::ComputerPlayer.new(board, 'O', 'X')
+          p2 = TTT::HumanPlayer.new(self, board, 'O')
           @game = TTT::Game.new(board, self, p1, p2)
         else
           @game = game
@@ -100,7 +101,7 @@ module TTT
 
         @cells = []
         (0...board_size).each do |cell_index|
-            cell = TTT::UI::QTCell.new(self, cell_index)
+            cell = TTT::UI::GUIBoardCell.new(self, cell_index)
             row, column = get_row_and_column_from_index(cell_index)
             board_grid.addWidget(cell, row, column)
             @cells << cell

@@ -1,14 +1,12 @@
 Require relative
-- messages actually need to be displayed
-- board needs reprinting once move has been made
 - rename qt_interface to GUI_interface
-
-
--game loop can be broken if next move is :awaiting_user_input
--human player now returns :awaiting_user_input, and it calls display.get_next_move which will set the game-state to playable(?), and allow for user to make a move
-- game and GUI depend on each other and send messages to each other
-- move is not valid if game already over
 - throw exception if move is made when game is over
+- board should be passed to player in method, not constructo
+- cli needs a refactor to drive which game is played
+- tidy up qt interface and game
+- get user to define game with buttons
+- user can restart game
+- start_game string bit unsafe in QT_inteface
 
 
 game state needs to be changed once display game over/draw has been displayed

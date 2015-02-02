@@ -1,11 +1,11 @@
 require_relative '../spec_helper.rb'
 require 'lib/ui/qt_cell'
 
-describe TTT::UI::QTCell do
+describe TTT::UI::GUIBoardCell do
 
   let(:cell_number){ 1 }
   let(:parent) {double('parent')}
-  let(:cell) { TTT::UI::QTCell.new(parent, cell_number)}
+  let(:cell) { TTT::UI::GUIBoardCell.new(parent, cell_number)}
 
   before(:all) do
     @app = Qt::Application.new(ARGV)
