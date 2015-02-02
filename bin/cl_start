@@ -2,4 +2,4 @@
 require_relative '../lib/command_line_interface.rb'
 require_relative '../lib/game.rb'
 
-TTT::Game.build_game_for_user(TTT::CommandLineInterface.new).play
+TTT::Game.build_game_by_calling_interface(TTT::CommandLineInterface.new).play

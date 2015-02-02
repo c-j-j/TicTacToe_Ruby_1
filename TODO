@@ -1,8 +1,5 @@
 Require relative
-- tidy up qt interface and game
-- cli needs to work with just an array of game type descriptions, actual game creation done by game
-- need to get board size from user
-- clear board when play is initiated
+- ui not responsive during long computer wait
 
 Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
 -----------------------------------------------------------------------
@@ -11,3 +8,9 @@ Many places testing with a 3x3 board, in particular the board_spec. Is thorough 
 Display needed updating to select whether or not 3x3 or 4x4 board
 Display print_board will need updating, we assumed 3x3
 Many constructors instantiating board are having to be changed to explicityl state we want a 3x3 game. Default parameter perhaps the answer?
+
+
+Issues with GUI
+------------------------------
+Game loop needed modifiying to allow it to quit when waiting for user input
+Game needed way to restart game loop later on

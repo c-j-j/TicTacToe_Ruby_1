@@ -31,7 +31,7 @@ module TTT
     O = 'O'
 
     #TODO change for command line interface
-    def self.build_game_for_user(user_interface)
+    def self.build_game_by_calling_interface(user_interface)
       build_game(user_interface, user_interface.get_game_type(GAME_TYPES), user_interface.get_board_size)
     end
 

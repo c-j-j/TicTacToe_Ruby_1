@@ -116,7 +116,7 @@ describe TTT::Game do
   it 'builds hvh game based on user input' do
     stub_interface.specify_game_type(TTT::Game::HVH)
     stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_for_user(stub_interface)
+    game = TTT::Game.build_game_by_calling_interface(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
@@ -124,7 +124,7 @@ describe TTT::Game do
   it 'builds hvc game based on user input' do
     stub_interface.specify_game_type(TTT::Game::HVC)
     stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_for_user(stub_interface)
+    game = TTT::Game.build_game_by_calling_interface(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
   end
@@ -132,7 +132,7 @@ describe TTT::Game do
   it 'builds cvh game based on user input' do
     stub_interface.specify_game_type(TTT::Game::CVH)
     stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_for_user(stub_interface)
+    game = TTT::Game.build_game_by_calling_interface(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
@@ -140,7 +140,7 @@ describe TTT::Game do
   it 'builds cvh game based on user input' do
     stub_interface.specify_game_type(TTT::Game::CVC)
     stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_for_user(stub_interface)
+    game = TTT::Game.build_game_by_calling_interface(stub_interface)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
   end
@@ -148,7 +148,7 @@ describe TTT::Game do
   it 'builds game with board size of 4' do
     stub_interface.specify_game_type(TTT::Game::CVC)
     stub_interface.specify_board_size(4)
-    game = TTT::Game.build_game_for_user(stub_interface)
+    game = TTT::Game.build_game_by_calling_interface(stub_interface)
     expect(game.row_size).to be(4)
   end
 
