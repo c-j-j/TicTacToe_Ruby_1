@@ -1,5 +1,6 @@
-require_relative '../lib/game.rb'
-require_relative 'stubs/stub_interface.rb'
+require_relative 'spec_helper.rb'
+require 'game.rb'
+require 'spec/stubs/stub_interface.rb'
 
 describe "Integration Tests" do
   let(:user_interface) { TTT::StubInterface.new }

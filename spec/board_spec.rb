@@ -1,5 +1,6 @@
-require_relative '../lib/board.rb'
-require_relative 'helpers/board_helper.rb'
+require_relative 'spec_helper.rb'
+require 'board.rb'
+require 'spec/helpers/board_helper.rb'
 
 describe TTT::Board do
 

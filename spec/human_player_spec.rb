@@ -1,6 +1,7 @@
-require_relative '../lib/human_player.rb'
-require_relative '../lib/board.rb'
-require_relative 'stubs/stub_interface.rb'
+require_relative 'spec_helper.rb'
+require 'human_player'
+require 'board'
+require 'spec/stubs/stub_interface'
 
 describe TTT::HumanPlayer do
   let(:interface){TTT::StubInterface.new}

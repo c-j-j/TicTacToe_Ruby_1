@@ -1,6 +1,6 @@
-require_relative 'human_player.rb'
-require_relative 'computer_player.rb'
-require_relative 'board.rb'
+require 'lib/human_player.rb'
+require 'lib/computer_player.rb'
+require 'lib/board.rb'
 
 module TTT
   class Game

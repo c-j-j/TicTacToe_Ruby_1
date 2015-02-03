@@ -1,6 +1,6 @@
 require 'qt'
-require_relative 'gui_board_cell.rb'
-require_relative '../game.rb'
+require 'ui/gui_board_cell'
+require 'game'
 
 module TTT
   module UI

@@ -1,7 +1,8 @@
-require_relative '../lib/computer_player.rb'
-require_relative '../lib/board.rb'
-require_relative 'helpers/board_helper.rb'
-require_relative 'stubs/stub_player.rb'
+require_relative 'spec_helper.rb'
+require 'computer_player'
+require 'board'
+require 'spec/helpers/board_helper.rb'
+require 'spec/stubs/stub_player.rb'
 
 describe TTT::ComputerPlayer do
   let(:mark){'X'}
