@@ -10,6 +10,8 @@ module TTT
     attr_reader :player_1
     attr_reader :player_2
 
+    MOVE_NOT_AVAILABLE = -1
+
     HVH = 'Human Vs Human'
     HVC = 'Human Vs Computer'
     CVH = 'Computer Vs Human'
@@ -68,7 +70,7 @@ module TTT
       until game_over?
         print_board
         next_move = get_next_move
-        break if next_move == :AWAITING_USER_MOVE
+        break if next_move == MOVE_NOT_AVAILABLE
         add_move_to_board(next_move)
         swap_current_player
       end

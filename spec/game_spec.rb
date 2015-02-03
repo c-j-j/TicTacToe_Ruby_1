@@ -107,7 +107,7 @@ describe TTT::Game do
   end
 
   it 'breaks out of game loop when next move yields no immediate response' do
-    stub_player_1.prepare_next_move(:AWAITING_USER_MOVE)
+    stub_player_1.prepare_next_move(TTT::Game::MOVE_NOT_AVAILABLE)
     game.play
     expect(stub_interface.winner_message_printed?).to be false
     expect(stub_interface.tie_message_printed?).to be false

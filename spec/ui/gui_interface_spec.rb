@@ -101,8 +101,8 @@ describe TTT::UI::GUIInterface do
     expect(gui_interface.game_state).to eq(:AWAITING_USER_MOVE)
   end
 
-  it 'returns awaiting state when user move requested' do
-    expect(gui_interface.get_user_move(nil)).to eq(:AWAITING_USER_MOVE)
+  it 'does not return move from user as it isnt available' do
+    expect(gui_interface.get_user_move(nil)).to eq(TTT::Game::MOVE_NOT_AVAILABLE)
   end
 
   it 'populates game choices selection menu from Game object' do

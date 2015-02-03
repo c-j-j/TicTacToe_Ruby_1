@@ -92,7 +92,7 @@ module TTT
 
       def get_user_move(_)
         update_game_state(:AWAITING_USER_MOVE)
-        :AWAITING_USER_MOVE
+        TTT::Game::MOVE_NOT_AVAILABLE
       end
 
       def prepare_next_game_type_to_create(game_type)
