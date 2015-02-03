@@ -29,12 +29,12 @@ module TTT
       INVALID_MOVE_MESSAGE = 'Invalid move'
       TOP_PADDING = 1
 
-      def initialize(game)
+      def initialize(game = nil)
         super(nil)
         @game_state = :INITIAL
         @next_game_type_to_build = TTT::Game.default_game_type
         @next_board_size_to_build = TTT::Game.default_board_size
-        @game = game unless game.nil?
+        @game = game
         init_screen
         show
       end
@@ -42,7 +42,7 @@ module TTT
       def init_screen
         @ui_grid = Qt::GridLayout.new(self)
         setWindowTitle("Tic Tac Toe")
-        resize(500, 500)
+        resize(600, 600)
         create_widgets
         position_widgets
       end
@@ -104,11 +104,10 @@ module TTT
       end
 
       def init_board
-        clear_board
+        clear_board unless @cells.nil?
         @cells = []
         (0...board_size).each do |cell_index|
           cell = TTT::UI::GUIBoardCell.new(self, cell_index)
-          cell.text = ''
           row, column = get_row_and_column_from_index(cell_index)
           @ui_grid.addWidget(cell, row + TOP_PADDING, column)
           @cells << cell
@@ -137,10 +136,6 @@ module TTT
       end
 
       def clear_board
-        if @cells.nil?
-          return
-        end
-
         @cells.each do |cell|
           cell.hide
           @ui_grid.removeWidget(cell)
