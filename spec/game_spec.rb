@@ -113,43 +113,32 @@ describe TTT::Game do
     expect(stub_interface.tie_message_printed?).to be false
   end
 
-  it 'builds hvh game based on user input' do
-    stub_interface.specify_game_type(TTT::Game::HVH)
-    stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_by_calling_interface(stub_interface)
+  it 'builds hvh game' do
+    game = TTT::Game.build_game(stub_interface, TTT::Game::HVH, 3)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
 
-  it 'builds hvc game based on user input' do
-    stub_interface.specify_game_type(TTT::Game::HVC)
-    stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_by_calling_interface(stub_interface)
+  it 'builds hvc game' do
+    game = TTT::Game.build_game(stub_interface, TTT::Game::HVC, 3)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type(TTT::Game::CVH)
-    stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_by_calling_interface(stub_interface)
+    game = TTT::Game.build_game(stub_interface, TTT::Game::CVH, 3)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
   end
 
   it 'builds cvh game based on user input' do
-    stub_interface.specify_game_type(TTT::Game::CVC)
-    stub_interface.specify_board_size(3)
-    game = TTT::Game.build_game_by_calling_interface(stub_interface)
+    game = TTT::Game.build_game(stub_interface, TTT::Game::CVC, 3)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
   end
 
   it 'builds game with board size of 4' do
-    stub_interface.specify_game_type(TTT::Game::CVC)
-    stub_interface.specify_board_size(4)
-    game = TTT::Game.build_game_by_calling_interface(stub_interface)
-    expect(game.row_size).to be(4)
+    game = TTT::Game.build_game(stub_interface, TTT::Game::CVH, 4)
   end
 
   it 'default board size is 3' do

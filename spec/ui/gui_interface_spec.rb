@@ -114,7 +114,7 @@ describe TTT::UI::GUIInterface do
   end
 
   it 'populates size choices selection menu from Game' do
-    expect(gui_interface.game_sizes.count).to eq(TTT::Game::GAME_SIZES.size)
+    expect(gui_interface.game_sizes.count).to eq(TTT::Game::BOARD_SIZES.size)
   end
 
   it 'default board size is first option provided by Game' do

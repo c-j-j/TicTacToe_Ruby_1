@@ -24,17 +24,13 @@ module TTT
       CVC
     ]
 
-    GAME_SIZES = [
+    BOARD_SIZES = [
       3,
       4
     ]
 
     X = 'X'
     O = 'O'
-
-    def self.build_game_by_calling_interface(user_interface)
-      build_game(user_interface, user_interface.get_game_type(GAME_TYPES), user_interface.get_board_size(*GAME_SIZES))
-    end
 
     def self.build_game(user_interface, game_type, board_size)
       case game_type
@@ -51,7 +47,7 @@ module TTT
     end
 
     def self.default_board_size
-      GAME_SIZES[0]
+      BOARD_SIZES[0]
     end
 
     def self.default_game_type

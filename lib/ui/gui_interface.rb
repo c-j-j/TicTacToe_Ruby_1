@@ -152,7 +152,7 @@ module TTT
       end
 
       def create_game_size_combo_box
-        create_combo_box(TTT::Game::GAME_SIZES, PREPARE_BOARD_SIZE_FUNCTION)
+        create_combo_box(TTT::Game::BOARD_SIZES, PREPARE_BOARD_SIZE_FUNCTION)
       end
 
       def create_combo_box(choices, select_function)

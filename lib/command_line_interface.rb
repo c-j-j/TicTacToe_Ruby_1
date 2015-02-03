@@ -1,16 +1,34 @@
+require 'lib/game'
+
 module TTT
   class CommandLineInterface
 
+    attr_reader :game
     TIE_MESSAGE = 'Game is a tie.'
     WINNING_MESSAGE = '%s has won.'
     NEXT_PLAYER_TO_GO = '%s\'s turn.'
     INVALID_MOVE_MESSAGE = 'Invalid input. Try again...'
     PICK_GAME_TYPE = "Pick Game Type?\n"
     PICK_BOARD_SIZE = "Pick Board Size? Options are:\n"
+    PRESS_ENTER = 'Press enter to play'
 
-    def initialize(input=$stdin, output=$stdout)
+    def initialize(input=$stdin, output=$stdout, game=nil)
       @input = input
       @output = output
+      @game = game
+    end
+
+    def show
+      prepare_game if @game.nil?
+      @output.puts PRESS_ENTER
+      get_user_input
+      @game.play
+    end
+
+    def prepare_game
+      game_type = get_game_type(Game::GAME_TYPES)
+      board_size = get_board_size(*Game::BOARD_SIZES)
+      @game = TTT::Game.build_game(self, game_type, board_size)
     end
 
     def print_board(board)

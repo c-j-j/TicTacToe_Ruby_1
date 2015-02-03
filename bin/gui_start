@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/ui/gui_interface.rb'
+$:<< File.join(File.dirname(__FILE__), '..')
+require 'lib/ui/gui_interface.rb'
 
 app = Qt::Application.new ARGV
 gui_interface = TTT::UI::GUIInterface.new(nil)

@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-require_relative '../lib/command_line_interface.rb'
-require_relative '../lib/game.rb'
 
-TTT::Game.build_game_by_calling_interface(TTT::CommandLineInterface.new).play
+$:<< File.join(File.dirname(__FILE__), '..')
+require 'lib/command_line_interface.rb'
+require 'lib/game.rb'
+
+TTT::CommandLineInterface.new.show
