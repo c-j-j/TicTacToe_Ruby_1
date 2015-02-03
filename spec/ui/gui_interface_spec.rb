@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 require 'lib/ui/gui_interface'
 require 'lib/board'
 require 'spec/stubs/stub_game'

@@ -1,4 +1,4 @@
-require_relative '../spec_helper.rb'
+require 'spec_helper'
 require 'lib/ui/gui_board_cell'
 
 describe TTT::UI::GUIBoardCell do

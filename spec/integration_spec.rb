@@ -1,4 +1,4 @@
-require_relative 'spec_helper.rb'
+require 'spec_helper'
 require 'game.rb'
 require 'spec/stubs/stub_interface.rb'
 

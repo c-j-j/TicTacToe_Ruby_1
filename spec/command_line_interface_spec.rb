@@ -1,4 +1,4 @@
-require_relative 'spec_helper.rb'
+require 'spec_helper'
 require 'lib/command_line_interface.rb'
 require 'lib/board.rb'
 require 'spec/helpers/board_helper.rb'
