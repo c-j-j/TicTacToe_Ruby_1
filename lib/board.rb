@@ -1,8 +1,9 @@
 module TTT
   class Board
-    attr_accessor :positions
 
     def initialize(number_of_rows, positions=nil)
+      @number_of_rows = number_of_rows
+
       if positions.nil?
         @positions = Array.new(number_of_rows ** 2)
       else
@@ -10,28 +11,28 @@ module TTT
       end
     end
 
-    def copy
-      Board.new(@size, positions.dup)
+    def get_mark_at_position(position)
+      positions[position]
     end
 
-    def ==(o)
-      o.class == self.class && o.positions == positions
+    def copy
+      Board.new(@number_of_rows, positions.dup)
     end
 
     def empty_positions
-      position_indexes = @positions.map.with_index do |position, index|
+      position_indexes = positions.map.with_index do |position, index|
         index if position.nil?
       end
       position_indexes.reject{|element| element.nil?}
     end
 
     def add_move(mark, position)
-      @positions[position] = mark
+      positions[position] = mark
     end
 
     def is_move_valid?(move)
-      return false unless (0...@positions.length) === move
-      return @positions[move].nil?
+      return false unless (0...positions.length) === move
+      return positions[move].nil?
     end
 
     def won?
@@ -55,7 +56,11 @@ module TTT
     end
 
     def rows
-      @positions.each_slice(Math.sqrt(@positions.size)).to_a
+      positions.each_slice(@number_of_rows).to_a
+    end
+
+    def number_of_positions
+      positions.size
     end
 
     private
@@ -93,7 +98,11 @@ module TTT
     end
 
     def is_board_full?
-      @positions.all?{|position| position != nil}
+      positions.all?{|position| position != nil}
     end
+
+    private
+
+    attr_accessor :positions
   end
 end

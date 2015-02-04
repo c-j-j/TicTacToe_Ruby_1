@@ -1,6 +1,6 @@
 require 'qt'
-require 'ui/gui_board_cell'
-require 'game'
+require 'lib/ui/gui_board_cell'
+require 'lib/game'
 
 module TTT
   module UI
@@ -86,7 +86,7 @@ module TTT
 
       def print_board(board)
         cells.each_with_index do |cell, index|
-          cell.text = board.positions[index]
+          cell.text = board.get_mark_at_position(index)
         end
       end
 

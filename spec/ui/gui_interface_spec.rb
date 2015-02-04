@@ -92,7 +92,7 @@ describe TTT::UI::GUIInterface do
     board = generate_board
     gui_interface.print_board(board)
     gui_interface.cells.each_with_index do |cell, index|
-      expect(cell.text).to eq(board.positions[index])
+      expect(cell.text).to eq(board.get_mark_at_position(index))
     end
   end
 

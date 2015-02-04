@@ -165,14 +165,8 @@ describe TTT::CommandLineInterface do
     expect(display.game).to be_kind_of(TTT::Game)
   end
 
-  it 'prompts user to press enter to start game' do
-    display = TTT::CommandLineInterface.new(StringIO.new("\n"), output, stub_game)
-    display.show
-    expect(output.string).to include(TTT::CommandLineInterface::PRESS_ENTER)
-  end
-
   it 'plays game when user has pressed key' do
-    display = TTT::CommandLineInterface.new(StringIO.new("\n"), output, stub_game)
+    display = TTT::CommandLineInterface.new(input, output, stub_game)
     display.show
     expect(stub_game.play_called?).to eq(true)
   end

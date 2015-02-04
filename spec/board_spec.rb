@@ -12,7 +12,7 @@ describe TTT::Board do
   it 'marks board with player move 0' do
     player_move = 0
     board_3x3.add_move(mark, player_move)
-    expect(board_3x3.positions[player_move]).to be(mark)
+    expect(board_3x3.get_mark_at_position(player_move)).to be(mark)
   end
 
   it 'game not over when board is empty' do
@@ -142,16 +142,19 @@ describe TTT::Board do
 
   it 'board filters empty positions' do
     board_helper.add_moves_to_board(board_3x3, [0], mark)
-    expect(board_3x3.empty_positions.size).to eq(board_3x3.positions.size - 1)
+    expect(board_3x3.empty_positions.size).to eq(board_3x3.number_of_positions - 1)
     expect(board_3x3.empty_positions).to_not include(0)
   end
 
   it 'board can be created from other board' do
     board_helper.add_moves_to_board(board_3x3, [0], mark)
     board_3x3_duplicate = board_3x3.copy
-    expect(board_3x3_duplicate).to eq(board_3x3)
     board_3x3_duplicate.add_move(mark,1)
-    expect(board_3x3.positions[1]).to_not eq(mark)
+    expect(board_3x3.get_mark_at_position(1)).to_not eq(mark)
+  end
+
+  it 'returns row size' do
+    board_3x3.rows
   end
 
   def test_mark_on_winning_line(board, moves)

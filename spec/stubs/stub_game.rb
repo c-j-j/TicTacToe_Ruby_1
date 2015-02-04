@@ -63,7 +63,7 @@ module TTT
     end
 
     def number_of_positions
-      @board.positions.size
+      @board.number_of_positions
     end
 
     def row_size

@@ -30,7 +30,7 @@ describe TTT::Game do
 
   it 'adds move to board' do
     game.add_move_to_board(0)
-    expect(board.positions[0]).to eq(stub_player_1.mark)
+    expect(board.get_mark_at_position(0)).to eq(stub_player_1.mark)
   end
 
   it 'current player initally set to player 1' do
@@ -80,7 +80,7 @@ describe TTT::Game do
   end
 
   it 'gets number of positions from board' do
-    expect(game.number_of_positions).to eq(board.positions.size)
+    expect(game.number_of_positions).to eq(board.number_of_positions)
   end
 
   it 'checks with board if move is valid' do
@@ -91,7 +91,7 @@ describe TTT::Game do
     board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
     player_move = 2
     game.continue_game_with_move(player_move)
-    expect(board.positions[player_move]).to eq(stub_player_1.mark)
+    expect(board.get_mark_at_position(player_move)).to eq(stub_player_1.mark)
   end
 
   it 'swaps player when new turn is played' do

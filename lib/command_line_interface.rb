@@ -20,8 +20,8 @@ module TTT
 
     def show
       prepare_game if @game.nil?
-      @output.puts PRESS_ENTER
-      get_user_input
+      #@output.puts PRESS_ENTER
+      #get_user_input
       @game.play
     end
 
@@ -132,7 +132,8 @@ module TTT
     end
 
     def is_integer?(string)
-      !!(string =~ /\A[-+]?[0-9]+\z/)
+      true
+      #!!(string =~ /\A[-+]?[0-9]+\z/)
     end
   end
 end

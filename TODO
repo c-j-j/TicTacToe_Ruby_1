@@ -14,3 +14,4 @@ Issues with GUI
 ------------------------------
 Game loop needed modifiying to allow it to quit when waiting for user input
 Game needed way to restart game loop later on
+Needed to switch CLI and Game such that CLI creates Game, Game does not ask CLI to create itself

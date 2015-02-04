@@ -35,15 +35,14 @@ module TTT
     def self.build_game(user_interface, game_type, board_size)
       case game_type
       when HVH
-        game = build_hvh_game(user_interface, board_size)
+        build_hvh_game(user_interface, board_size)
       when HVC
-        game = build_hvc_game(user_interface, board_size)
+        build_hvc_game(user_interface, board_size)
       when CVH
-        game = build_cvh_game(user_interface, board_size)
+        build_cvh_game(user_interface, board_size)
       when CVC
-        game = build_cvc_game(user_interface, board_size)
+        build_cvc_game(user_interface, board_size)
       end
-      game
     end
 
     def self.default_board_size
@@ -103,7 +102,7 @@ module TTT
     end
 
     def number_of_positions
-      @board.positions.size
+      @board.number_of_positions
     end
 
     def move_valid?(position)
