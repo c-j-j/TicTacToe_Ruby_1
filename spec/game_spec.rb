@@ -118,24 +118,32 @@ describe TTT::Game do
     game = TTT::Game.build_game(stub_interface, TTT::Game::HVH, 3)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
+    expect(game.player_1.mark).to eq(TTT::Game::X)
+    expect(game.player_2.mark).to eq(TTT::Game::O)
   end
 
   it 'builds hvc game' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::HVC, 3)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
+    expect(game.player_1.mark).to eq(TTT::Game::X)
+    expect(game.player_2.mark).to eq(TTT::Game::O)
   end
 
   it 'builds cvh game based on user input' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::CVH, 3)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::HumanPlayer)
+    expect(game.player_1.mark).to eq(TTT::Game::X)
+    expect(game.player_2.mark).to eq(TTT::Game::O)
   end
 
-  it 'builds cvh game based on user input' do
+  it 'builds cvc game based on user input' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::CVC, 3)
     expect(game.player_1).to be_kind_of(TTT::ComputerPlayer)
     expect(game.player_2).to be_kind_of(TTT::ComputerPlayer)
+    expect(game.player_1.mark).to eq(TTT::Game::X)
+    expect(game.player_2.mark).to eq(TTT::Game::O)
   end
 
   it 'builds game with board size of 4' do

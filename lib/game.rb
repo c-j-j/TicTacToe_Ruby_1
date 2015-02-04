@@ -32,16 +32,22 @@ module TTT
     X = 'X'
     O = 'O'
 
+    MARKS = [X, O]
+
     def self.build_game(user_interface, game_type, board_size)
       case game_type
       when HVH
-        build_hvh_game(user_interface, board_size)
+        new_game(user_interface, new_human_player(user_interface),
+                 new_human_player(user_interface), board_size)
       when HVC
-        build_hvc_game(user_interface, board_size)
+         new_game(user_interface, new_human_player(user_interface),
+                 new_computer_player, board_size)
       when CVH
-        build_cvh_game(user_interface, board_size)
+          new_game(user_interface, new_computer_player,
+                 new_human_player(user_interface), board_size)
       when CVC
-        build_cvc_game(user_interface, board_size)
+          new_game(user_interface, new_computer_player,
+                 new_computer_player, board_size)
       end
     end
 
@@ -124,28 +130,26 @@ module TTT
       @board.game_over?
     end
 
-    def self.build_hvh_game(user_interface, board_size)
-      p1 = TTT::HumanPlayer.new(user_interface, X)
-      p2 = TTT::HumanPlayer.new(user_interface, O)
-      new_game(user_interface, p1, p2, board_size)
+    def self.new_human_player(user_interface)
+      TTT::HumanPlayer.new(user_interface, next_mark)
     end
 
-    def self.build_cvh_game(user_interface, board_size)
-      p1 = TTT::ComputerPlayer.new(O, X)
-      p2 = TTT::HumanPlayer.new(user_interface, X)
-      new_game(user_interface, p1, p2, board_size)
+    def self.new_computer_player
+      mark = next_mark
+      opponent_mark = get_opponent_mark(mark)
+      p1 = TTT::ComputerPlayer.new(mark, opponent_mark)
     end
 
-    def self.build_hvc_game(user_interface, board_size)
-      p1 = TTT::HumanPlayer.new(user_interface, X)
-      p2 = TTT::ComputerPlayer.new(O, X)
-      new_game(user_interface, p1, p2, board_size)
+    def self.get_opponent_mark(mark)
+      MARKS.find do |current_mark|
+       current_mark != mark
+      end
     end
 
-    def self.build_cvc_game(user_interface, board_size)
-      p1 = TTT::ComputerPlayer.new(X, O)
-      p2 = TTT::ComputerPlayer.new(O, X)
-      new_game(user_interface, p1, p2, board_size)
+    def self.next_mark
+      next_mark = MARKS.shift
+      MARKS.push(next_mark)
+      next_mark
     end
 
     def self.new_game(user_interface, player_1, player_2, board_size)
