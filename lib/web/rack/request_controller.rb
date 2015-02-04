@@ -1,3 +1,5 @@
+require 'game'
+
 module TTT
   module Web
     module Rack
@@ -24,7 +26,8 @@ module TTT
             # template parsed
             @erb_file_parser.parse(PLAY_VIEW)
           else
-            @erb_file_parser.parse(INDEX_VIEW)
+            variables = {game_types: TTT::Game::GAME_TYPES, board_sizes: TTT::Game::BOARD_SIZES}
+            @erb_file_parser.parse(INDEX_VIEW, variables)
           end
         end
       end
