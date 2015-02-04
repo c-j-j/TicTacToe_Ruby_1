@@ -1,17 +1,10 @@
-Require relative
-- ui not responsive during long computer wait
+Tic Tac Toe : WEB
 
-Issues with converting 3x3 to 4x4 and what classes are too dependent on board's internal structure
------------------------------------------------------------------------
-ComputerPlayer was testing on the board position in a way that was for a 3x3 board
-Many places testing with a 3x3 board, in particular the board_spec. Is thorough testing of 4x4 necessary?
-Display needed updating to select whether or not 3x3 or 4x4 board
-Display print_board will need updating, we assumed 3x3
-Many constructors instantiating board are having to be changed to explicityl state we want a 3x3 game. Default parameter perhaps the answer?
+1. Simple hello world rack server
+2. rack server which gets options from game
+3. rack server which generates board
+4. means of converting board in query param and getting game to play with board
 
 
-Issues with GUI
-------------------------------
-Game loop needed modifiying to allow it to quit when waiting for user input
-Game needed way to restart game loop later on
-Needed to switch CLI and Game such that CLI creates Game, Game does not ask CLI to create itself
+Desired tasks if time permitting
+- better way to pass instance variables to erb in hash.
