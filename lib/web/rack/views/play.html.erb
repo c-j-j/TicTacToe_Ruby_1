@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#my-div {
+  background-color: #fff;
+  display: block;
+  border: 1px solid black;
+  width: 32%;
+  float: left;
+  padding-bottom: 32%;
+}
+a.fill-div {
+  position: absolute;
+  display: block;
+  font-size: 20vw;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+  <% unless @board.nil? %>
+     <% (0...@board.number_of_positions).each do |index| %>
+  <div id="my-div">
+    <a href="play_move?position=<%= index %>" class="fill-div"><%= @board.get_mark_at_position(index) %></a>
+  </div>
+<% end %>
+<% end %>
+</div>
+<%= @status %>
+</body>
+</html>

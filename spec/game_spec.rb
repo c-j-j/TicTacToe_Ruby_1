@@ -157,4 +157,5 @@ describe TTT::Game do
   it 'default game type is HVH' do
     expect(TTT::Game.default_game_type).to eq(TTT::Game::HVH)
   end
+
 end

@@ -8,6 +8,10 @@ module TTT
       @print_board_results = []
     end
 
+    def play_turn(game)
+      {:response => 'data'}
+    end
+
     def specify_game_type(game_type)
       @game_type = game_type
     end

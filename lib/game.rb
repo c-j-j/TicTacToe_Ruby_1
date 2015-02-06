@@ -9,6 +9,7 @@ module TTT
     attr_reader :board
     attr_reader :player_1
     attr_reader :player_2
+    attr_reader :game_type
 
     MOVE_NOT_AVAILABLE = -1
 
@@ -35,19 +36,23 @@ module TTT
     MARKS = [X, O]
 
     def self.build_game(user_interface, game_type, board_size)
+      build_game_with_board(user_interface, game_type, Board.new(board_size))
+    end
+
+    def self.build_game_with_board(user_interface, game_type, board)
       case game_type
       when HVH
         new_game(user_interface, new_human_player(user_interface),
-                 new_human_player(user_interface), board_size)
+                 new_human_player(user_interface), board)
       when HVC
-         new_game(user_interface, new_human_player(user_interface),
-                 new_computer_player, board_size)
+        new_game(user_interface, new_human_player(user_interface),
+                 new_computer_player, board)
       when CVH
-          new_game(user_interface, new_computer_player,
-                 new_human_player(user_interface), board_size)
+        new_game(user_interface, new_computer_player,
+                 new_human_player(user_interface), board)
       when CVC
-          new_game(user_interface, new_computer_player,
-                 new_computer_player, board_size)
+        new_game(user_interface, new_computer_player,
+                 new_computer_player, board)
       end
     end
 
@@ -79,10 +84,23 @@ module TTT
       display_outcome if game_over?
     end
 
+    def play2
+      next_move = get_next_move
+      if next_move != MOVE_NOT_AVAILABLE
+        add_move_to_board(next_move)
+        swap_current_player
+      end
+      print_board
+    end
+
     def continue_game_with_move(position)
       add_move_to_board(position)
       swap_current_player
       play
+    end
+
+    def play_turn(position)
+
     end
 
     def display_outcome
@@ -142,7 +160,7 @@ module TTT
 
     def self.get_opponent_mark(mark)
       MARKS.find do |current_mark|
-       current_mark != mark
+        current_mark != mark
       end
     end
 
@@ -152,8 +170,8 @@ module TTT
       next_mark
     end
 
-    def self.new_game(user_interface, player_1, player_2, board_size)
-      TTT::Game.new(Board.new(board_size), user_interface, player_1, player_2)
+    def self.new_game(user_interface, player_1, player_2, board)
+      TTT::Game.new(board, user_interface, player_1, player_2)
     end
   end
 end

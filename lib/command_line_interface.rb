@@ -1,16 +1,13 @@
 require 'lib/game'
+require 'ui/constants'
 
 module TTT
   class CommandLineInterface
+    include TTT::UI
 
     attr_reader :game
-    TIE_MESSAGE = 'Game is a tie.'
-    WINNING_MESSAGE = '%s has won.'
-    NEXT_PLAYER_TO_GO = '%s\'s turn.'
-    INVALID_MOVE_MESSAGE = 'Invalid input. Try again...'
     PICK_GAME_TYPE = "Pick Game Type?\n"
     PICK_BOARD_SIZE = "Pick Board Size? Options are:\n"
-    PRESS_ENTER = 'Press enter to play'
 
     def initialize(input=$stdin, output=$stdout, game=nil)
       @input = input

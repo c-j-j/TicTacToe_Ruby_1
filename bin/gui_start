@@ -3,7 +3,7 @@
 $:<< File.join(File.dirname(__FILE__), '..')
 require 'lib/ui/gui_interface'
 
+use Rack::Session::Pool
 app = Qt::Application.new ARGV
 gui_interface = TTT::UI::GUIInterface.new(nil)
 app.exec
-

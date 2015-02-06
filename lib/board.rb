@@ -1,6 +1,8 @@
 module TTT
   class Board
 
+    attr_reader :number_of_rows
+
     def initialize(number_of_rows, positions=nil)
       @number_of_rows = number_of_rows
 

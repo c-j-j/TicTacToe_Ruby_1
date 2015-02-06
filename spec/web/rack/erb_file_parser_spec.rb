@@ -1,7 +1,7 @@
 require 'web/rack/erb_file_parser'
 require 'erb'
-describe TTT::Web::Rack::ERBFileParser do
-  let(:erb_file_parser) { TTT::Web::Rack::ERBFileParser.new }
+describe TTT::Web::ERBFileParser do
+  let(:erb_file_parser) { TTT::Web::ERBFileParser.new }
   it 'parses file without parsing variables' do
     file = filepath('test_data/no_variables.erb')
     parsed_string = erb_file_parser.parse(file)
