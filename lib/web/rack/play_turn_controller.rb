@@ -38,6 +38,7 @@ module TTT
       end
 
       def game_over?
+        #todo this logic doesnt belong here
         @game_response[:status] == TTT::Game::WON || @game_response[:status] == TTT::Game::DRAW
       end
 

@@ -22,6 +22,7 @@ describe TTT::Web::PlayTurnController do
 
   it 'creates game if it doesnt exist' do
     get('/', {'game_type' => 'Human Vs Human', 'board_size' => '3'})
+    #TODO test
   end
 
   it 'sets div size to 24% when 4x4 board is set' do
