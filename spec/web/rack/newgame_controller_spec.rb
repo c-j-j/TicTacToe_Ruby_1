@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'spec/stubs/stub_game'
 require 'web/rack/newgame_controller'
-require 'web/rack/web_interface'
 require 'spec/stubs/stub_interface'
 
 describe TTT::Web::NewGameController do
@@ -25,4 +24,5 @@ describe TTT::Web::NewGameController do
     game = env['rack.session'][:game]
     expect(game.row_size).to eq(3)
   end
+
 end

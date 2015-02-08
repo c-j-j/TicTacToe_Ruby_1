@@ -97,5 +97,13 @@ module TTT
     def draw_called?
       @draw_called
     end
+
+    def play_turn_response(play_turn_response)
+      @play_turn_response = play_turn_response
+    end
+
+    def play_turn(move)
+      @play_turn_response
+    end
   end
 end

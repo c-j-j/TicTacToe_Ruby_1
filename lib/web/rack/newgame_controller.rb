@@ -5,6 +5,8 @@ module TTT
   module Web
     class NewGameController
 
+      PLAY_VIEW = File.dirname(__FILE__) + '/views/play.html.erb'
+
       def initialize(web_interface)
         @web_interface = web_interface
       end
@@ -13,7 +15,8 @@ module TTT
         req = Rack::Request.new(env)
         game = prepare_game(extract_game_type(req), extract_board_size(req))
         save_game_in_session(req, game)
-        [200, {'Content-Type' => 'text/html'}, [@web_interface.play_turn(game)]]
+        @game_response = @web_interface.play_turn(game)
+        [200, {'Content-Type' => 'text/html'}, [generate_response]]
       end
 
       private
@@ -32,6 +35,12 @@ module TTT
 
       def extract_board_size(request)
         request.params['board_size'].to_i
+      end
+
+      private
+
+      def generate_response
+        ERB.new(File.new(PLAY_VIEW, "r").read).result(binding)
       end
     end
   end

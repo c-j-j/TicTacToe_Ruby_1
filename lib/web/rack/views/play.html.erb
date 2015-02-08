@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<% if @refresh_page %>
+  <meta http-equiv="refresh" content="0;URL='/play_move'" />
+<% end %>
+<title>TicTacToe</title>
 <style>
 * {
   margin: 0;
@@ -18,10 +21,11 @@
   background-color: #fff;
   display: block;
   border: 1px solid black;
-  width: 32%;
   float: left;
-  padding-bottom: 32%;
+  width: <%= @cell_size %>;
+  padding-bottom: <%= @cell_size %>;
 }
+
 a.fill-div {
   position: absolute;
   display: block;
@@ -34,15 +38,16 @@ a.fill-div {
 </style>
 </head>
 <body>
+<a href="/reset_game">Replay</a>
 <div id="container">
-  <% unless @board.nil? %>
-     <% (0...@board.number_of_positions).each do |index| %>
-  <div id="my-div">
-    <a href="play_move?position=<%= index %>" class="fill-div"><%= @board.get_mark_at_position(index) %></a>
+  <% unless @game_response[:board].nil? %>
+    <% (0...@game_response[:board].number_of_positions).each do |index| %>
+    <div id="my-div">
+    <a href="play_move?position=<%= index %>" class="fill-div"><%= @game_response[:board].get_mark_at_position(index) %></a>
   </div>
 <% end %>
 <% end %>
 </div>
-<%= @status %>
+<%= @game_response[:status] %>
 </body>
 </html>

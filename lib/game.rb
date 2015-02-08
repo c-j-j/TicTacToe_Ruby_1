@@ -18,6 +18,8 @@ module TTT
     CVH = 'Computer Vs Human'
     CVC = 'Computer Vs Computer'
 
+    COMPUTER_PLAYER = 'Computer Player'
+
     GAME_TYPES = [
       HVH,
       HVC,
@@ -29,6 +31,10 @@ module TTT
       3,
       4
     ]
+
+    WON = :won
+    DRAW = :draw
+    IN_PROGRESS = :in_progress
 
     X = 'X'
     O = 'O'
@@ -70,6 +76,7 @@ module TTT
       @player_1 = player_1
       @player_2 = player_2
       @current_player = @player_1
+      @status = IN_PROGRESS
     end
 
     def play
@@ -84,23 +91,19 @@ module TTT
       display_outcome if game_over?
     end
 
-    def play2
-      next_move = get_next_move
-      if next_move != MOVE_NOT_AVAILABLE
-        add_move_to_board(next_move)
-        swap_current_player
-      end
-      print_board
-    end
-
     def continue_game_with_move(position)
       add_move_to_board(position)
       swap_current_player
       play
     end
 
-    def play_turn(position)
+    def play_turn(move = nil)
+      if game_over?
+        return prepare_response
+      end
 
+      process_turn(move)
+      prepare_response
     end
 
     def display_outcome
@@ -143,6 +146,39 @@ module TTT
     end
 
     private
+
+    def process_turn(move)
+      move = move || @current_player.next_move(@board)
+      if move != MOVE_NOT_AVAILABLE
+        add_move_to_board(move)
+        swap_current_player
+      end
+    end
+
+    def prepare_response
+      update_status_with_outcome
+
+      {
+        :board => @board,
+        :status => @status,
+        :winner => @winner,
+        :current_player_mark => @current_player.mark,
+        :current_player_is_computer => determine_if_computer_player(@current_player)
+      }
+    end
+
+    def determine_if_computer_player(player)
+      class_name = player.class.name
+      class_name == TTT::ComputerPlayer.name
+    end
+
+    def update_status_with_outcome
+      if @board.won?
+        @status = WON if @board.won?
+        @winner = @board.winner
+      end
+      @status = DRAW if @board.draw?
+    end
 
     def game_over?
       @board.game_over?
