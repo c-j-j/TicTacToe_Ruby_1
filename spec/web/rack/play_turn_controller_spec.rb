@@ -5,8 +5,8 @@ require 'spec/stubs/stub_game'
 require 'ostruct'
 
 describe TTT::Web::PlayTurnController do
-  let(:game_model_data) { OpenStruct.new }
   include Rack::Test::Methods
+  let(:game_model_data) { OpenStruct.new }
 
   let(:controller) { TTT::Web::PlayTurnController.new }
   let(:game) { TTT::StubGame.new }
