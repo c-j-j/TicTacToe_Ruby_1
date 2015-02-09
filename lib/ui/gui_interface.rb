@@ -56,14 +56,29 @@ module TTT
         end
 
         update_game_state(:IN_PROGRESS)
+        #Todo replace with play turn
         @game.continue_game_with_move(position)
+
+        #TODO check if next player is computer and run small loop here?
+        #Or use play_game(@game)
       end
 
       #TODO unable to unit test as is
       def start_game
         create_new_game
         init_board
-        @game.play
+        play_game(@game)
+      end
+
+      def play_game(game)
+        until game.game_over? # or current player is computer
+          game_model_data = game.model_data
+          print_board(game_model_data.board)
+          print_next_player_to_go(game_model_data.current_player_mark)
+          game.play_turn
+        end
+
+        #print_outcome(game.model_data)
       end
 
       def print_next_player_to_go(mark)
@@ -85,8 +100,10 @@ module TTT
       end
 
       def print_board(board)
-        cells.each_with_index do |cell, index|
-          cell.text = board.get_mark_at_position(index)
+        unless cells.nil? #Todo this is not the answer, fix
+          cells.each_with_index do |cell, index|
+            cell.text = board.get_mark_at_position(index)
+          end
         end
       end
 

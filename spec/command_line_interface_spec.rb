@@ -58,7 +58,6 @@ describe TTT::CommandLineInterface do
     })
     expect(output.string).to include(TTT::CommandLineInterface::PICK_GAME_TYPE)
     expect(output.string).to include(game_type_description)
-
   end
 
   it 'user inputs integer to specify game type' do

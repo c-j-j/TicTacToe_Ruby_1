@@ -3,9 +3,12 @@ require 'lib/ui/gui_interface'
 require 'lib/board'
 require 'spec/stubs/stub_game'
 require 'spec/helpers/board_helper'
+require 'ostruct'
 
 describe TTT::UI::GUIInterface do
 
+  let(:board) { TTT::Board.new(3) }
+  let(:board_helper) { TTT::BoardHelper.new }
   let(:position) {1}
   let(:stub_game){TTT::StubGame.new}
   let(:gui_interface){TTT::UI::GUIInterface.new(stub_game)}
@@ -135,6 +138,14 @@ describe TTT::UI::GUIInterface do
     game = gui_interface.create_new_game
     expect(game).to be_kind_of(TTT::Game)
     expect(game.row_size).to eq(gui_interface.next_board_size_to_build)
+  end
+
+  it 'calls play turn when game is not over' do
+    stub_game.play_turn_ends_game
+    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_model_data(game_model)
+    gui_interface.play_game(stub_game)
+    expect(stub_game.play_turn_called?).to be(true)
   end
 
   def generate_board
