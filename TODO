@@ -1,11 +1,7 @@
 Tic Tac Toe : WEB
 
-game probably wants to return a struct rather than a hash
 styling
 - css in own file
-
-ResetController needs maybe renaming and TESTING
-Refactor NewGame Controller to redirect to play_turn once it has created a game
 
 CLI/GUI need to be refactored to use new play mechanism
 
@@ -16,8 +12,11 @@ Get EasyMotion working
 
 Slow rails tests
 
-game.play_turn to replace continue_game_with_move
-game needs to be tidieed up
-
 Desired tasks if time permitting
-- better way to pass instance variables to erb in hash.
+
+IPM
+model_data => model_data?
+Speak to Christophe regarding RA/rails tests
+Thats not yours
+Using GameAdaper in rails
+Growing Object Oriented Software Guided By Tests

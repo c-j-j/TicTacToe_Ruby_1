@@ -101,12 +101,12 @@ module TTT
     def play_turn(move)
     end
 
-    def set_information(game_information)
-      @game_information = game_information
+    def set_model_data(game_model_data)
+      @game_model_data = game_model_data
     end
 
-    def information
-      @game_information
+    def model_data
+      @game_model_data
     end
   end
 end

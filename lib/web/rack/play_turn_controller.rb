@@ -18,10 +18,10 @@ module TTT
         req = Rack::Request.new(env)
         game = retrieve_game(req)
         game.play_turn(extract_position_from_param(req))
-        @game_information = game.information
+        @game_model_data = game.model_data
 
         determine_if_refresh_required
-        determine_cell_size(@game_information)
+        determine_cell_size(@game_model_data)
 
         [200,
          {'Content-Type' => 'text/html'},
@@ -30,17 +30,17 @@ module TTT
 
       private
 
-      def determine_cell_size(game_information)
-        if game_information.row_size == 4
+      def determine_cell_size(game_model_data)
+        if game_model_data.row_size == 4
           @cell_size = '24%'
-        elsif game_information.row_size == 3
+        elsif game_model_data.row_size == 3
           @cell_size = '32%'
         end
       end
 
       def game_over?
         #todo this logic doesnt belong here
-        @game_information[:status] == TTT::Game::WON || @game_information[:status] == TTT::Game::DRAW
+        @game_model_data[:status] == TTT::Game::WON || @game_model_data[:status] == TTT::Game::DRAW
       end
 
       def generate_response
@@ -48,7 +48,7 @@ module TTT
       end
 
       def determine_if_refresh_required
-        if @game_information[:current_player_is_computer] && !game_over?
+        if @game_model_data[:current_player_is_computer] && !game_over?
           @refresh_page = true
         end
       end

@@ -40,14 +40,14 @@ a.fill-div {
   <div class="row">
       <div class="col-md-5 col-md-offset-4">
         <h1>Tic Tac Toe</h1>
-        <% unless @game_information[:board].nil? %>
-    <% (0...@game_information[:board].number_of_positions).each do |index| %>
+        <% unless @game_model_data[:board].nil? %>
+    <% (0...@game_model_data[:board].number_of_positions).each do |index| %>
     <div id="my-div">
-    <a href="play_move?position=<%= index %>" class="fill-div"><%= @game_information[:board].get_mark_at_position(index) %></a>
+    <a href="play_move?position=<%= index %>" class="fill-div"><%= @game_model_data[:board].get_mark_at_position(index) %></a>
   </div>
 <% end %>
 <% end %>
-<h4>Status: <%= @game_information[:status] %></h4>
+<h4>Status: <%= @game_model_data[:status] %></h4>
 <a href="/">Click Here to set up a new game</a>
 </div>
 </div>

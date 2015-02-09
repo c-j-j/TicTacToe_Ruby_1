@@ -1,5 +1,5 @@
 require 'lib/human_player.rb'
-require 'lib/game_information'
+require 'lib/game_model_data'
 require 'lib/computer_player.rb'
 require 'lib/board.rb'
 
@@ -105,8 +105,8 @@ module TTT
       update_status
     end
 
-    def information
-      TTT::GameInformation.new(@board, @status, @winner, @current_player.mark, determine_if_computer_player(@current_player), row_size)
+    def model_data
+      TTT::GameModelData.new(@board, @status, @winner, @current_player.mark, determine_if_computer_player(@current_player), row_size)
     end
 
     #deprecate
