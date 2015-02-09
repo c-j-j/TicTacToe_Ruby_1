@@ -4,6 +4,7 @@ require 'lib/board.rb'
 require 'spec/helpers/board_helper.rb'
 require 'spec/stubs/stub_player.rb'
 require 'spec/stubs/stub_game.rb'
+require 'ostruct'
 
 describe TTT::CommandLineInterface do
 
@@ -16,20 +17,6 @@ describe TTT::CommandLineInterface do
   let(:output) { StringIO.new }
   let(:display) { TTT::CommandLineInterface.new(input, output) }
 
-  it 'prints full board' do
-    p1_mark = 'X'
-    p2_mark = 'O'
-    board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
-    board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
-
-    display.print_board(board)
-
-    rows = output.string.lines
-    expect(rows[0]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
-    expect(rows[1]).to include("#{p2_mark}  #{p2_mark}  #{p2_mark} ")
-    expect(rows[2]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
-  end
-
   it 'prints empty board with numbers' do
     display.print_board(board)
 
@@ -38,21 +25,6 @@ describe TTT::CommandLineInterface do
     expect(rows[0]).to include("1  2  3")
     expect(rows[1]).to include("4  5  6")
     expect(rows[2]).to include("7  8  9")
-  end
-
-  it 'prints tie message' do
-    display.print_tie_message
-    expect(output.string).to include('Game is a tie.')
-  end
-
-  it 'prints winner message' do
-    display.print_winner_message('X')
-    expect(output.string).to include("X has won.")
-  end
-
-  it 'prints next player message' do
-    display.print_next_player_to_go('X')
-    expect(output.string).to include("X's turn.")
   end
 
   it 'grabs the next move and decrements by 1' do
@@ -165,10 +137,89 @@ describe TTT::CommandLineInterface do
     expect(display.game).to be_kind_of(TTT::Game)
   end
 
-  it 'plays game when user has pressed key' do
-    display = TTT::CommandLineInterface.new(input, output, stub_game)
-    display.show
-    expect(stub_game.play_called?).to eq(true)
+  it 'calls game over on game' do
+    stub_game.register_game_over
+    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(stub_game.game_over_called?).to be(true)
+  end
+
+  it 'calls play turn on game' do
+    stub_game.play_turn_ends_game
+    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(stub_game.play_turn_called?).to be(true)
+  end
+
+  it 'pulls model data from game' do
+    stub_game.play_turn_ends_game
+    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(stub_game.model_data_called?).to be(true)
+  end
+
+  it 'prints board to screen when move has been made' do
+    p1_mark = 'X'
+    p2_mark = 'O'
+    board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
+    board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
+
+    game_model = OpenStruct.new(:board => board)
+    stub_game.play_turn_ends_game
+
+    stub_game.set_model_data(game_model)
+
+    display.play_game(stub_game)
+
+    rows = output.string.lines
+    expect(rows[0]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
+    expect(rows[1]).to include("#{p2_mark}  #{p2_mark}  #{p2_mark} ")
+    expect(rows[2]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
+  end
+
+  it 'prints next player to go' do
+    stub_game.play_turn_ends_game
+    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(output.string).to include("X's turn.")
+  end
+
+  it 'displays winner' do
+    stub_game.register_game_over
+    game_model = OpenStruct.new(:board => board, :winner => 'X', :status => TTT::Game::WON)
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(output.string).to include("X has won.")
+  end
+
+  it 'displays draw message' do
+    stub_game.register_game_over
+    game_model = OpenStruct.new(:board => board, :status => TTT::Game::DRAW)
+    stub_game.set_model_data(game_model)
+    display.play_game(stub_game)
+    expect(output.string).to include(TTT::UI::TIE_MESSAGE)
+  end
+
+  it 'prints board when game is over' do
+    p1_mark = 'X'
+    p2_mark = 'O'
+    board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
+    board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
+
+    game_model = OpenStruct.new(:board => board, :status => TTT::Game::DRAW)
+    stub_game.register_game_over
+    stub_game.set_model_data(game_model)
+
+    display.play_game(stub_game)
+
+    rows = output.string.lines
+    expect(rows[0]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
+    expect(rows[1]).to include("#{p2_mark}  #{p2_mark}  #{p2_mark} ")
+    expect(rows[2]).to include("#{p1_mark}  #{p1_mark}  #{p1_mark} ")
   end
 
   def user_input(*input)

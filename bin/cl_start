@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-$:<< File.join(File.dirname(__FILE__), '..')
-require 'lib/command_line_interface.rb'
-require 'lib/game.rb'
+$:<< File.join(File.dirname(__FILE__), '../lib')
+require 'command_line_interface'
+require 'tictactoe_game'
 
 TTT::CommandLineInterface.new.show

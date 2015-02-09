@@ -1,7 +1,7 @@
-require 'lib/human_player.rb'
-require 'lib/game_model_data'
-require 'lib/computer_player.rb'
-require 'lib/board.rb'
+require 'human_player'
+require 'game_model_data'
+require 'computer_player'
+require 'board.rb'
 
 module TTT
   class Game
@@ -93,7 +93,7 @@ module TTT
       display_outcome if game_over?
     end
 
-    #TODO to be deprecatd. use play_turn instead
+    ##TODO to be deprecatd. use play_turn instead
     def continue_game_with_move(position)
       add_move_to_board(position)
       swap_current_player
@@ -149,6 +149,10 @@ module TTT
       @board.add_move(@current_player.mark, position)
     end
 
+    def game_over?
+      @board.game_over?
+    end
+
     private
 
     def process_turn(move)
@@ -170,10 +174,6 @@ module TTT
         @winner = @board.winner
       end
       @status = DRAW if @board.draw?
-    end
-
-    def game_over?
-      @board.game_over?
     end
 
     def self.new_human_player(user_interface)

@@ -16,6 +16,10 @@ module TTT
       @game_over = true
     end
 
+    def play_turn_ends_game
+      @play_turn_ends_game = true
+    end
+
     def game_over?
       @game_over_called = true
       @game_over
@@ -98,7 +102,17 @@ module TTT
       @draw_called
     end
 
-    def play_turn(move)
+    def play_turn(move = nil)
+      @game_over = true if @play_turn_ends_game
+      @play_turn_called = true
+    end
+
+    def play_turn_called?
+      @play_turn_called
+    end
+
+    def model_data_called?
+      @model_data_called
     end
 
     def set_model_data(game_model_data)
@@ -106,6 +120,7 @@ module TTT
     end
 
     def model_data
+      @model_data_called = true
       @game_model_data
     end
   end

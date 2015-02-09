@@ -1,5 +1,5 @@
 require 'rack'
-require 'lib/game'
+require 'lib/tictactoe_game'
 require 'lib/async_interface'
 
 module TTT

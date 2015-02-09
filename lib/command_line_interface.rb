@@ -1,4 +1,4 @@
-require 'lib/game'
+require 'tictactoe_game'
 require 'ui/constants'
 
 module TTT
@@ -17,9 +17,23 @@ module TTT
 
     def show
       prepare_game if @game.nil?
-      #@output.puts PRESS_ENTER
-      #get_user_input
-      @game.play
+      play_game(@game)
+    end
+
+    def play_game(game)
+      until game.game_over?
+        game_model_data = game.model_data
+        print_board(game_model_data.board)
+        print_next_player_to_go(game_model_data.current_player_mark)
+        game.play_turn
+      end
+
+      print_outcome(game.model_data)
+    end
+
+    def get_user_move(board)
+      user_move = get_validated_user_input {|input| move_valid?(input, board)}
+      transform_input_to_zero_based_integer(user_move)
     end
 
     def prepare_game
@@ -27,6 +41,7 @@ module TTT
       board_size = get_board_size(*Game::BOARD_SIZES)
       @game = TTT::Game.build_game(self, game_type, board_size)
     end
+
 
     def print_board(board)
       output = ""
@@ -46,6 +61,26 @@ module TTT
       @output.puts output
     end
 
+    def print_invalid_message
+      @output.puts INVALID_MOVE_MESSAGE
+    end
+
+    def get_board_size(*board_size_options)
+      @output.puts PICK_BOARD_SIZE
+      print_board_size_options(board_size_options)
+      board_size = get_validated_user_input {|input| board_size_valid?(input, board_size_options)}
+      board_size.to_i
+    end
+
+    def get_game_type(game_choices)
+      @output.puts PICK_GAME_TYPE
+      print_game_choices(game_choices)
+      game_type = get_validated_user_input {|input| game_type_valid?(input, game_choices)}
+      game_choices[transform_input_to_zero_based_integer(game_type)]
+    end
+
+    private
+
     def print_tie_message
       @output.puts TIE_MESSAGE
     end
@@ -57,31 +92,14 @@ module TTT
     def print_next_player_to_go(mark)
       @output.puts NEXT_PLAYER_TO_GO % mark
     end
-
-    def get_board_size(*board_size_options)
-      @output.puts PICK_BOARD_SIZE
-      print_board_size_options(board_size_options)
-      board_size = get_validated_user_input {|input| board_size_valid?(input, board_size_options)}
-      board_size.to_i
+    def print_outcome(game_model_data)
+      print_board(game_model_data.board)
+      if game_model_data.status == Game::WON
+        print_winner_message(game_model_data.winner)
+      elsif game_model_data.status == Game::DRAW
+        print_tie_message
+      end
     end
-
-    def get_user_move(board)
-      user_move = get_validated_user_input {|input| move_valid?(input, board)}
-      transform_input_to_zero_based_integer(user_move)
-    end
-
-    def get_game_type(game_choices)
-      @output.puts PICK_GAME_TYPE
-      print_game_choices(game_choices)
-      game_type = get_validated_user_input {|input| game_type_valid?(input, game_choices)}
-      game_choices[transform_input_to_zero_based_integer(game_type)]
-    end
-
-    def print_invalid_message
-      @output.puts INVALID_MOVE_MESSAGE
-    end
-
-    private
 
     def get_validated_user_input
       while true

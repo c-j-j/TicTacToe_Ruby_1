@@ -1,4 +1,4 @@
-require 'lib/game'
+require 'lib/tictactoe_game'
 
 module TTT
   class AsyncInterface
