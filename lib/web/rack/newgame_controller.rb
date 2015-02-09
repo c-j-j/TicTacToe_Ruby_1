@@ -1,5 +1,6 @@
 require 'rack'
 require 'lib/game'
+require 'lib/async_interface'
 
 module TTT
   module Web
@@ -7,26 +8,27 @@ module TTT
 
       PLAY_VIEW = File.dirname(__FILE__) + '/views/play.html.erb'
 
-      def initialize(web_interface)
-        @web_interface = web_interface
-      end
-
       def call(env)
         req = Rack::Request.new(env)
         game = prepare_game(extract_game_type(req), extract_board_size(req))
         save_game_in_session(req, game)
-        @game_response = @web_interface.play_turn(game)
-        [200, {'Content-Type' => 'text/html'}, [generate_response]]
+        redirect_to_play_turn_page
       end
 
       private
+
+      def redirect_to_play_turn_page
+        response = Rack::Response.new
+        response.redirect('/play_move')
+        response.finish
+      end
 
       def save_game_in_session(req, game)
         req.session[:game] = game
       end
 
       def prepare_game(game_type, board_size)
-        TTT::Game.build_game(@web_interface, game_type, board_size)
+        TTT::Game.build_game(TTT::AsyncInterface.new, game_type, board_size)
       end
 
       def extract_game_type(request)

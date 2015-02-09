@@ -2,7 +2,6 @@ require 'rack'
 require 'lib/web/rack/index_controller'
 require 'lib/web/rack/newgame_controller'
 require 'lib/web/rack/play_turn_controller'
-require 'lib/web/rack/reset_controller'
 
 module TTT
   module Web
@@ -14,12 +13,12 @@ module TTT
             run TTT::Web::IndexController.new
           end
 
-          map '/play_move' do
-            run TTT::Web::PlayTurnController.new
+          map '/new_game' do
+            run TTT::Web::NewGameController.new
           end
 
-          map '/reset_game' do
-            run TTT::Web::ResetController.new
+          map '/play_move' do
+            run TTT::Web::PlayTurnController.new
           end
         end
       end

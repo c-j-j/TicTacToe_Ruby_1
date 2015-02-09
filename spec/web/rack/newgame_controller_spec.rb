@@ -2,11 +2,12 @@ require 'spec_helper'
 require 'spec/stubs/stub_game'
 require 'web/rack/newgame_controller'
 require 'spec/stubs/stub_interface'
+require 'rack/test'
 
 describe TTT::Web::NewGameController do
+  include Rack::Test::Methods
   let(:game) { TTT::StubGame.new }
-  let(:web_interface) { TTT::StubInterface.new }
-  let(:gameplay_controller) { TTT::Web::NewGameController.new(web_interface)}
+  let(:new_game_controller) { TTT::Web::NewGameController.new}
 
   let(:env) {{
     'REQUEST_METHOD' => 'GET',
@@ -14,15 +15,27 @@ describe TTT::Web::NewGameController do
     'rack.input' => ''
   }}
 
-  it 'stores new game as a cookie' do
-    gameplay_controller.call(env)
-    expect(env['rack.session'][:game]).not_to be_nil
+  def app
+    new_game_controller
+  end
+
+  it 'stores new game in the session' do
+    env = {}
+    get('/', {'game_type' => 'Human Vs Human', 'board_size' => '3'}, env)
+    expect(retrieve_game_from_session).not_to be_nil
   end
 
   it 'builds a 3x3 board' do
-    gameplay_controller.call(env)
-    game = env['rack.session'][:game]
-    expect(game.row_size).to eq(3)
+    get('/', {'game_type' => 'Human Vs Human', 'board_size' => '3'}, env)
+    expect(retrieve_game_from_session.row_size).to eq(3)
   end
 
+  it 'redirects to play turn controller' do
+    get('/', {'game_type' => 'Human Vs Human', 'board_size' => '3'}, env)
+    expect(last_response.status).to eq(302)
+  end
+
+  def retrieve_game_from_session
+    last_request.env['rack.session'][:game]
+  end
 end

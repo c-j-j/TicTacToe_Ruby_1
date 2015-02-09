@@ -98,12 +98,15 @@ module TTT
       @draw_called
     end
 
-    def play_turn_response(play_turn_response)
-      @play_turn_response = play_turn_response
+    def play_turn(move)
     end
 
-    def play_turn(move)
-      @play_turn_response
+    def set_information(game_information)
+      @game_information = game_information
+    end
+
+    def information
+      @game_information
     end
   end
 end

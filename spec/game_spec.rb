@@ -159,59 +159,74 @@ describe TTT::Game do
   end
 
 
-  it 'includes board in response hash' do
-    response = game.play_turn(0)
-    expect(response[:board]).to be(board)
+  it 'includes board in game information' do
+    game.play_turn(0)
+    game_info = game.information
+    expect(game_info.board).to be(board)
+  end
+
+  it 'includes row size in game information' do
+    game_info = game.information
+    expect(game_info.row_size).to eq(3)
   end
 
   it 'status set to InProgress when no winner' do
-    response = game.play_turn(0)
-    expect(response[:status]).to eq(:in_progress)
+    game.play_turn(0)
+    game_info = game.information
+    expect(game_info.status).to eq(TTT::Game::IN_PROGRESS)
   end
 
   it 'status set to win when game has been won' do
     board_helper.populate_board_with_win(board, stub_player_1.mark)
-    response = game.play_turn(2)
-    expect(response[:status]).to eq(:won)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.status).to eq(TTT::Game::WON)
   end
 
   it 'status set to winner when game has been won' do
     board_helper.populate_board_with_win(board, stub_player_1.mark)
-    response = game.play_turn(2)
-    expect(response[:winner]).to eq(stub_player_1.mark)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.winner).to eq(stub_player_1.mark)
   end
 
   it 'status set to draw when game is a draw' do
     board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
-    response = game.play_turn(0)
-    expect(response[:status]).to eq(:draw)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.status).to eq(TTT::Game::DRAW)
   end
 
   it 'swaps player when move is added to board' do
-    response = game.play_turn(2)
-    expect(response[:current_player_mark]).to eq(stub_player_2.mark)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.current_player_mark).to eq(stub_player_2.mark)
   end
 
   it 'does not swap player when move is not available from player' do
-    response = game.play_turn(TTT::Game::MOVE_NOT_AVAILABLE)
-    expect(response[:current_player_mark]).to eq(stub_player_1.mark)
+    game.play_turn(TTT::Game::MOVE_NOT_AVAILABLE)
+    game_info = game.information
+    expect(game_info.current_player_mark).to eq(stub_player_1.mark)
   end
 
   it 'asks next player for move if no move passed in' do
     stub_player_1.prepare_next_move(2)
-    response = game.play_turn
-    expect(response[:board].get_mark_at_position(2)).to eq(stub_player_1.mark)
+    game.play_turn
+    game_info = game.information
+    expect(game_info.board.get_mark_at_position(2)).to eq(stub_player_1.mark)
   end
 
   it 'response says if current player is a ComputerPlayer' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::CVC, 4)
-    response = game.play_turn(2)
-    expect(response[:current_player_is_computer]).to eq(true)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.current_player_is_computer).to eq(true)
   end
 
   it 'response says if current player is not a ComputerPlayer' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::HVH, 4)
-    response = game.play_turn(2)
-    expect(response[:current_player_is_computer]).to eq(false)
+    game.play_turn(2)
+    game_info = game.information
+    expect(game_info.current_player_is_computer).to eq(false)
   end
 end

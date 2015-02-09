@@ -16,11 +16,12 @@ module TTT
 
       def call(env)
         req = Rack::Request.new(env)
-        game = create_or_retrieve_game(req)
-        @game_response = game.play_turn(extract_position_from_param(req))
+        game = retrieve_game(req)
+        game.play_turn(extract_position_from_param(req))
+        @game_response = game.information
 
         determine_if_refresh_required
-        determine_cell_size(game)
+        determine_cell_size(@game_response)
 
         [200,
          {'Content-Type' => 'text/html'},
@@ -29,10 +30,10 @@ module TTT
 
       private
 
-      def determine_cell_size(game)
-        if game.row_size == 4
+      def determine_cell_size(game_information)
+        if game_information.row_size == 4
           @cell_size = '24%'
-        elsif game.row_size == 3
+        elsif game_information.row_size == 3
           @cell_size = '32%'
         end
       end
@@ -52,15 +53,8 @@ module TTT
         end
       end
 
-      def create_or_retrieve_game(request)
-        game = request.session[:game]
-        if game.nil?
-          game_type = request.params['game_type']
-          board_size = request.params['board_size'].to_i
-          game = TTT::Game.build_game(TTT::AsyncInterface.new, game_type, board_size)
-          request.session[:game] = game
-        end
-        game
+      def retrieve_game(request)
+        request.session[:game]
       end
 
       def extract_position_from_param(req)

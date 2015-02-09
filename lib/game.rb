@@ -1,4 +1,5 @@
 require 'lib/human_player.rb'
+require 'lib/game_information'
 require 'lib/computer_player.rb'
 require 'lib/board.rb'
 
@@ -79,6 +80,7 @@ module TTT
       @status = IN_PROGRESS
     end
 
+    #TODO to be deprecatd. use play turn instead
     def play
       until game_over?
         print_board
@@ -91,6 +93,7 @@ module TTT
       display_outcome if game_over?
     end
 
+    #TODO to be deprecatd. use play_turn instead
     def continue_game_with_move(position)
       add_move_to_board(position)
       swap_current_player
@@ -98,14 +101,15 @@ module TTT
     end
 
     def play_turn(move = nil)
-      if game_over?
-        return prepare_response
-      end
-
-      process_turn(move)
-      prepare_response
+      process_turn(move) unless game_over?
+      update_status
     end
 
+    def information
+      TTT::GameInformation.new(@board, @status, @winner, @current_player.mark, determine_if_computer_player(@current_player), row_size)
+    end
+
+    #deprecate
     def display_outcome
       print_board
       @user_interface.print_tie_message if @board.draw?
@@ -155,26 +159,14 @@ module TTT
       end
     end
 
-    def prepare_response
-      update_status_with_outcome
-
-      {
-        :board => @board,
-        :status => @status,
-        :winner => @winner,
-        :current_player_mark => @current_player.mark,
-        :current_player_is_computer => determine_if_computer_player(@current_player)
-      }
-    end
-
     def determine_if_computer_player(player)
       class_name = player.class.name
       class_name == TTT::ComputerPlayer.name
     end
 
-    def update_status_with_outcome
+    def update_status
       if @board.won?
-        @status = WON if @board.won?
+        @status = WON
         @winner = @board.winner
       end
       @status = DRAW if @board.draw?

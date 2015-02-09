@@ -3,19 +3,18 @@ Tic Tac Toe : WEB
 game probably wants to return a struct rather than a hash
 styling
 - css in own file
-- just have fixed width cells etc, or use jquery to define text size
-- better form styling/buttons
 
 ResetController needs maybe renaming and TESTING
 Refactor NewGame Controller to redirect to play_turn once it has created a game
 
 CLI/GUI need to be refactored to use new play mechanism
 
+Status has to be correctly displayed
+
+INvalid move not working
 Get EasyMotion working
 
 Slow rails tests
-
-Game should return struct rather than hash
 
 game.play_turn to replace continue_game_with_move
 game needs to be tidieed up

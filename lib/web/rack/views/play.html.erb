@@ -6,18 +6,13 @@
   <meta http-equiv="refresh" content="0;URL='/play_move'" />
 <% end %>
 <title>TicTacToe</title>
-<style>
-* {
-  margin: 0;
-  padding: 0;
-}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="public/css/main.css">
 
-#container {
-  width: 50%;
-  margin: 0 auto;
-}
+<style>
 
 #my-div {
+  position: relative;
   background-color: #fff;
   display: block;
   border: 1px solid black;
@@ -28,26 +23,35 @@
 
 a.fill-div {
   position: absolute;
+  text-align: center;
+  padding: 0;
   display: block;
-  font-size: 20vw;
+  font-size: 100px;
   height: 100%;
   width: 100%;
+  padding-bottom: <%= @cell_size %>;
   text-decoration: none;
 }
 
 </style>
 </head>
 <body>
-<a href="/reset_game">Replay</a>
-<div id="container">
-  <% unless @game_response[:board].nil? %>
+<div class="container">
+  <div class="row">
+      <div class="col-md-5 col-md-offset-4">
+        <h1>Tic Tac Toe</h1>
+        <% unless @game_response[:board].nil? %>
     <% (0...@game_response[:board].number_of_positions).each do |index| %>
     <div id="my-div">
     <a href="play_move?position=<%= index %>" class="fill-div"><%= @game_response[:board].get_mark_at_position(index) %></a>
   </div>
 <% end %>
 <% end %>
+<h4>Status: <%= @game_response[:status] %></h4>
+<a href="/">Click Here to set up a new game</a>
 </div>
-<%= @game_response[:status] %>
+</div>
+</div>
+
 </body>
 </html>
