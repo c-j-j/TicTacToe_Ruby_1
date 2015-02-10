@@ -18,11 +18,6 @@ describe TTT::Game do
     expect(stub_interface.next_player_printed?).to be true
   end
 
-  it 'displays board' do
-    game.print_board
-    expect(stub_interface.board_printed?).to be true
-  end
-
   it 'gets next move from player' do
     game.get_next_move
     expect(stub_player_1.next_move_count).to be(1)
@@ -35,7 +30,6 @@ describe TTT::Game do
 
   it 'current player initally set to player 1' do
     board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
-    game.play
     expect(game.current_player).to eq(stub_player_1)
   end
 
@@ -50,31 +44,6 @@ describe TTT::Game do
     expect(game.current_player).to eq(stub_player_1)
   end
 
-  it 'plays next turn when play is triggered' do
-    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
-    stub_player_1.prepare_next_move(2)
-    game.play
-    expect(stub_player_1.next_move_count).to eq(1)
-  end
-
-  it 'prints tie after game ends in tie' do
-    board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
-    game.play
-    expect(stub_interface.tie_message_printed?).to be true
-  end
-
-  it 'prints winner after game ends in win' do
-    board_helper.populate_board_with_win(board, stub_player_1)
-    game.play
-    expect(stub_interface.winner_message_printed?).to be true
-  end
-
-  it 'prints board after game has ended' do
-    board_helper.populate_board_with_win(board, stub_player_1)
-    game.play
-    expect(stub_interface.board_printed?).to be true
-  end
-
   it 'gets row size from board' do
     expect(game.row_size).to eq(board.rows.size)
   end
@@ -85,33 +54,6 @@ describe TTT::Game do
 
   it 'checks with board if move is valid' do
     expect(game.move_valid?(-1)).to eq(board.is_move_valid?(-1))
-  end
-
-  it 'adds move to board when new turn is played' do
-    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
-    player_move = 2
-    game.continue_game_with_move(player_move)
-    expect(board.get_mark_at_position(player_move)).to eq(stub_player_1.mark)
-  end
-
-  it 'swaps player when new turn is played' do
-    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
-    first_player = game.current_player
-    game.continue_game_with_move(2)
-    expect(game.current_player).to_not eq(first_player)
-  end
-
-  it 'displays winner when continued game turns into a win' do
-    board_helper.add_moves_to_board(board, [0, 1], stub_player_1.mark)
-    game.continue_game_with_move(2)
-    expect(stub_interface.winner_message_printed?).to be true
-  end
-
-  it 'breaks out of game loop when next move yields no immediate response' do
-    stub_player_1.prepare_next_move(TTT::Game::MOVE_NOT_AVAILABLE)
-    game.play
-    expect(stub_interface.winner_message_printed?).to be false
-    expect(stub_interface.tie_message_printed?).to be false
   end
 
   it 'builds hvh game' do

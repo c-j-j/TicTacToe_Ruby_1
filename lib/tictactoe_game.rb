@@ -80,26 +80,6 @@ module TTT
       @status = IN_PROGRESS
     end
 
-    #TODO to be deprecatd. use play turn instead
-    def play
-      until game_over?
-        print_board
-        next_move = get_next_move
-        break if next_move == MOVE_NOT_AVAILABLE
-        add_move_to_board(next_move)
-        swap_current_player
-      end
-
-      display_outcome if game_over?
-    end
-
-    ##TODO to be deprecatd. use play_turn instead
-    def continue_game_with_move(position)
-      add_move_to_board(position)
-      swap_current_player
-      play
-    end
-
     def play_turn(move = nil)
       process_turn(move) unless game_over?
       update_status
@@ -107,17 +87,6 @@ module TTT
 
     def model_data
       TTT::GameModelData.new(@board, @status, @winner, @current_player.mark, determine_if_computer_player(@current_player), row_size)
-    end
-
-    #deprecate
-    def display_outcome
-      print_board
-      @user_interface.print_tie_message if @board.draw?
-      @user_interface.print_winner_message(@board.winner) if @board.won?
-    end
-
-    def print_board
-      @user_interface.print_board(@board)
     end
 
     def swap_current_player

@@ -7,9 +7,7 @@ module TTT
       @registered_moves = []
       @game_over = false
       @move_valid = true
-      @play_called = false
       @play_turn_called = false
-      @continue_game_called = false
       @board = TTT::Board.new(3)
     end
 
@@ -41,22 +39,6 @@ module TTT
 
     def move_valid_called?
       @move_valid_called
-    end
-
-    def play
-      @play_called = true
-    end
-
-    def play_called?
-      @play_called
-    end
-
-    def continue_game_with_move(position)
-      @continue_game_called = true
-    end
-
-    def continue_game_called?
-      @continue_game_called
     end
 
     def won?
