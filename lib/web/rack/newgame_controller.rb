@@ -1,25 +1,26 @@
 require 'rack'
 require 'lib/tictactoe_game'
 require 'lib/async_interface'
+require 'json'
 
 module TTT
   module Web
     class NewGameController
-
-      PLAY_VIEW = File.dirname(__FILE__) + '/views/play.html.erb'
+      include Rack::Utils
 
       def call(env)
         req = Rack::Request.new(env)
-        game = prepare_game(extract_game_type(req), extract_board_size(req))
+        game_type = extract_game_type(req)
+        game = prepare_game(game_type, extract_board_size(req))
         save_game_in_session(req, game)
-        redirect_to_play_turn_page
+        redirect_to_play_turn_page(game, game_type)
       end
 
       private
 
-      def redirect_to_play_turn_page
+      def redirect_to_play_turn_page(game, game_type)
         response = Rack::Response.new
-        response.redirect('/play_move')
+        response.redirect("/play_move?game_type=#{escape(game_type)}&board=#{escape(game.board_positions.to_json)}")
         response.finish
       end
 
@@ -37,12 +38,6 @@ module TTT
 
       def extract_board_size(request)
         request.params['board_size'].to_i
-      end
-
-      private
-
-      def generate_response
-        ERB.new(File.new(PLAY_VIEW, "r").read).result(binding)
       end
     end
   end

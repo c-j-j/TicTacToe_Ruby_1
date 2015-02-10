@@ -157,6 +157,27 @@ describe TTT::Board do
     board_3x3.rows
   end
 
+  it 'builds board with given positions' do
+    existing_positions = ['some', 'board', 'positions', 'here']
+    board = TTT::Board.new_board_with_positions(existing_positions)
+    expect(board.get_mark_at_position(0)).to eq('some')
+  end
+
+  it 'row size is square root of size of given positions' do
+    existing_positions = ['some', 'board', 'positions', 'here']
+    board = TTT::Board.new_board_with_positions(existing_positions)
+    expect(board.row_size).to eq(2)
+  end
+
+  it 'empty board has 0 occupied positions' do
+    expect(board_3x3.num_of_occupied_positions).to eq(0)
+  end
+
+  it 'board with one mark has 1 occupied position' do
+    board_3x3.add_move('X', 0)
+    expect(board_3x3.num_of_occupied_positions).to eq(1)
+  end
+
   def test_mark_on_winning_line(board, moves)
     board_helper.add_moves_to_board(board, moves, mark)
     expect(board.winner).to eq mark

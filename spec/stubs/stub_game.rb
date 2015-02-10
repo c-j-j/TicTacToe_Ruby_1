@@ -11,6 +11,10 @@ module TTT
       @board = TTT::Board.new(3)
     end
 
+    def board_positions
+      @board.positions
+    end
+
     def register_game_over
       @game_over = true
     end

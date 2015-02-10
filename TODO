@@ -4,16 +4,26 @@ styling
 - css in own file
 
 Status has to be correctly displayed
+Game needs to calculate current player initially
 
 INvalid move not working
-Get EasyMotion working
 
 Slow rails tests
 
 Desired tasks if time permitting
+Session to be removed from new game controller
+
+Play move => play turn?
 
 IPM
+Talk on 8th light about quick rails tests
 Speak to Christophe regarding RA/rails tests
 Thats not yours
 Using GameAdaper in rails
 Growing Object Oriented Software Guided By Tests
+
+
+
+http://localhost:8765/play_move?game_type=Human+Vs+Human&board=%5Bnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%5D
+
+

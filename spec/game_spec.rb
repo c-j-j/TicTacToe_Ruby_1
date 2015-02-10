@@ -28,9 +28,15 @@ describe TTT::Game do
     expect(board.get_mark_at_position(0)).to eq(stub_player_1.mark)
   end
 
-  it 'current player initally set to player 1' do
+  it 'current player set to player 1' do
     board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
     expect(game.current_player).to eq(stub_player_1)
+  end
+
+  it 'current player set to player 2 when odd number of moves taken place' do
+    board.add_move('X', 1)
+    game =  TTT::Game.build_game_with_board(stub_interface, TTT::Game::HVH, board)
+    expect(game.current_player).to eq(stub_player_2)
   end
 
   it 'current player is swapped to player 2 when player 1 is current player' do
@@ -170,5 +176,9 @@ describe TTT::Game do
     game.play_turn(2)
     game_info = game.model_data
     expect(game_info.current_player_is_computer).to eq(false)
+  end
+
+  it 'provides board positions' do
+    expect(game.board_positions).to eq(board.positions)
   end
 end

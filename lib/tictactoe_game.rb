@@ -76,8 +76,16 @@ module TTT
       @user_interface = user_interface
       @player_1 = player_1
       @player_2 = player_2
-      @current_player = @player_1 #TODO current player could be calculated from postion
+      @current_player = determine_current_player(board)
       @status = IN_PROGRESS
+    end
+
+    def determine_current_player(board)
+      if board.num_of_occupied_positions.even?
+        @player_1
+      else
+        @player_2
+      end
     end
 
     def play_turn(move = nil)
@@ -120,6 +128,10 @@ module TTT
 
     def game_over?
       @board.game_over?
+    end
+
+    def board_positions
+      @board.positions
     end
 
     private

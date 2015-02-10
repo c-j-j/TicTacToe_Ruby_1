@@ -1,7 +1,15 @@
+require 'json'
+
 module TTT
   class Board
 
     attr_reader :row_size
+    attr_reader :positions
+
+    def self.new_board_with_positions(positions)
+      row_size = Math.sqrt(positions.size)
+      Board.new(row_size, positions)
+    end
 
     def initialize(row_size, positions=nil)
       @row_size = row_size
@@ -11,6 +19,10 @@ module TTT
       else
         @positions = positions
       end
+    end
+
+    def num_of_occupied_positions
+      @positions.size - empty_positions.size
     end
 
     def get_mark_at_position(position)
@@ -105,6 +117,5 @@ module TTT
 
     private
 
-    attr_accessor :positions
   end
 end
