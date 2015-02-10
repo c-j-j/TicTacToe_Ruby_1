@@ -76,7 +76,7 @@ module TTT
       @user_interface = user_interface
       @player_1 = player_1
       @player_2 = player_2
-      @current_player = @player_1
+      @current_player = @player_1 #TODO current player could be calculated from postion
       @status = IN_PROGRESS
     end
 

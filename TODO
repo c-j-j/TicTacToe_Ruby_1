@@ -3,8 +3,6 @@ Tic Tac Toe : WEB
 styling
 - css in own file
 
-CLI/GUI need to be refactored to use new play mechanism
-
 Status has to be correctly displayed
 
 INvalid move not working
@@ -15,7 +13,6 @@ Slow rails tests
 Desired tasks if time permitting
 
 IPM
-model_data => model_data?
 Speak to Christophe regarding RA/rails tests
 Thats not yours
 Using GameAdaper in rails
