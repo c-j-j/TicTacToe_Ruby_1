@@ -1,13 +1,13 @@
 require 'qt'
-require 'lib/ui/gui_board_cell'
+require 'ui/gui_board_cell'
 require 'tictactoe_game'
+require 'ui/constants'
 
 module TTT
   module UI
     class GUIInterface < Qt::Widget
       attr_reader :cells
       attr_reader :status_label
-      attr_reader :game_state
       attr_reader :play_button
       attr_reader :game_choices
       attr_reader :game_sizes
@@ -16,31 +16,28 @@ module TTT
       attr_reader :ui_grid
 
       #registers functions so GUI can call them
-      START_GAME_FUNCTION = "start_game()"
+      START_GAME_FUNCTION = "init_game()"
       PREPARE_GAME_TYPE_FUNCTION = 'prepare_next_game_type_to_create(QString)'
       PREPARE_BOARD_SIZE_FUNCTION = "prepare_board_size(QString)"
       slots START_GAME_FUNCTION
       slots PREPARE_GAME_TYPE_FUNCTION
       slots PREPARE_BOARD_SIZE_FUNCTION
 
-      WINNING_MESSAGE = "%s has won"
-      DRAW_MESSAGE = 'Draw'
-      NEXT_PLAYER_TO_GO_MESSAGE = "%s's turn"
-      INVALID_MOVE_MESSAGE = 'Invalid move'
       TOP_PADDING = 1
 
       def initialize(game = nil)
         super(nil)
-        @game_state = :INITIAL
+        @ui_grid = Qt::GridLayout.new(self)
         @next_game_type_to_build = TTT::Game.default_game_type
         @next_board_size_to_build = TTT::Game.default_board_size
         @game = game
+        init_board(@game.board) unless @game.nil?
+
         init_screen
         show
       end
 
       def init_screen
-        @ui_grid = Qt::GridLayout.new(self)
         setWindowTitle("Tic Tac Toe")
         resize(600, 600)
         create_widgets
@@ -48,51 +45,57 @@ module TTT
       end
 
       def board_clicked(position)
-        return if @game_state != :AWAITING_USER_MOVE
+        return unless current_player_human?(@game)
 
         if !@game.move_valid?(position)
           print_invalid_move_message
           return
         end
 
-        update_game_state(:IN_PROGRESS)
-        #Todo replace with play turn
-        @game.continue_game_with_move(position)
-
-        #TODO check if next player is computer and run small loop here?
-        #Or use play_game(@game)
-      end
-
-      #TODO unable to unit test as is
-      def start_game
-        create_new_game
-        init_board
+        @game.play_turn(position)
+        update_game_display(@game)
         play_game(@game)
       end
 
+      def init_game
+        @game = create_new_game
+        start_game(@game)
+      end
+
+      def start_game(game)
+        init_board(game.board)
+        play_game(game)
+      end
+
       def play_game(game)
-        until game.game_over? # or current player is computer
-          game_model_data = game.model_data
-          print_board(game_model_data.board)
-          print_next_player_to_go(game_model_data.current_player_mark)
+        game_model_data = game.model_data
+        until game.game_over? || current_player_human?(game)
           game.play_turn
+          update_game_display(game)
         end
 
-        #print_outcome(game.model_data)
+        print_outcome(game.model_data)
+      end
+
+      def print_outcome(game_model_data)
+        status = game_model_data.status
+        if status == TTT::Game::DRAW
+          print_tie_message
+        elsif status == TTT::Game::WON
+          print_winner_message(game_model_data.winner)
+        end
       end
 
       def print_next_player_to_go(mark)
-        update_status(NEXT_PLAYER_TO_GO_MESSAGE % mark)
+        update_status(TTT::UI::NEXT_PLAYER_TO_GO % mark)
       end
 
       def print_winner_message(mark)
         update_status(WINNING_MESSAGE % mark)
-        end_game
       end
 
       def print_tie_message
-        update_status(DRAW_MESSAGE)
-        end_game
+        update_status(TIE_MESSAGE)
       end
 
       def print_invalid_move_message
@@ -100,16 +103,9 @@ module TTT
       end
 
       def print_board(board)
-        unless cells.nil? #Todo this is not the answer, fix
-          cells.each_with_index do |cell, index|
-            cell.text = board.get_mark_at_position(index)
-          end
+        cells.each_with_index do |cell, index|
+          cell.text = board.get_mark_at_position(index)
         end
-      end
-
-      def get_user_move(_)
-        update_game_state(:AWAITING_USER_MOVE)
-        TTT::Game::MOVE_NOT_AVAILABLE
       end
 
       def prepare_next_game_type_to_create(game_type)
@@ -120,22 +116,33 @@ module TTT
         @next_board_size_to_build = board_size
       end
 
-      def init_board
+      def init_board(board)
         clear_board unless @cells.nil?
         @cells = []
-        (0...board_size).each do |cell_index|
+        (0...board.number_of_positions).each do |cell_index|
           cell = TTT::UI::GUIBoardCell.new(self, cell_index)
-          row, column = get_row_and_column_from_index(cell_index)
+          row, column = get_row_and_column_from_index(board, cell_index)
           @ui_grid.addWidget(cell, row + TOP_PADDING, column)
           @cells << cell
         end
       end
 
       def create_new_game
-        @game = TTT::Game.build_game(self, @next_game_type_to_build, @next_board_size_to_build.to_i)
+        TTT::Game.build_game(self, @next_game_type_to_build, @next_board_size_to_build.to_i)
       end
 
       private
+
+      def update_game_display(game)
+        game_model_data = game.model_data
+        print_board(game_model_data.board)
+        print_next_player_to_go(game_model_data.current_player_mark)
+      end
+
+
+      def current_player_human?(game)
+        !game.model_data.current_player_is_computer
+      end
 
       def create_widgets
         @status_label = Qt::Label.new("Press play to begin", self)
@@ -183,20 +190,8 @@ module TTT
         @status_label.text = message
       end
 
-      def get_row_and_column_from_index(cell_index)
-        cell_index.divmod(@game.row_size)
-      end
-
-      def board_size
-        @game.number_of_positions
-      end
-
-      def update_game_state(state)
-        @game_state = state
-      end
-
-      def end_game
-        update_game_state(:GAME_OVER)
+      def get_row_and_column_from_index(board, cell_index)
+        cell_index.divmod(board.row_size)
       end
     end
   end

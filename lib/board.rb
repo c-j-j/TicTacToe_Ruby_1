@@ -1,13 +1,13 @@
 module TTT
   class Board
 
-    attr_reader :number_of_rows
+    attr_reader :row_size
 
-    def initialize(number_of_rows, positions=nil)
-      @number_of_rows = number_of_rows
+    def initialize(row_size, positions=nil)
+      @row_size = row_size
 
       if positions.nil?
-        @positions = Array.new(number_of_rows ** 2)
+        @positions = Array.new(row_size ** 2)
       else
         @positions = positions
       end
@@ -18,7 +18,7 @@ module TTT
     end
 
     def copy
-      Board.new(@number_of_rows, positions.dup)
+      Board.new(@row_size, positions.dup)
     end
 
     def empty_positions
@@ -58,7 +58,7 @@ module TTT
     end
 
     def rows
-      positions.each_slice(@number_of_rows).to_a
+      positions.each_slice(@row_size).to_a
     end
 
     def number_of_positions

@@ -8,6 +8,7 @@ module TTT
       @game_over = false
       @move_valid = true
       @play_called = false
+      @play_turn_called = false
       @continue_game_called = false
       @board = TTT::Board.new(3)
     end
