@@ -1,7 +1,7 @@
 require 'qt'
 require 'ui/gui_board_cell'
-require 'game'
 require 'ui/constants'
+require 'tictactoe'
 
 module TTT
   module UI
