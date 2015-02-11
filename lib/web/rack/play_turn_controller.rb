@@ -1,5 +1,5 @@
 require 'rack'
-require 'async_interface'
+require 'tictactoe'
 require 'web/rack/url_helper'
 require 'ui/constants'
 

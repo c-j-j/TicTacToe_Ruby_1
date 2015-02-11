@@ -1,6 +1,5 @@
 require 'rack'
-require 'lib/game'
-require 'lib/async_interface'
+require 'tictactoe'
 require 'lib/web/rack/url_helper'
 
 module TTT
