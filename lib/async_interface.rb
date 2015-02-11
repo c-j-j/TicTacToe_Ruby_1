@@ -1,4 +1,4 @@
-require 'tictactoe_game'
+require 'game'
 
 module TTT
   class AsyncInterface

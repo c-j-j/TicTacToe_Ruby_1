@@ -2,6 +2,6 @@
 
 $:<< File.join(File.dirname(__FILE__), '../lib')
 require 'command_line_interface'
-require 'tictactoe_game'
+require 'game'
 
 TTT::CommandLineInterface.new.show

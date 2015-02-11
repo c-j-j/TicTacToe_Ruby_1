@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tictactoe_game'
+require 'game'
 require 'web/rack/index_controller'
 
 describe TTT::Web::IndexController do

@@ -1,4 +1,4 @@
-require 'tictactoe_game'
+require 'tictactoe'
 require 'ui/constants'
 
 module TTT

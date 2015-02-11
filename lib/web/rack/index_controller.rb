@@ -1,4 +1,4 @@
-require 'lib/tictactoe_game'
+require 'lib/game'
 
 module TTT
   module Web

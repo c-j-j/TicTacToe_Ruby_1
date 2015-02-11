@@ -4,15 +4,8 @@ styling
 - css in own file
 
 Gem needs to be module based
-Status has to be correctly displayed
-
-
-INvalid move not working
-
 Slow rails tests
-
 Desired tasks if time permitting
-Session to be removed from new game controller
 
 IPM
 Talk on 8th light about quick rails tests

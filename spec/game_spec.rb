@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tictactoe_game'
+require 'game'
 require 'board'
 require 'spec/stubs/stub_interface'
 require 'spec/stubs/stub_player'

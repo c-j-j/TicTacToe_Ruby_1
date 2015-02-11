@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tictactoe_game (0.0.1)
+    tictactoe (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -31,4 +31,4 @@ DEPENDENCIES
   qtbindings
   rack-test
   rspec
-  tictactoe_game!
+  tictactoe!

@@ -1,5 +1,5 @@
 require 'rack'
-require 'lib/tictactoe_game'
+require 'lib/game'
 require 'lib/async_interface'
 require 'lib/web/rack/url_helper'
 

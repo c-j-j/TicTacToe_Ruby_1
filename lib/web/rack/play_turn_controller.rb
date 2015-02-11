@@ -35,7 +35,6 @@ module TTT
         else
           @status = TTT::UI::INVALID_MOVE_MESSAGE
         end
-        return game
       end
 
       def determine_status(game_model_data)

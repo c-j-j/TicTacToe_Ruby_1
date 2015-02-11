@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "qtbindings"
 
 group :production do
-  gem 'tictactoe_game', :path => '.'
+  gem 'tictactoe', :path => '.'
 end
 
 group :test do

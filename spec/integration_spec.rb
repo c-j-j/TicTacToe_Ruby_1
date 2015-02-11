@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tictactoe_game'
+require 'game'
 require 'spec/stubs/stub_interface.rb'
 
 describe "Integration Tests" do

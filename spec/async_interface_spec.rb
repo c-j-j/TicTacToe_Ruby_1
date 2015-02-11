@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'async_interface'
-require 'tictactoe_game'
+require 'game'
 
 describe TTT::AsyncInterface do
   it 'returns move not available when user move requested' do
