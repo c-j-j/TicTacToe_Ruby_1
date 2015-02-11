@@ -3,16 +3,18 @@ require 'web/rack/play_turn_controller'
 require 'rack/test'
 require 'spec/stubs/stub_game'
 require 'ostruct'
+require 'ui/constants'
+require 'spec/helpers/board_helper'
 
 describe TTT::Web::PlayTurnController do
   include Rack::Test::Methods
   include Rack::Utils
 
   let(:game_model_data) { OpenStruct.new }
-
   let(:controller) { TTT::Web::PlayTurnController.new }
   let(:game) { TTT::StubGame.new }
   let(:board_param) { game.board_positions.to_json}
+  let(:board_helper) { TTT::BoardHelper.new }
 
   def app
     controller
@@ -55,11 +57,36 @@ describe TTT::Web::PlayTurnController do
 
   it 'assigns board_params' do
     get('/',{'board' => board_param, 'game_type' => TTT::Game::HVH })
-    expect(controller.board_param).to eq(escape(board_param))
+    expect(controller.next_turn_url).to include('board')
   end
 
   it 'assigns game type' do
     get('/',{'board' => board_param, 'game_type' => TTT::Game::HVH })
-    expect(controller.game_type_param).to eq(escape(TTT::Game::HVH))
+    expect(controller.next_turn_url).to include('game_type')
+  end
+
+  it 'status is next player to go' do
+    get('/',{'board' => board_param, 'game_type' => TTT::Game::HVH })
+    expect(controller.status).to eq(TTT::UI::NEXT_PLAYER_TO_GO % 'X')
+  end
+
+  it 'status displays draw' do
+    game_model_data.status = TTT::Game::DRAW
+    expect(controller.determine_status(game_model_data)).to eq(TTT::UI::TIE_MESSAGE)
+  end
+
+  it 'status displays winner' do
+    game_model_data.status = TTT::Game::WON
+    game_model_data.winner = 'X'
+    expect(controller.determine_status(game_model_data)).to eq(TTT::UI::WINNING_MESSAGE % 'X')
+  end
+
+  it 'status displays invalid move' do
+    board = TTT::Board.new(3)
+    board_helper.add_moves_to_board(board, [0], 'X')
+    get('/',{'board' => board.positions.to_json,
+             'game_type' => TTT::Game::HVH,
+              'position' => '0'})
+    expect(controller.status).to eq(TTT::UI::INVALID_MOVE_MESSAGE)
   end
 end

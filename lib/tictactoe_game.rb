@@ -114,7 +114,7 @@ module TTT
     end
 
     def move_valid?(position)
-      @board.is_move_valid?(position)
+      position.nil? || @board.is_move_valid?(position)
     end
 
     def get_next_move

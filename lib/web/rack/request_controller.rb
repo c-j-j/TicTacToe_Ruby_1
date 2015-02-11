@@ -17,7 +17,7 @@ module TTT
             run TTT::Web::NewGameController.new
           end
 
-          map '/play_move' do
+          map '/play_turn' do
             run TTT::Web::PlayTurnController.new
           end
         end

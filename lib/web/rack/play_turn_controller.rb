@@ -1,6 +1,7 @@
 require 'rack'
 require 'async_interface'
-require 'json'
+require 'web/rack/url_helper'
+require 'ui/constants'
 
 module TTT
   module Web
@@ -12,8 +13,8 @@ module TTT
       attr_reader :refresh_page
       attr_reader :cell_size
       attr_reader :game_model_data
-      attr_reader :board_param
-      attr_reader :game_type_param
+      attr_reader :next_turn_url
+      attr_reader :status
 
       def initialize
         @refresh_page = false
@@ -22,17 +23,30 @@ module TTT
       def call(env)
         request = Rack::Request.new(env)
         game = build_game_from_params(request)
-        game.play_turn(extract_position_from_param(request))
-        @game_model_data = game.model_data
+        process_turn(game, extract_position_from_param(request))
+        calcuate_common_fields(request, game)
+        generate_response
+      end
 
-        @refresh_page = refresh_required?(@game_model_data)
-        @cell_size = determine_cell_size(@game_model_data)
-        @board_param = escape(game.board_positions.to_json)
-        @game_type_param = escape(extract_game_type(request))
+      def process_turn(game, played_position)
+        if game.move_valid?(played_position)
+          game.play_turn(played_position)
+          @status = determine_status(game.model_data)
+        else
+          @status = TTT::UI::INVALID_MOVE_MESSAGE
+        end
+        return game
+      end
 
-        [200,
-         {'Content-Type' => 'text/html'},
-         [generate_response]]
+      def determine_status(game_model_data)
+        status = game_model_data.status
+        if status == TTT::Game::DRAW
+          TTT::UI::TIE_MESSAGE
+        elsif status == TTT::Game::WON
+          TTT::UI::WINNING_MESSAGE % game_model_data.winner
+        else
+          TTT::UI::NEXT_PLAYER_TO_GO % game_model_data.current_player_mark
+        end
       end
 
       def determine_cell_size(game_model_data)
@@ -49,12 +63,20 @@ module TTT
 
       private
 
+      def calcuate_common_fields(request, game)
+          @game_model_data = game.model_data
+          @refresh_page = refresh_required?(@game_model_data)
+          @cell_size = determine_cell_size(@game_model_data)
+          @next_turn_url = TTT::Web::URLHelper.play_turn_url(extract_game_type(request), game.board_positions)
+      end
+
       def game_over?(game_model_data)
         game_model_data[:status] == TTT::Game::WON || game_model_data[:status] == TTT::Game::DRAW
       end
 
       def generate_response
-        ERB.new(File.new(PLAY_VIEW, "r").read).result(binding)
+        [200, {'Content-Type' => 'text/html'},
+         [ERB.new(File.new(PLAY_VIEW, "r").read).result(binding) ]]
       end
 
       def build_game_from_params(request)

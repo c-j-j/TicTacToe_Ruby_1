@@ -68,6 +68,10 @@ describe TTT::Game do
     expect(game.move_valid?(-1)).to eq(board.is_move_valid?(-1))
   end
 
+  it 'nil move is valid' do
+    expect(game.move_valid?(nil)).to be(true)
+  end
+
   it 'builds hvh game' do
     game = TTT::Game.build_game(stub_interface, TTT::Game::HVH, 3)
     expect(game.player_1).to be_kind_of(TTT::HumanPlayer)
