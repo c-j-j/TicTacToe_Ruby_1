@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <% if @refresh_page %>
-  <meta http-equiv="refresh" content="0;URL='/play_move'" />
+  <meta http-equiv="refresh" content="0;URL='/play_move?game_type=<%=@game_type_param %>&board=<%= @board_param %>'" />
 <% end %>
 <title>TicTacToe</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">

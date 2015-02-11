@@ -25,7 +25,7 @@ module TTT
         game.play_turn(extract_position_from_param(request))
         @game_model_data = game.model_data
 
-        @refesh_page = refresh_required?(@game_model_data)
+        @refresh_page = refresh_required?(@game_model_data)
         @cell_size = determine_cell_size(@game_model_data)
         @board_param = escape(game.board_positions.to_json)
         @game_type_param = escape(extract_game_type(request))

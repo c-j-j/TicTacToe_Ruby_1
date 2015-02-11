@@ -28,15 +28,21 @@ describe TTT::Game do
     expect(board.get_mark_at_position(0)).to eq(stub_player_1.mark)
   end
 
-  it 'current player set to player 1' do
-    board_helper.populate_board_with_tie(board, stub_player_1, stub_player_2)
+  it 'current player set to player 1 when board is empty' do
     expect(game.current_player).to eq(stub_player_1)
+  end
+
+  it 'current player set to player 1 when even number of moves made' do
+    board.add_move('X', 1)
+    board.add_move('X', 2)
+    game =  TTT::Game.build_game_with_board(stub_interface, TTT::Game::CVH, board)
+    expect(game.current_player).to be_kind_of(TTT::ComputerPlayer)
   end
 
   it 'current player set to player 2 when odd number of moves taken place' do
     board.add_move('X', 1)
-    game =  TTT::Game.build_game_with_board(stub_interface, TTT::Game::HVH, board)
-    expect(game.current_player).to eq(stub_player_2)
+    game =  TTT::Game.build_game_with_board(stub_interface, TTT::Game::CVH, board)
+    expect(game.current_player).to be_kind_of(TTT::HumanPlayer)
   end
 
   it 'current player is swapped to player 2 when player 1 is current player' do
