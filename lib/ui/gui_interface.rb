@@ -78,12 +78,13 @@ module TTT
       end
 
       def print_outcome(game_presenter)
-        status = game_presenter.status
-        if status == TTT::Game::DRAW
-          print_tie_message
-        elsif status == TTT::Game::WON
-          print_winner_message(game_presenter.winner)
-        end
+        update_status(game_presenter.status)
+        #status = game_presenter.status
+        #if status == TTT::Game::DRAW
+          #print_tie_message
+        #elsif status == TTT::Game::WON
+          #print_winner_message(game_presenter.winner)
+        #end
       end
 
       def print_next_player_to_go(mark)

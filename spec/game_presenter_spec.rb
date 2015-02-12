@@ -75,7 +75,7 @@ describe TTT::GamePresenter do
       .with_current_player_is_computer(true)
       .build
 
-   expect(game_presenter.computer_has_next_turn).to eq(true)
+   expect(game_presenter.computer_has_next_turn?).to eq(true)
   end
 
   it 'computer does not have next turn when game has been won' do
@@ -84,7 +84,7 @@ describe TTT::GamePresenter do
       .with_state(TTT::Game::WON)
       .build
 
-    expect(game_presenter.computer_has_next_turn).to eq(false)
+    expect(game_presenter.computer_has_next_turn?).to eq(false)
   end
 
   it 'computer does not have next turn game has ended in draw' do
@@ -93,7 +93,7 @@ describe TTT::GamePresenter do
       .with_state(TTT::Game::DRAW)
       .build
 
-    expect(game_presenter.computer_has_next_turn).to eq(false)
+    expect(game_presenter.computer_has_next_turn?).to eq(false)
   end
 
   it 'cell size is 32% when board is 3x3' do

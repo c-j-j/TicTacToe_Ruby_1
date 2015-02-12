@@ -4,7 +4,7 @@ module TTT
   class GamePresenter
     attr_accessor :board, :state, :winner, :current_player_mark, :current_player_is_computer, :row_size
 
-    def computer_has_next_turn
+    def computer_has_next_turn?
       @current_player_is_computer && !game_over?
     end
 

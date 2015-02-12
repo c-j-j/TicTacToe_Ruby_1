@@ -5,6 +5,7 @@ require 'spec/stubs/stub_game'
 require 'spec/helpers/board_helper'
 require 'ostruct'
 require 'ui/constants'
+require 'spec/stubs/stub_game_presenter'
 
 describe TTT::UI::GUIInterface do
   let(:board) { TTT::Board.new(3) }
@@ -12,7 +13,8 @@ describe TTT::UI::GUIInterface do
   let(:position) {1}
   let(:stub_game){TTT::StubGame.new}
   let(:gui_interface){TTT::UI::GUIInterface.new(stub_game)}
-  let(:game_presenter) { OpenStruct.new(:board => board, :current_player_mark => 'X') }
+  let(:game_presenter) { TTT::GamePresenter::Builder.new
+    .with_board(board).build }
 
   before(:all) do
     @app = Qt::Application.new(ARGV)
@@ -49,6 +51,7 @@ describe TTT::UI::GUIInterface do
 
   it 'updates board when human has played a move' do
     game_presenter.current_player_is_computer = false
+    game_presenter.current_player_mark = 'X'
     stub_game.set_presenter(game_presenter)
 
     gui_interface.board_clicked(position)
@@ -121,28 +124,12 @@ describe TTT::UI::GUIInterface do
 
   it 'prints out next player turn when turn is played' do
     stub_game.play_turn_ends_game
+    game_presenter.current_player_mark = 'X'
     game_presenter.current_player_is_computer = true
     stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
 
     expect(gui_interface.status_label.text).to include("X's turn")
-  end
-
-  it 'prints out draw when game is a tie' do
-    game_presenter.status = TTT::Game::DRAW
-    stub_game.set_presenter(game_presenter)
-    gui_interface.start_game(stub_game)
-
-    expect(gui_interface.status_label.text).to include(TTT::UI::TIE_MESSAGE)
-  end
-
-  it 'prints out winner message when game has been won' do
-    game_presenter.status = TTT::Game::WON
-    game_presenter.winner = 'O'
-    stub_game.set_presenter(game_presenter)
-    gui_interface.start_game(stub_game)
-
-    expect(gui_interface.status_label.text).to include(TTT::UI::WINNING_MESSAGE % 'O')
   end
 
   def generate_board
