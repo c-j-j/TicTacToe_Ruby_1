@@ -98,17 +98,17 @@ module TTT
       @play_turn_called
     end
 
-    def model_data_called?
-      @model_data_called
+    def presenter_called?
+      @presenter_called
     end
 
-    def set_model_data(game_model_data)
-      @game_model_data = game_model_data
+    def set_presenter(game_presenter)
+      @game_presenter = game_presenter
     end
 
-    def model_data
-      @model_data_called = true
-      @game_model_data
+    def presenter
+      @presenter_called = true
+      @game_presenter
     end
   end
 end

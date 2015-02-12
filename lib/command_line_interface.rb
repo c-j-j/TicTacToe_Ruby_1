@@ -22,13 +22,13 @@ module TTT
 
     def play_game(game)
       until game.game_over?
-        game_model_data = game.model_data
-        print_board(game_model_data.board)
-        print_next_player_to_go(game_model_data.current_player_mark)
+        game_presenter = game.presenter
+        print_board(game_presenter.board)
+        print_next_player_to_go(game_presenter.current_player_mark)
         game.play_turn
       end
 
-      print_outcome(game.model_data)
+      print_outcome(game.presenter)
     end
 
     def get_user_move(board)
@@ -92,11 +92,12 @@ module TTT
     def print_next_player_to_go(mark)
       @output.puts NEXT_PLAYER_TO_GO % mark
     end
-    def print_outcome(game_model_data)
-      print_board(game_model_data.board)
-      if game_model_data.status == Game::WON
-        print_winner_message(game_model_data.winner)
-      elsif game_model_data.status == Game::DRAW
+
+    def print_outcome(game_presenter)
+      print_board(game_presenter.board)
+      if game_presenter.state == Game::WON
+        print_winner_message(game_presenter.winner)
+      elsif game_presenter.state == Game::DRAW
         print_tie_message
       end
     end

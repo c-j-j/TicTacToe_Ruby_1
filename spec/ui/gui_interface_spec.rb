@@ -12,7 +12,7 @@ describe TTT::UI::GUIInterface do
   let(:position) {1}
   let(:stub_game){TTT::StubGame.new}
   let(:gui_interface){TTT::UI::GUIInterface.new(stub_game)}
-  let(:game_model) { OpenStruct.new(:board => board, :current_player_mark => 'X') }
+  let(:game_presenter) { OpenStruct.new(:board => board, :current_player_mark => 'X') }
 
   before(:all) do
     @app = Qt::Application.new(ARGV)
@@ -33,31 +33,31 @@ describe TTT::UI::GUIInterface do
   end
 
   it 'validates user move when current player is human' do
-    game_model.current_player_is_computer = false
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = false
+    stub_game.set_presenter(game_presenter)
     gui_interface.board_clicked(position)
     expect(stub_game.move_valid_called?).to be true
   end
 
   it 'propogates move to game when current player is human' do
-    game_model.current_player_is_computer = false
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = false
+    stub_game.set_presenter(game_presenter)
 
     gui_interface.board_clicked(position)
     expect(stub_game.play_turn_called?).to be true
   end
 
   it 'updates board when human has played a move' do
-    game_model.current_player_is_computer = false
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = false
+    stub_game.set_presenter(game_presenter)
 
     gui_interface.board_clicked(position)
     expect(gui_interface.status_label.text).to include("X's turn")
   end
 
   it 'prints invalid move message' do
-    game_model.current_player_is_computer = false
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = false
+    stub_game.set_presenter(game_presenter)
     stub_game.all_moves_are_invalid
     gui_interface.board_clicked(position)
     expect(gui_interface.status_label.text).to include(TTT::UI::INVALID_MOVE_MESSAGE)
@@ -97,23 +97,23 @@ describe TTT::UI::GUIInterface do
 
   it 'calls play turn when game is not over' do
     stub_game.play_turn_ends_game
-    stub_game.set_model_data(game_model)
-    game_model.current_player_is_computer = true
+    stub_game.set_presenter(game_presenter)
+    game_presenter.current_player_is_computer = true
     gui_interface.start_game(stub_game)
     expect(stub_game.play_turn_called?).to be(true)
   end
 
   it 'does not call play turn when current player is human' do
-    game_model.current_player_is_computer = false
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = false
+    stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
     expect(stub_game.play_turn_called?).to be(false)
   end
 
   it 'prints out board when game turn is played' do
     stub_game.play_turn_ends_game
-    game_model.current_player_is_computer = true
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = true
+    stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
 
     assert_board_is_correct
@@ -121,25 +121,25 @@ describe TTT::UI::GUIInterface do
 
   it 'prints out next player turn when turn is played' do
     stub_game.play_turn_ends_game
-    game_model.current_player_is_computer = true
-    stub_game.set_model_data(game_model)
+    game_presenter.current_player_is_computer = true
+    stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
 
     expect(gui_interface.status_label.text).to include("X's turn")
   end
 
   it 'prints out draw when game is a tie' do
-    game_model.status = TTT::Game::DRAW
-    stub_game.set_model_data(game_model)
+    game_presenter.status = TTT::Game::DRAW
+    stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
 
     expect(gui_interface.status_label.text).to include(TTT::UI::TIE_MESSAGE)
   end
 
   it 'prints out winner message when game has been won' do
-    game_model.status = TTT::Game::WON
-    game_model.winner = 'O'
-    stub_game.set_model_data(game_model)
+    game_presenter.status = TTT::Game::WON
+    game_presenter.winner = 'O'
+    stub_game.set_presenter(game_presenter)
     gui_interface.start_game(stub_game)
 
     expect(gui_interface.status_label.text).to include(TTT::UI::WINNING_MESSAGE % 'O')

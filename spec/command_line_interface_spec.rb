@@ -138,26 +138,26 @@ describe TTT::CommandLineInterface do
 
   it 'calls game over on game' do
     stub_game.register_game_over
-    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(stub_game.game_over_called?).to be(true)
   end
 
   it 'calls play turn on game' do
     stub_game.play_turn_ends_game
-    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(stub_game.play_turn_called?).to be(true)
   end
 
-  it 'pulls model data from game' do
+  it 'pulls presenter from game' do
     stub_game.play_turn_ends_game
-    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
-    expect(stub_game.model_data_called?).to be(true)
+    expect(stub_game.presenter_called?).to be(true)
   end
 
   it 'prints board to screen when move has been made' do
@@ -166,10 +166,10 @@ describe TTT::CommandLineInterface do
     board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
     board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
 
-    game_model = OpenStruct.new(:board => board)
+    game_presenter = OpenStruct.new(:board => board)
     stub_game.play_turn_ends_game
 
-    stub_game.set_model_data(game_model)
+    stub_game.set_presenter(game_presenter)
 
     display.play_game(stub_game)
 
@@ -181,24 +181,24 @@ describe TTT::CommandLineInterface do
 
   it 'prints next player to go' do
     stub_game.play_turn_ends_game
-    game_model = OpenStruct.new(:board => board, :current_player_mark => 'X')
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include("X's turn.")
   end
 
   it 'displays winner' do
     stub_game.register_game_over
-    game_model = OpenStruct.new(:board => board, :winner => 'X', :status => TTT::Game::WON)
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :winner => 'X', :state => TTT::Game::WON)
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include("X has won.")
   end
 
   it 'displays draw message' do
     stub_game.register_game_over
-    game_model = OpenStruct.new(:board => board, :status => TTT::Game::DRAW)
-    stub_game.set_model_data(game_model)
+    game_presenter = OpenStruct.new(:board => board, :state => TTT::Game::DRAW)
+    stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include(TTT::UI::TIE_MESSAGE)
   end
@@ -209,9 +209,9 @@ describe TTT::CommandLineInterface do
     board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
     board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
 
-    game_model = OpenStruct.new(:board => board, :status => TTT::Game::DRAW)
+    game_presenter = OpenStruct.new(:board => board, :state => TTT::Game::DRAW)
     stub_game.register_game_over
-    stub_game.set_model_data(game_model)
+    stub_game.set_presenter(game_presenter)
 
     display.play_game(stub_game)
 

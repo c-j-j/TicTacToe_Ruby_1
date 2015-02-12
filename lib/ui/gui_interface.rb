@@ -68,21 +68,21 @@ module TTT
       end
 
       def play_game(game)
-        game_model_data = game.model_data
+        game_presenter = game.presenter
         until game.game_over? || current_player_human?(game)
           game.play_turn
           update_game_display(game)
         end
 
-        print_outcome(game.model_data)
+        print_outcome(game.presenter)
       end
 
-      def print_outcome(game_model_data)
-        status = game_model_data.status
+      def print_outcome(game_presenter)
+        status = game_presenter.status
         if status == TTT::Game::DRAW
           print_tie_message
         elsif status == TTT::Game::WON
-          print_winner_message(game_model_data.winner)
+          print_winner_message(game_presenter.winner)
         end
       end
 
@@ -134,14 +134,14 @@ module TTT
       private
 
       def update_game_display(game)
-        game_model_data = game.model_data
-        print_board(game_model_data.board)
-        print_next_player_to_go(game_model_data.current_player_mark)
+        game_presenter = game.presenter
+        print_board(game_presenter.board)
+        print_next_player_to_go(game_presenter.current_player_mark)
       end
 
 
       def current_player_human?(game)
-        !game.model_data.current_player_is_computer
+        !game.presenter.current_player_is_computer
       end
 
       def create_widgets

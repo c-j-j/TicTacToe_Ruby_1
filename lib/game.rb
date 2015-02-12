@@ -1,5 +1,5 @@
 require 'human_player'
-require 'game_model_data'
+require 'game_presenter'
 require 'computer_player'
 require 'board.rb'
 
@@ -77,24 +77,31 @@ module TTT
       @player_1 = player_1
       @player_2 = player_2
       @current_player = determine_current_player(board)
-      @status = IN_PROGRESS
+      @state = IN_PROGRESS
     end
 
     def determine_current_player(board)
       if board.num_of_occupied_positions.even?
-        @player_1
+        return @player_1
       else
-        @player_2
+        return @player_2
       end
     end
 
     def play_turn(move = nil)
       process_turn(move) unless game_over?
-      update_status
+      update_state
     end
 
-    def model_data
-      TTT::GameModelData.new(@board, @status, @winner, @current_player.mark, determine_if_computer_player(@current_player), row_size)
+    def presenter
+      TTT::GamePresenter::Builder.new
+        .with_board(@board)
+        .with_row_size(row_size)
+        .with_current_player_is_computer(determine_if_computer_player(@current_player))
+        .with_current_player_mark(@current_player.mark)
+        .with_state(@state)
+        .with_winner(@winner)
+        .build
     end
 
     def swap_current_player
@@ -149,12 +156,12 @@ module TTT
       class_name == TTT::ComputerPlayer.name
     end
 
-    def update_status
+    def update_state
       if @board.won?
-        @status = WON
+        @state = WON
         @winner = @board.winner
       end
-      @status = DRAW if @board.draw?
+      @state = DRAW if @board.draw?
     end
 
     def self.new_human_player(user_interface)

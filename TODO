@@ -6,6 +6,7 @@ styling
 Gem needs to be module based
 Slow rails tests
 Desired tasks if time permitting
+GameModelData -> GamePresenter? Has UI logic/cell size/refresh page/etc all in one place
 
 IPM
 Talk on 8th light about quick rails tests

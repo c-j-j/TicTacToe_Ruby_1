@@ -10,7 +10,7 @@ describe "Integration Tests" do
     until cvc_game.game_over?
       cvc_game.play_turn
     end
-    expect(cvc_game.model_data.status).to be(TTT::Game::DRAW)
+    expect(cvc_game.presenter.state).to be(TTT::Game::DRAW)
   end
 
   xit 'runs through cvc game and ends in draw with 4x4 board' do
@@ -18,7 +18,7 @@ describe "Integration Tests" do
     until cvc_game.game_over?
       cvc_game.play_turn
     end
-    expect(cvc_game.model_data.status).to be(TTT::Game::DRAW)
+    expect(cvc_game.presenter.state).to be(TTT::Game::DRAW)
   end
 
 end
