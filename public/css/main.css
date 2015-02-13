@@ -1,14 +1,12 @@
-#my-div {
+.cell {
   position: relative;
   background-color: #fff;
   display: block;
   border: 1px solid black;
   float: left;
-  width: <%= @cell_size %>;
-  padding-bottom: <%= @cell_size %>;
 }
 
-a.fill-div {
+.cell a {
   position: absolute;
   text-align: center;
   padding: 0;
@@ -16,7 +14,9 @@ a.fill-div {
   font-size: 100px;
   height: 100%;
   width: 100%;
-  padding-bottom: <%= @cell_size %>;
   text-decoration: none;
 }
 
+p.error {
+  color: red;
+}
