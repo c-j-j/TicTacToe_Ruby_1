@@ -16,6 +16,8 @@ describe TTT::CommandLineInterface do
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
   let(:display) { TTT::CommandLineInterface.new(input, output) }
+  let(:game_presenter) { TTT::GamePresenter::Builder.new
+    .with_board(board).build }
 
   it 'prints empty board with numbers' do
     display.print_board(board)
@@ -181,7 +183,7 @@ describe TTT::CommandLineInterface do
 
   it 'prints next player to go' do
     stub_game.play_turn_ends_game
-    game_presenter = OpenStruct.new(:board => board, :current_player_mark => 'X')
+    game_presenter.current_player_mark = 'X'
     stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include("X's turn.")
@@ -189,7 +191,8 @@ describe TTT::CommandLineInterface do
 
   it 'displays winner' do
     stub_game.register_game_over
-    game_presenter = OpenStruct.new(:board => board, :winner => 'X', :state => TTT::Game::WON)
+    game_presenter.state = TTT::Game::WON
+    game_presenter.winner = 'X'
     stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include("X has won.")
@@ -197,7 +200,7 @@ describe TTT::CommandLineInterface do
 
   it 'displays draw message' do
     stub_game.register_game_over
-    game_presenter = OpenStruct.new(:board => board, :state => TTT::Game::DRAW)
+    game_presenter.state = TTT::Game::DRAW
     stub_game.set_presenter(game_presenter)
     display.play_game(stub_game)
     expect(output.string).to include(TTT::UI::TIE_MESSAGE)
@@ -209,7 +212,7 @@ describe TTT::CommandLineInterface do
     board_helper.add_moves_to_board(board, [0, 1, 2, 6, 7, 8], p1_mark)
     board_helper.add_moves_to_board(board, [3, 4, 5], p2_mark)
 
-    game_presenter = OpenStruct.new(:board => board, :state => TTT::Game::DRAW)
+    game_presenter.state = TTT::Game::DRAW
     stub_game.register_game_over
     stub_game.set_presenter(game_presenter)
 

@@ -1,5 +1,4 @@
 require 'tictactoe'
-require 'ui/constants'
 
 module TTT
   class CommandLineInterface
@@ -22,13 +21,11 @@ module TTT
 
     def play_game(game)
       until game.game_over?
-        game_presenter = game.presenter
-        print_board(game_presenter.board)
-        print_next_player_to_go(game_presenter.current_player_mark)
+        print_update(game.presenter)
         game.play_turn
       end
 
-      print_outcome(game.presenter)
+      print_update(game.presenter)
     end
 
     def get_user_move(board)
@@ -81,25 +78,13 @@ module TTT
 
     private
 
-    def print_tie_message
-      @output.puts TIE_MESSAGE
-    end
-
-    def print_winner_message(mark)
-      @output.puts WINNING_MESSAGE % mark
-    end
-
-    def print_next_player_to_go(mark)
-      @output.puts NEXT_PLAYER_TO_GO % mark
-    end
-
-    def print_outcome(game_presenter)
+    def print_update(game_presenter)
       print_board(game_presenter.board)
-      if game_presenter.state == Game::WON
-        print_winner_message(game_presenter.winner)
-      elsif game_presenter.state == Game::DRAW
-        print_tie_message
-      end
+      print_status(game_presenter.status)
+    end
+
+    def print_status(status)
+      @output.puts status
     end
 
     def get_validated_user_input
