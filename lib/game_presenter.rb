@@ -61,7 +61,7 @@ module TTT
         @game_presenter.row_size = row_size
         return self
       end
-      
+
       def build
         @game_presenter
       end

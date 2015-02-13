@@ -5,7 +5,6 @@ require 'spec/stubs/stub_game'
 require 'spec/helpers/board_helper'
 require 'ostruct'
 require 'ui/constants'
-require 'spec/stubs/stub_game_presenter'
 
 describe TTT::UI::GUIInterface do
   let(:board) { TTT::Board.new(3) }
