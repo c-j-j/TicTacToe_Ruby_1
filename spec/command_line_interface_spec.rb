@@ -21,7 +21,6 @@ describe TTT::CommandLineInterface do
 
   it 'prints empty board with numbers' do
     display.print_board(board)
-
     rows = output.string.lines
 
     expect(rows[0]).to include("1  2  3")

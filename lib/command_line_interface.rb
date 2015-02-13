@@ -87,10 +87,10 @@ module TTT
       @output.puts status
     end
 
-    def get_validated_user_input
+    def get_validated_user_input(&validation)
       while true
         input = get_user_input
-        break if yield(input)
+        break if validation.call(input) unless validation.nil?
         print_invalid_message
       end
       input
@@ -133,8 +133,7 @@ module TTT
     end
 
     def is_integer?(string)
-      true
-      #!!(string =~ /\A[-+]?[0-9]+\z/)
+      string.to_i.to_s == string
     end
   end
 end
